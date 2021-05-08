@@ -23,10 +23,10 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 
 /**
- * Specific type of [RecyclerEntryViewType] where [typeId] is layout resource id.
+ * Specific type of [RecyclerItemViewType] where [typeId] is layout resource id.
  */
-abstract class LayoutRecyclerEntryViewType<T : Entry>(@LayoutRes val layoutResId: Int) :
-    RecyclerEntryViewType<T> {
+abstract class LayoutRecyclerItemViewType<T : Entry>(@LayoutRes val layoutResId: Int) :
+    RecyclerItemViewType<T> {
 
     override val typeId: Int
         get() = layoutResId

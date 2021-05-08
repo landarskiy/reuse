@@ -18,31 +18,25 @@ package io.github.landarskiy.reuse
 
 import android.content.Context
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
+import android.view.ViewGroup
 
 /**
- * Base ViewHolder implementation for support [Entry] items.
- *
- * @param view related view
+ * Makes relation between [Entry] and [RecyclerItemViewType]
  */
-abstract class EntryViewHolder<T : Entry>(view: View) : RecyclerView.ViewHolder(view) {
-
-    val context: Context = view.context
+interface RecyclerItemViewType<T : Entry> {
 
     /**
-     * Should be called from [RecyclerView.Adapter.onBindViewHolder]
-     *
-     * @param entry bindable entry
+     * Unique type id
      */
-    @Suppress("UNCHECKED_CAST")
-    fun bindData(entry: Entry) {
-        bind(entry as T)
-    }
+    val typeId: Int
 
     /**
-     * Should be call from [bindData], do not use this method directly.
-     *
-     * @param entry bindable entry
+     * Create View instance for ViewHolder for specific [typeId]
      */
-    abstract fun bind(entry: T)
+    fun createView(context: Context, parent: ViewGroup?): View
+
+    /**
+     * Create view holder for specific [typeId]
+     */
+    fun createViewHolder(context: Context, parent: ViewGroup?): ItemViewHolder<T>
 }
