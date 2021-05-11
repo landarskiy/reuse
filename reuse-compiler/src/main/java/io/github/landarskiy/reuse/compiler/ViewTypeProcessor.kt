@@ -128,33 +128,14 @@ class ViewTypeProcessor : AbstractProcessor() {
                 Diagnostic.Kind.NOTE,
                 "Process $className class for $scopeName scope\n"
             )
+
             val superClass = viewType.superclass
             if (superClass !is DeclaredType) {
                 return@forEach
             }
             initializerBlock.addStatement("$PROPERTY_ITEM_VIEW_TYPES.add(${viewTypePropertyName})")
             //get type for classes
-            var dataType = superClass.typeArguments.firstOrNull()?.asTypeName()
-            //TODO make search through hierarchy
-            if (dataType == null) {
-                //if dataType is null that can means that implemented directly interface
-                val recyclerItemInterface = viewType.interfaces.find { typeMirror ->
-                    if (typeMirror !is DeclaredType) {
-                        return@find false
-                    }
-                    val typeElement = typeMirror.asElement()
-                    val interfacePackage =
-                        processingEnv.elementUtils.getPackageOf(typeElement).toString()
-                    val interfaceName = typeElement.simpleName.toString()
-                    interfacePackage == PACKAGE_LIBRARY && interfaceName == INTERFACE_RECYCLER_ITEM_VIEW_TYPE
-                }
-                if (recyclerItemInterface is DeclaredType) {
-                    dataType = recyclerItemInterface.typeArguments.firstOrNull()?.asTypeName()
-                }
-                if (dataType == null) {
-                    return@forEach
-                }
-            }
+            val dataType = findViewTypeParametrizedType(viewType) ?: return@forEach
             val entryDataItemStatement =
                 "${entryType.topLevelClassName().simpleName}.${entryType.simpleName}(${viewTypePropertyName}.$PROPERTY_TYPE_ID, $ARG_DATA_ITEM)"
             classBuilder
@@ -211,6 +192,31 @@ class ViewTypeProcessor : AbstractProcessor() {
         classBuilder.addInitializerBlock(initializerBlock.build())
         saveToFile(fileBuilder.addType(classBuilder.build()).build())
         return factoryClassName
+    }
+
+    private fun findViewTypeParametrizedType(element: TypeElement): TypeName? {
+        val superClass = element.superclass
+        if (superClass !is DeclaredType) {
+            return null
+        }
+        var dataType = superClass.typeArguments.firstOrNull()?.asTypeName()
+        if (dataType == null) {
+            //if dataType is null that can means that implemented directly interface
+            val recyclerItemInterface = element.interfaces.find { typeMirror ->
+                if (typeMirror !is DeclaredType) {
+                    return@find false
+                }
+                val typeElement = typeMirror.asElement()
+                val interfacePackage =
+                    processingEnv.elementUtils.getPackageOf(typeElement).toString()
+                val interfaceName = typeElement.simpleName.toString()
+                interfacePackage == PACKAGE_LIBRARY && interfaceName == INTERFACE_RECYCLER_ITEM_VIEW_TYPE
+            }
+            if (recyclerItemInterface is DeclaredType) {
+                dataType = recyclerItemInterface.typeArguments.firstOrNull()?.asTypeName()
+            }
+        }
+        return dataType ?: findViewTypeParametrizedType(superClass.asElement() as TypeElement)
     }
 
     private fun saveToFile(fileSpec: FileSpec): Boolean {
