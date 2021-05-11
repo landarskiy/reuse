@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.image
+package io.github.landarskiy.reuse.sample.utils
 
-import android.net.Uri
-import android.view.View
-import android.widget.ImageView
-import coil.load
-import io.github.landarskiy.reuse.ItemViewHolder
+import android.content.res.Resources
 
-class ImageItemViewHolder(view: View) : ItemViewHolder<ImageEntry>(view) {
+fun Resources.dp(value: Int): Float {
+    return value * displayMetrics.density
+}
 
-    private val imageView: ImageView = view as ImageView
-
-    override fun bind(entry: ImageEntry) {
-        imageView.load(Uri.parse("file:///android_asset/${entry.assetsPath}")) {
-            crossfade(true)
-            placeholder(null)
-        }
-    }
+fun Resources.dp(value: Float): Float {
+    return value * displayMetrics.density
 }

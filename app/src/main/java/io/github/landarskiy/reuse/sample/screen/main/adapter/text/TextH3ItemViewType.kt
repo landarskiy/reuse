@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.image
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text
 
-import android.net.Uri
-import android.view.View
-import android.widget.ImageView
-import coil.load
-import io.github.landarskiy.reuse.ItemViewHolder
+import io.github.landarskiy.reuse.annotation.ViewType
+import io.github.landarskiy.reuse.sample.R
 
-class ImageItemViewHolder(view: View) : ItemViewHolder<ImageEntry>(view) {
+@ViewType
+class TextH3ItemViewType : TextItemViewType() {
+    override val typeId: Int
+        get() = TYPE_ID
 
-    private val imageView: ImageView = view as ImageView
+    override fun textAppearanceResId(): Int {
+        return R.style.TextAppearance_MaterialComponents_Headline3
+    }
 
-    override fun bind(entry: ImageEntry) {
-        imageView.load(Uri.parse("file:///android_asset/${entry.assetsPath}")) {
-            crossfade(true)
-            placeholder(null)
-        }
+    companion object {
+        const val TYPE_ID = R.id.adapter_text_h3
     }
 }

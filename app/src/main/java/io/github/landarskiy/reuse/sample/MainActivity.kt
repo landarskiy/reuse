@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.landarskiy.reuse.DiffAdapter
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
+import io.github.landarskiy.reuse.sample.screen.main.adapter.MainRecyclerItemDecoration
 import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
@@ -46,15 +47,33 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = listAdapter
-
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = listAdapter
+            addItemDecoration(MainRecyclerItemDecoration())
+        }
         lifecycleScope.launchWhenCreated {
             viewModel.dataFlow.collect {
                 val dataBuilder = typeFactory.newDataBuilder()
                 it.forEach { entry ->
                     when (entry) {
-                        is TextEntry -> dataBuilder.withTextItemViewTypeItem(entry)
+                        is TextEntry -> {
+                            when (entry.style) {
+                                TextEntry.Style.H3 -> dataBuilder.withTextH3ItemViewTypeItem(entry)
+                                TextEntry.Style.H5 -> dataBuilder.withTextH5ItemViewTypeItem(entry)
+                                TextEntry.Style.H6 -> dataBuilder.withTextH6ItemViewTypeItem(entry)
+                                TextEntry.Style.BODY -> dataBuilder.withTextBodyItemViewTypeItem(
+                                    entry
+                                )
+                                TextEntry.Style.LIST_HEADER -> dataBuilder.withTextListHeaderItemViewTypeItem(
+                                    entry
+                                )
+                                TextEntry.Style.LIST_CONTENT -> dataBuilder.withTextListContentItemViewTypeItem(
+                                    entry
+                                )
+                            }
+
+                        }
                         is ImageEntry -> dataBuilder.withImageItemViewTypeItem(entry)
                         is CopyrightEntry -> dataBuilder.withCopyrightItemViewTypeItem(entry)
                     }

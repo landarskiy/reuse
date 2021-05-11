@@ -16,5 +16,11 @@
 
 <resources>
     <item name="adapter_text" type="id" />
+    <item name="adapter_text_h3" type="id" />
+    <item name="adapter_text_h5" type="id" />
+    <item name="adapter_text_h6" type="id" />
+    <item name="adapter_text_body" type="id" />
+    <item name="adapter_text_list_header" type="id" />
+    <item name="adapter_text_list_content" type="id" />
     <item name="adapter_image" type="id" />
 </resources>

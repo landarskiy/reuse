@@ -20,16 +20,11 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import io.github.landarskiy.reuse.ItemViewHolder
 import io.github.landarskiy.reuse.RecyclerItemViewType
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.sample.R
 
-@ViewType
-class TextItemViewType : RecyclerItemViewType<TextEntry> {
-
-    override val typeId: Int
-        get() = TYPE_ID
+abstract class TextItemViewType : RecyclerItemViewType<TextEntry> {
 
     override fun createViewHolder(
         context: Context,
@@ -44,11 +39,10 @@ class TextItemViewType : RecyclerItemViewType<TextEntry> {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
+        }.apply {
+            TextViewCompat.setTextAppearance(this, textAppearanceResId())
         }
     }
 
-    companion object {
-
-        const val TYPE_ID = R.id.adapter_text
-    }
+    abstract fun textAppearanceResId(): Int
 }
