@@ -1,0 +1,24 @@
+                    description "ReUse - Helper library for RecyclerView"
+                    url "https://landarskiy.github.io/reuse"
+                    licenses {
+                        license {
+                            name "The Apache Software License, Version 2.0"
+                            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+                    scm {
+                        url "https://github.com/landarskiy/reuse"
+                        connection "scm:git:git://github.com/landarskiy/reuse.git"
+                        developerConnection "scm:git:git://github.com/landarskiy/reuse.git"
+                    }
+                    developers {
+                        developer {
+                            id "landarskiy"
+                            name "Yauhen Landarski"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

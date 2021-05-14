@@ -56,3 +56,5 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.0"
     api project(":reuse-annotation")
 }
+
+apply from: '../publish/publish.gradle'
