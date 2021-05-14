@@ -28,7 +28,6 @@ if (!project.tasks.findByName('sourcesJar')) {
 }
 
 artifacts {
-    archives dokkaJar
     archives sourcesJar
 }
 
@@ -48,7 +47,6 @@ afterEvaluate {
         }
 
         publications.all {
-            artifact dokkaJar
 
             pom.withXml {
                 def root = asNode()

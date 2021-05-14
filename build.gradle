@@ -26,7 +26,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.10.1'
     }
 }
 
@@ -43,19 +42,8 @@ allprojects {
 
     ext.is_snaptshot = false
     group = 'io.github.landarskiy'
-    version = '0.0.2'
+    version = '0.0.3'
     if (is_snaptshot) {
         version += "-SNAPSHOT"
-    }
-
-    // Dokka
-    apply plugin: 'org.jetbrains.dokka'
-    dokka {
-        outputFormat = 'html'
-        outputDirectory = "$buildDir/javadoc"
-    }
-    task dokkaJar(type: Jar) {
-        classifier = 'javadoc'
-        from dokka
     }
 }
