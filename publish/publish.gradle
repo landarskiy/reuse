@@ -1,3 +1,60 @@
+/*
+ * Copyright (C) 2021 Yauhen Landarski.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'maven-publish'
+
+if (!project.tasks.findByName('sourcesJar')) {
+    task sourcesJar(type: Jar) {
+        archiveClassifier.set('sources')
+        if (pluginManager.hasPlugin('com.android.library')) {
+            from android.sourceSets.main.java.srcDirs
+        } else {
+            from sourceSets.main.java.srcDirs
+        }
+    }
+}
+
+artifacts {
+    archives dokkaJar
+    archives sourcesJar
+}
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                if (pluginManager.hasPlugin('com.android.library')) {
+                    from components.release
+                } else {
+                    from components.java
+                }
+                artifact sourcesJar
+                artifactId = project.name
+            }
+        }
+
+        publications.all {
+            artifact dokkaJar
+
+            pom.withXml {
+                def root = asNode()
+
+                root.children().last() + {
+                    name project.name
                     description "ReUse - Helper library for RecyclerView"
                     url "https://landarskiy.github.io/reuse"
                     licenses {

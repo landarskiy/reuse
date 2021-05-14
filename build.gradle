@@ -41,7 +41,7 @@ allprojects {
         mavenCentral()
     }
 
-    ext.is_snaptshot = true
+    ext.is_snaptshot = false
     group = 'io.github.landarskiy'
     version = '0.0.1'
     if (is_snaptshot) {
