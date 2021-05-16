@@ -1,8 +1,8 @@
 [
   {
-    "type": "text",
-    "style": "h3",
-    "content": "13 Tips on Sorting Waste"
+    "type": "header",
+    "content": "13 Tips on Sorting Waste",
+    "bg": "content/header_bg.png"
   },
   {
     "type": "text",
@@ -227,6 +227,6 @@
   {
     "type": "copyright",
     "content": "Source: BELIEVE.EARTH ©",
-    "link": "https://believe.earth/en/13-tips-on-sorting-waste/"
+    "link": "<a href=\"https://believe.earth/en/13-tips-on-sorting-waste\">https://believe.earth/en/13-tips-on-sorting-waste</a>"
   }
 ]

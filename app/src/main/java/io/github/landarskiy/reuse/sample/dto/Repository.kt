@@ -41,6 +41,10 @@ class Repository(val app: Application) {
             .add(
                 PolymorphicJsonAdapterFactory.of(ContentDto::class.java, "type")
                     .withSubtype(
+                        ContentDto.HeaderDto::class.java,
+                        ContentDto.ContentTypeDto.HEADER.dtoName
+                    )
+                    .withSubtype(
                         ContentDto.TextDto::class.java,
                         ContentDto.ContentTypeDto.TEXT.dtoName
                     )

@@ -24,12 +24,16 @@ import io.github.landarskiy.reuse.annotation.ViewType
 import io.github.landarskiy.reuse.sample.R
 
 @ViewType
-class CopyrightItemViewType : LayoutRecyclerItemViewType<CopyrightEntry>(R.layout.item_copyright) {
+class CopyrightItemViewType : LayoutRecyclerItemViewType<CopyrightEntry>(TYPE_ID) {
 
     override fun createViewHolder(
         context: Context,
         parent: ViewGroup?
     ): ItemViewHolder<CopyrightEntry> {
         return CopyrightItemViewHolder(createView(context, parent))
+    }
+
+    companion object {
+        const val TYPE_ID = R.layout.item_copyright
     }
 }

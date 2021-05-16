@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'kotlin'
-    id 'kotlin-kapt'
-}
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
 
-java {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-}
+import io.github.landarskiy.reuse.annotation.ViewType
+import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
 
-dependencies {
-    implementation project(':reuse-annotation')
-    implementation 'com.squareup:kotlinpoet:1.8.0'
-    implementation 'com.google.auto.service:auto-service:1.0'
-    kapt 'com.google.auto.service:auto-service:1.0'
-}
+@ViewType
+class TextListHeaderItemViewType : TextItemViewType() {
 
-apply from: '../publish/publish.gradle'
+    override val typeId: Int
+        get() = TYPE_ID
+
+    override fun textAppearanceResId(): Int {
+        return R.style.TextAppearance_MaterialComponents_Headline6
+    }
+
+    companion object {
+        const val TYPE_ID = R.id.adapter_text_list_header
+    }
+}

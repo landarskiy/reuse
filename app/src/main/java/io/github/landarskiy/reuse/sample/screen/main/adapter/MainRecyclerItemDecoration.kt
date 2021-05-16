@@ -19,9 +19,12 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderItemViewType
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextBodyItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextH3ItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextBodyItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListContentItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListHeaderItemViewType
 import io.github.landarskiy.reuse.sample.utils.dp
 import kotlin.math.roundToInt
 
@@ -36,14 +39,29 @@ class MainRecyclerItemDecoration : RecyclerView.ItemDecoration() {
         val r = view.context.resources
         val adapter = parent.adapter ?: return
         val adapterPosition = parent.getChildAdapterPosition(view)
-        when (adapter.getItemViewType(adapterPosition)) {
+        val itemTye = adapter.getItemViewType(adapterPosition)
+        when (itemTye) {
             TextBodyItemViewType.TYPE_ID -> {
-                outRect.bottom += r.dp(8).roundToInt()
+                outRect.bottom += r.dp(12).roundToInt()
             }
             ImageItemViewType.TYPE_ID -> {
                 outRect.top += r.dp(8).roundToInt()
                 outRect.bottom += r.dp(8).roundToInt()
             }
+            TextListHeaderItemViewType.TYPE_ID -> {
+                outRect.left += r.dp(24).roundToInt()
+            }
+            TextListContentItemViewType.TYPE_ID -> {
+                outRect.left += r.dp(24).roundToInt()
+                outRect.bottom += r.dp(12).roundToInt()
+            }
+        }
+        if (itemTye != HeaderItemViewType.TYPE_ID &&
+            itemTye != ImageItemViewType.TYPE_ID &&
+            itemTye != CopyrightItemViewType.TYPE_ID
+        ) {
+            outRect.left += r.dp(16).roundToInt()
+            outRect.right += r.dp(16).roundToInt()
         }
     }
 }

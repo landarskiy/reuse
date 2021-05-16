@@ -44,6 +44,8 @@ class ImageItemViewType : RecyclerItemViewType<ImageEntry> {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            scaleType = ImageView.ScaleType.CENTER_INSIDE
+            adjustViewBounds = true
         }
     }
 

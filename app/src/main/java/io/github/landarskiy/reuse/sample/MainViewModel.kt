@@ -19,11 +19,12 @@ package io.github.landarskiy.reuse.sample
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import io.github.landarskiy.reuse.Entry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.dto.ContentDto
 import io.github.landarskiy.reuse.sample.dto.Repository
+import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
+import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
+import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +51,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         val dto = repository.loadData()
         dto.map {
             when (it) {
+                is ContentDto.HeaderDto -> {
+                    HeaderEntry(it.text, it.assetsPath)
+                }
                 is ContentDto.TextDto -> {
                     TextEntry(it.text, it.style.toTextEntryStyle())
                 }

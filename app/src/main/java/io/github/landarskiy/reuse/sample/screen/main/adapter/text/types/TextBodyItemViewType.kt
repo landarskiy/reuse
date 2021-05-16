@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
 
 import io.github.landarskiy.reuse.annotation.ViewType
 import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
 
 @ViewType
-class TextListContentItemViewType : TextItemViewType() {
+class TextBodyItemViewType : TextItemViewType() {
+
     override val typeId: Int
         get() = TYPE_ID
 
@@ -29,6 +31,6 @@ class TextListContentItemViewType : TextItemViewType() {
     }
 
     companion object {
-        const val TYPE_ID = R.id.adapter_text_list_content
+        const val TYPE_ID = R.id.adapter_text_body
     }
 }

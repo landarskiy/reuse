@@ -25,6 +25,14 @@ sealed class ContentDto(
 ) {
 
     @JsonClass(generateAdapter = true)
+    data class HeaderDto(
+        @Json(name = "content")
+        val text: String,
+        @Json(name = "bg")
+        val assetsPath: String
+    ) : ContentDto(ContentTypeDto.HEADER)
+
+    @JsonClass(generateAdapter = true)
     data class TextDto(
         @Json(name = "content")
         val text: String,
@@ -60,6 +68,6 @@ sealed class ContentDto(
     ) : ContentDto(ContentTypeDto.COPYRIGHT)
 
     enum class ContentTypeDto(val dtoName: String) {
-        TEXT("text"), IMAGE("image"), COPYRIGHT("copyright")
+        HEADER("header"), TEXT("text"), IMAGE("image"), COPYRIGHT("copyright")
     }
 }

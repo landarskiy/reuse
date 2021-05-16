@@ -26,6 +26,7 @@ import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
 import io.github.landarskiy.reuse.sample.screen.main.adapter.MainRecyclerItemDecoration
 import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
+import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.types.DefaultRecyclerContentFactory
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val dataBuilder = typeFactory.newDataBuilder()
                 it.forEach { entry ->
                     when (entry) {
+                        is HeaderEntry -> dataBuilder.withHeaderItemViewTypeItem(entry)
                         is TextEntry -> {
                             when (entry.style) {
                                 TextEntry.Style.H3 -> dataBuilder.withTextH3ItemViewTypeItem(entry)

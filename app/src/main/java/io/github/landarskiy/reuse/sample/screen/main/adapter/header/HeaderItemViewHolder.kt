@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
+package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
-import android.text.method.LinkMovementMethod
+import android.net.Uri
 import android.view.View
-import androidx.core.text.HtmlCompat
+import coil.load
 import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.sample.databinding.ItemCopyrightBinding
+import io.github.landarskiy.reuse.sample.databinding.ItemHeaderBinding
 
-class CopyrightItemViewHolder(view: View) : ItemViewHolder<CopyrightEntry>(view) {
+class HeaderItemViewHolder(view: View) : ItemViewHolder<HeaderEntry>(view) {
 
-    private val binding: ItemCopyrightBinding = ItemCopyrightBinding.bind(view)
+    private val binding: ItemHeaderBinding = ItemHeaderBinding.bind(view)
 
-    init {
-        binding.link.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-    override fun bind(entry: CopyrightEntry) {
+    override fun bind(entry: HeaderEntry) {
         with(binding) {
-            text.text = entry.text
-            link.text = HtmlCompat.fromHtml(entry.link, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            title.text = entry.text
+            image.load(Uri.parse("file:///android_asset/${entry.assetsPath}")) {
+                crossfade(true)
+                placeholder(null)
+            }
         }
     }
 }

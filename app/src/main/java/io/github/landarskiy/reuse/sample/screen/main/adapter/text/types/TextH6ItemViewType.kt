@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
 
 import io.github.landarskiy.reuse.annotation.ViewType
 import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
 
 @ViewType
-class TextH5ItemViewType : TextItemViewType() {
+class TextH6ItemViewType : TextItemViewType() {
+
     override val typeId: Int
         get() = TYPE_ID
 
     override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Headline5
+        return R.style.TextAppearance_MaterialComponents_Headline6
     }
 
     companion object {
-        const val TYPE_ID = R.id.adapter_text_h5
+        const val TYPE_ID = R.id.adapter_text_h6
     }
 }

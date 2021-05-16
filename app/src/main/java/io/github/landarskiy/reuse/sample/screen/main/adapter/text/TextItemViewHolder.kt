@@ -16,15 +16,21 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.text
 
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import io.github.landarskiy.reuse.ItemViewHolder
 
 class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
 
     private val textView: TextView = view as TextView
 
+    init {
+        textView.movementMethod = LinkMovementMethod.getInstance()
+    }
+
     override fun bind(entry: TextEntry) {
-        textView.text = entry.text
+        textView.text = HtmlCompat.fromHtml(entry.text, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 }

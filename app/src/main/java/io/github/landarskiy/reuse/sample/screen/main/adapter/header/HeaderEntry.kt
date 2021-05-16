@@ -14,25 +14,20 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text
+package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
-import android.content.Context
-import android.view.View
-import android.view.ViewGroup
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.Entry
 
-@ViewType
-class TextBodyItemViewType : TextItemViewType() {
+class HeaderEntry(val text: String, val assetsPath: String) : Entry {
 
-    override val typeId: Int
-        get() = TYPE_ID
-
-    override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Body1
+    override fun isSameEntry(other: Entry): Boolean {
+        if (other !is HeaderEntry) {
+            return false
+        }
+        return text == other.text && assetsPath == other.assetsPath
     }
 
-    companion object {
-        const val TYPE_ID = R.id.adapter_text_body
+    override fun isSameContent(other: Entry): Boolean {
+        return true
     }
 }
