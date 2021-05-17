@@ -6,7 +6,7 @@ ReUse is a helper library for RecyclerView that makes displaying different type 
 
 ### Entry
 
-First of all you should define your entries. Entry is a communication object between recycler's adapter and your data.
+First of all you should define your entries. Entry is a communication object between ViewHolder and your data source.
 
 ```kotlin
 data class TextEntry(val text: String, val style: Style) : Entry {
@@ -34,3 +34,25 @@ Entry interface have following methods:
 - `getDiffPayload(other: Entry): Any?` - to get a payload about the change.
 
 You should implement aboves methods only if you will use `DiffApater` which support DiffUtil out ob the box.
+
+### ItemViewHolder
+
+ItemViewHolder is a regular ViewHolder with some specific fields and methods which used in generated code. You should create it with the same logic as usual.
+
+```kotlin
+class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
+
+    private val textView: TextView = view as TextView
+
+    override fun bind(entry: TextEntry) {
+        textView.text = entry.text
+    }
+}
+```
+
+### RecyclerItemViewType
+
+RecyclerItemViewType is a delegate which response to create specific ViewHolder for your Entry object.
+
+```kotlin
+```
