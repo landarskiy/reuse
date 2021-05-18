@@ -101,7 +101,7 @@ You can specify scope for group some RecyclerItemViewType in specific data build
 ```kotlin
 @ViewType(scopes = ["text_scope", "preview_scope"])
 class TextItemViewType : RecyclerItemViewType<TextEntry> {
-    ...
+    //some implementation
 }
 ```
 
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     fun updateData() {
         val dataBuilder = typeFactory.newDataBuilder()
         dataBuilder.withTextItemViewTypeItem(TextEntry("Some text", TextEntry.Style.H3)
-        ...
+        //add data use generated methods
         listAdapter.setItems(dataBuilder.build())
     }
 }
