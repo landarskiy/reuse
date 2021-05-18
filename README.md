@@ -37,7 +37,7 @@ You should implement aboves methods only if you will use `DiffApater` which supp
 
 ### ItemViewHolder
 
-ItemViewHolder is a regular ViewHolder with some specific fields and methods which used in generated code. You should create it with the same logic as usual.
+ItemViewHolder is a regular ViewHolder with some specific fields and methods and parameterized with your specific entry which used in generated code. You should create it with the same logic as usual.
 
 ```kotlin
 class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
@@ -52,7 +52,97 @@ class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
 
 ### RecyclerItemViewType
 
-RecyclerItemViewType is a delegate which response to create specific ViewHolder for your Entry object.
+RecyclerItemViewType is a delegate which response to create specific ViewHolder for your Entry object with specified view type. This approach allows to you create many UI representations for same specific Entry type. You can use default implementation which use layout resource as typeId and inflate View automaticly:
 
 ```kotlin
+@ViewType
+class TextItemViewType : LayoutRecyclerItemViewType<TextEntry>(TYPE_ID) {
+
+    override fun createViewHolder(
+        context: Context,
+        parent: ViewGroup?
+    ): ItemViewHolder<CopyrightEntry> {
+        return TextItemViewHolder(createView(context, parent))
+    }
+
+    companion object {
+        const val TYPE_ID = R.layout.item_text
+    }
+}
+```
+
+Or you can use implementation without support layout resources:
+```kotlin
+@ViewType
+class TextItemViewType : RecyclerItemViewType<TextEntry> {
+
+    override fun createViewHolder(
+        context: Context,
+        parent: ViewGroup?
+    ): ItemViewHolder<TextEntry> {
+        return TextItemViewHolder(createView(context, parent))
+    }
+
+    override fun createView(context: Context, parent: ViewGroup?): View {
+        return TextView(context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+    }
+}
+```
+
+Each RecyclerItemViewType should be annotated via `@ViewType` annotation. This annotation inform compiler that it should create data builder for this view type with specified Entry.
+
+You can specify scope for group some RecyclerItemViewType in specific data builder use `scopes` annotation parameter:
+
+```kotlin
+@ViewType(scopes = ["text_scope", "preview_scope"])
+class TextItemViewType : RecyclerItemViewType<TextEntry> {
+    ...
+}
+```
+
+### ViewTypeModule
+
+For inform compiler about place where will be places entry point for your generated data builder you should create empty interface with `ViewTypeModule` annotation:
+
+```kotlin
+@ViewTypeModule
+interface ViewTypeModule
+```
+After build project compiler will generate `App[InterfaceName]` object class which will contains field for each specified scope data builder. By default all your `ViewType` put into `defaultRecyclerContentFactory`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory` field.
+
+### DefaultRecyclerContentFactory
+
+After you create all needed `Entry`, `ItemViewHolder` and `RecyclerItemViewType` classes you can update adapter's data use a few code lines:
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    
+    private val typeFactory: DefaultRecyclerContentFactory =
+        AppViewTypeModule.defaultRecyclerContentFactory
+    
+    private val listAdapter: DiffAdapter =
+        DiffAdapter(*typeFactory.types.toTypedArray())
+        
+    fun updateData() {
+        val dataBuilder = typeFactory.newDataBuilder()
+        dataBuilder.withTextItemViewTypeItem(TextEntry("Some text", TextEntry.Style.H3)
+        ...
+        listAdapter.setItems(dataBuilder.build())
+    }
+}
+```
+
+## Download
+
+```groovy
+def reuse_version = "0.0.3"
+
+implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
+
+kapt "com.github.landarskiy.reuse:reuse-compiler:$reuse_version"
 ```
