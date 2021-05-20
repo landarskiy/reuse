@@ -25,6 +25,7 @@ import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.Copyright
 import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
+import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,12 +39,54 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _dataFlow: MutableStateFlow<List<Entry>> = MutableStateFlow(emptyList())
     val dataFlow: Flow<List<Entry>> = _dataFlow
 
+    private val fullData: MutableList<Entry> = mutableListOf()
+
     private val repository: Repository = Repository(app)
+
+    var groupExpanded: Boolean = false
+        set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            refreshData()
+        }
 
     init {
         scope.launch {
-            _dataFlow.tryEmit(loadData())
+            fullData.addAll(loadData())
+            refreshData()
         }
+    }
+
+    private fun refreshData() {
+        val displayData: MutableList<Entry> = mutableListOf()
+        var groupAdded = false
+        fullData.forEach {
+            if (it !is TextEntry) {
+                displayData.add(it)
+            } else if (it.style == TextEntry.Style.LIST_HEADER || it.style == TextEntry.Style.LIST_CONTENT) {
+                if (!groupAdded) {
+                    displayData.add(
+                        TextGroupEntry(
+                            groupExpanded,
+                            object : TextGroupEntry.ActionClickListener {
+                                override fun onClicked(entry: TextGroupEntry) {
+                                    //TODO move from viewmodel layer
+                                    groupExpanded = !groupExpanded
+                                }
+                            })
+                    )
+                    groupAdded = true
+                }
+                if (groupExpanded) {
+                    displayData.add(it)
+                }
+            } else {
+                displayData.add(it)
+            }
+        }
+        _dataFlow.tryEmit(displayData)
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")

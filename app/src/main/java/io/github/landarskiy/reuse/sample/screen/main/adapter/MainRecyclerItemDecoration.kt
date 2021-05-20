@@ -25,6 +25,7 @@ import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageItemView
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextBodyItemViewType
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListContentItemViewType
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListHeaderItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupItemViewType
 import io.github.landarskiy.reuse.sample.utils.dp
 import kotlin.math.roundToInt
 
@@ -37,10 +38,8 @@ class MainRecyclerItemDecoration : RecyclerView.ItemDecoration() {
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         val r = view.context.resources
-        val adapter = parent.adapter ?: return
-        val adapterPosition = parent.getChildAdapterPosition(view)
-        val itemTye = adapter.getItemViewType(adapterPosition)
-        when (itemTye) {
+        val itemType = parent.getChildViewHolder(view).itemViewType
+        when (itemType) {
             TextBodyItemViewType.TYPE_ID -> {
                 outRect.bottom += r.dp(12).roundToInt()
             }
@@ -56,9 +55,10 @@ class MainRecyclerItemDecoration : RecyclerView.ItemDecoration() {
                 outRect.bottom += r.dp(12).roundToInt()
             }
         }
-        if (itemTye != HeaderItemViewType.TYPE_ID &&
-            itemTye != ImageItemViewType.TYPE_ID &&
-            itemTye != CopyrightItemViewType.TYPE_ID
+        if (itemType != HeaderItemViewType.TYPE_ID &&
+            itemType != ImageItemViewType.TYPE_ID &&
+            itemType != CopyrightItemViewType.TYPE_ID &&
+            itemType != TextGroupItemViewType.TYPE_ID
         ) {
             outRect.left += r.dp(16).roundToInt()
             outRect.right += r.dp(16).roundToInt()

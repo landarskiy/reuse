@@ -16,4 +16,7 @@
 
 <resources>
     <string name="app_name">ReUse</string>
+
+    <string name="text_group_action_expand">See more</string>
+    <string name="text_group_action_collapse">See less</string>
 </resources>

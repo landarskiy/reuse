@@ -29,6 +29,7 @@ import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.Copyright
 import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
+import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.types.DefaultRecyclerContentFactory
 import kotlinx.coroutines.flow.collect
 
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                             }
 
                         }
+                        is TextGroupEntry -> dataBuilder.withTextGroupItemViewTypeItem(entry)
                         is ImageEntry -> dataBuilder.withImageItemViewTypeItem(entry)
                         is CopyrightEntry -> dataBuilder.withCopyrightItemViewTypeItem(entry)
                     }
