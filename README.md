@@ -2,7 +2,7 @@
 [![latestVersion](https://jitpack.io/v/landarskiy/reuse.svg)](https://jitpack.io/#landarskiy/reuse)
 ![MinSdk](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)
 
-ReUse is a helper library for RecyclerView that makes displaying different type of data through RecyclerView easily. You should follow next steps for makes your life less painful and easily.
+ReUse is a helper library for RecyclerView that makes displaying different type of data through RecyclerView easily. Common idea - avoid directly using adapters and one place for creating and binding ViewHolders. You should follow next steps for makes your life less painful and easily.
 
 ### Entry
 
@@ -37,7 +37,7 @@ You should implement aboves methods only if you will use `DiffApater` which supp
 
 ### ItemViewHolder
 
-ItemViewHolder is a regular ViewHolder with some specific fields and methods and parameterized with your specific entry which used in generated code. You should create it with the same logic as usual.
+`ItemViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your entry which used in generated code. You should create it with the same logic as usual, the onlly one difference - extend `ItemViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
 
 ```kotlin
 class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
@@ -52,7 +52,7 @@ class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
 
 ### RecyclerItemViewType
 
-RecyclerItemViewType is a delegate which response to create specific ViewHolder for your Entry object with specified view type. This approach allows to you create many UI representations for same specific Entry type. You can use default implementation which use layout resource as typeId and inflate View automaticly:
+`RecyclerItemViewType` is a delegate which response to create specific `ItemViewHolder` for your entry object with specified view type. This approach allows to you create many UI representations for same specific entry type. You can use default implementation which use layout resource as typeId and inflate View automaticly:
 
 ```kotlin
 @ViewType
@@ -72,6 +72,7 @@ class TextItemViewType : LayoutRecyclerItemViewType<TextEntry>(TYPE_ID) {
 ```
 
 Or you can use implementation without support layout resources:
+
 ```kotlin
 @ViewType
 class TextItemViewType : RecyclerItemViewType<TextEntry> {
