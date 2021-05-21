@@ -95,9 +95,9 @@ class TextItemViewType : RecyclerItemViewType<TextEntry> {
 }
 ```
 
-Each RecyclerItemViewType should be annotated via `@ViewType` annotation. This annotation inform compiler that it should create data builder for this view type with specified Entry.
+Each `RecyclerItemViewType` should be annotated via `@ViewType` annotation. This annotation inform compiler that it should create data builder for this view type with specified entry.
 
-You can specify scope for group some RecyclerItemViewType in specific data builder use `scopes` annotation parameter:
+You can specify scope for group some `RecyclerItemViewType` in specific data builder use `scopes` annotation parameter:
 
 ```kotlin
 @ViewType(scopes = ["text_scope", "preview_scope"])
@@ -118,7 +118,7 @@ After build project compiler will generate `App[InterfaceName]` object class whi
 
 ### DefaultRecyclerContentFactory
 
-After you create all needed `Entry`, `ItemViewHolder` and `RecyclerItemViewType` classes you can update adapter's data use a few code lines:
+After you create all needed `Entry`, `ItemViewHolder` and `RecyclerItemViewType` classes you can update adapter's data use a few lines of code:
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
