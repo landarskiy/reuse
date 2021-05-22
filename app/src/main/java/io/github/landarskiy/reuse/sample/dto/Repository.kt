@@ -22,12 +22,13 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import io.github.landarskiy.reuse.sample.model.Content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.lang.reflect.Type
 
-class Repository(val app: Application) {
+class Repository(private val app: Application) {
 
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun loadData() = withContext(Dispatchers.IO) {
@@ -65,6 +66,40 @@ class Repository(val app: Application) {
         val data = BufferedReader(stream.reader()).use { it.readText() }
 
         val adapter: JsonAdapter<List<ContentDto>> = moshi.adapter(type)
-        adapter.fromJson(data) ?: emptyList()
+        (adapter.fromJson(data) ?: emptyList()).map {
+            when (it) {
+                is ContentDto.HeaderDto -> it.mapToModel()
+                is ContentDto.TextDto -> it.mapToModel()
+                is ContentDto.ImageDto -> it.mapToModel()
+                is ContentDto.CopyrightDto -> it.mapToModel()
+            }
+        }
     }
+}
+
+private fun ContentDto.HeaderDto.mapToModel(): Content.Header {
+    return Content.Header(text = text, assetsPath = assetsPath)
+}
+
+private fun ContentDto.TextDto.mapToModel(): Content.Text {
+    return Content.Text(text = text, style = style.mapToModel())
+}
+
+private fun ContentDto.TextDto.StyleDto.mapToModel(): Content.Text.Style {
+    return when (this) {
+        ContentDto.TextDto.StyleDto.H3 -> Content.Text.Style.H3
+        ContentDto.TextDto.StyleDto.H5 -> Content.Text.Style.H5
+        ContentDto.TextDto.StyleDto.H6 -> Content.Text.Style.H6
+        ContentDto.TextDto.StyleDto.BODY -> Content.Text.Style.BODY
+        ContentDto.TextDto.StyleDto.LIST_CONTENT -> Content.Text.Style.LIST_CONTENT
+        ContentDto.TextDto.StyleDto.LIST_HEADER -> Content.Text.Style.LIST_HEADER
+    }
+}
+
+private fun ContentDto.ImageDto.mapToModel(): Content.Image {
+    return Content.Image(assetsPath = assetsPath, width = width, height = height)
+}
+
+private fun ContentDto.CopyrightDto.mapToModel(): Content.Copyright {
+    return Content.Copyright(text = text, url = url)
 }

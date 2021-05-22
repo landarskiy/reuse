@@ -17,14 +17,15 @@
 package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
 
 import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.sample.model.Content
 
-data class CopyrightEntry(val text: String, val link: String) : Entry {
+data class CopyrightEntry(val content: Content.Copyright) : Entry {
 
     override fun isSameEntry(other: Entry): Boolean {
         if (other !is CopyrightEntry) {
             return false
         }
-        return text == other.text && link == other.link
+        return content == other.content
     }
 
     override fun isSameContent(other: Entry): Boolean {

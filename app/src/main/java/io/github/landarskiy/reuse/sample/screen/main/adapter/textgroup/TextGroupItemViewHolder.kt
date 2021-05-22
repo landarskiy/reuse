@@ -33,7 +33,7 @@ class TextGroupItemViewHolder(view: View) : ItemViewHolder<TextGroupEntry>(view)
 
     override fun bind(entry: TextGroupEntry) {
         with(binding) {
-            if (entry.expanded) {
+            if (entry.content.expanded) {
                 action.setText(R.string.text_group_action_collapse)
                 icon.setImageResource(R.drawable.ic_collapse)
                 startAnimation(-1)
@@ -43,7 +43,7 @@ class TextGroupItemViewHolder(view: View) : ItemViewHolder<TextGroupEntry>(view)
                 startAnimation(1)
             }
             root.setOnClickListener {
-                entry.clickListener.onClicked(entry)
+                entry.clickListener.invoke(entry)
             }
         }
     }

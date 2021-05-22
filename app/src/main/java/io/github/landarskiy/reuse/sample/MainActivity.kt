@@ -21,8 +21,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.landarskiy.reuse.Adapter
 import io.github.landarskiy.reuse.DiffAdapter
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
+import io.github.landarskiy.reuse.sample.model.Content
 import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
 import io.github.landarskiy.reuse.sample.screen.main.adapter.MainRecyclerItemDecoration
 import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
@@ -56,34 +58,55 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launchWhenCreated {
             viewModel.dataFlow.collect {
-                val dataBuilder = typeFactory.newDataBuilder()
-                it.forEach { entry ->
-                    when (entry) {
-                        is HeaderEntry -> dataBuilder.withHeaderItemViewTypeItem(entry)
-                        is TextEntry -> {
-                            when (entry.style) {
-                                TextEntry.Style.H3 -> dataBuilder.withTextH3ItemViewTypeItem(entry)
-                                TextEntry.Style.H5 -> dataBuilder.withTextH5ItemViewTypeItem(entry)
-                                TextEntry.Style.H6 -> dataBuilder.withTextH6ItemViewTypeItem(entry)
-                                TextEntry.Style.BODY -> dataBuilder.withTextBodyItemViewTypeItem(
-                                    entry
-                                )
-                                TextEntry.Style.LIST_HEADER -> dataBuilder.withTextListHeaderItemViewTypeItem(
-                                    entry
-                                )
-                                TextEntry.Style.LIST_CONTENT -> dataBuilder.withTextListContentItemViewTypeItem(
-                                    entry
-                                )
-                            }
-
-                        }
-                        is TextGroupEntry -> dataBuilder.withTextGroupItemViewTypeItem(entry)
-                        is ImageEntry -> dataBuilder.withImageItemViewTypeItem(entry)
-                        is CopyrightEntry -> dataBuilder.withCopyrightItemViewTypeItem(entry)
-                    }
-                }
-                listAdapter.setItems(dataBuilder.build())
+                listAdapter.setItems(mapData(it))
             }
         }
+    }
+
+    private fun mapData(content: List<Content>): List<Adapter.AdapterEntry> {
+        val dataBuilder = typeFactory.newDataBuilder()
+        content.forEach { item ->
+            when (item) {
+                is Content.Header -> {
+                    dataBuilder.withHeaderItemViewTypeItem(HeaderEntry(item))
+                }
+                is Content.Text -> {
+                    val entry = TextEntry(item)
+                    when (item.style) {
+                        Content.Text.Style.H3 -> {
+                            dataBuilder.withTextH3ItemViewTypeItem(entry)
+                        }
+                        Content.Text.Style.H5 -> {
+                            dataBuilder.withTextH5ItemViewTypeItem(entry)
+                        }
+                        Content.Text.Style.H6 -> {
+                            dataBuilder.withTextH6ItemViewTypeItem(entry)
+                        }
+                        Content.Text.Style.BODY -> {
+                            dataBuilder.withTextBodyItemViewTypeItem(entry)
+                        }
+                        Content.Text.Style.LIST_HEADER -> {
+                            dataBuilder.withTextListHeaderItemViewTypeItem(entry)
+                        }
+                        Content.Text.Style.LIST_CONTENT -> {
+                            dataBuilder.withTextListContentItemViewTypeItem(entry)
+                        }
+                    }
+
+                }
+                is Content.GroupHeader -> {
+                    dataBuilder.withTextGroupItemViewTypeItem(TextGroupEntry(item) {
+                        viewModel.onGroupClicked()
+                    })
+                }
+                is Content.Image -> {
+                    dataBuilder.withImageItemViewTypeItem(ImageEntry(item))
+                }
+                is Content.Copyright -> {
+                    dataBuilder.withCopyrightItemViewTypeItem(CopyrightEntry(item))
+                }
+            }
+        }
+        return dataBuilder.build()
     }
 }

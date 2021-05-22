@@ -17,10 +17,11 @@
 package io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup
 
 import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.sample.model.Content
 
 data class TextGroupEntry(
-    val expanded: Boolean,
-    val clickListener: ActionClickListener
+    val content: Content.GroupHeader,
+    val clickListener: (entry: TextGroupEntry) -> Unit
 ) : Entry {
 
     override fun isSameEntry(other: Entry): Boolean {
@@ -28,10 +29,6 @@ data class TextGroupEntry(
     }
 
     override fun isSameContent(other: Entry): Boolean {
-        return (other as TextGroupEntry).expanded == expanded
-    }
-
-    interface ActionClickListener {
-        fun onClicked(entry: TextGroupEntry)
+        return (other as TextGroupEntry).content.expanded == content.expanded
     }
 }

@@ -17,14 +17,15 @@
 package io.github.landarskiy.reuse.sample.screen.main.adapter.text
 
 import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.sample.model.Content
 
-data class TextEntry(val text: String, val style: Style) : Entry {
+data class TextEntry(val content: Content.Text) : Entry {
 
     override fun isSameEntry(other: Entry): Boolean {
         if (other !is TextEntry) {
             return false
         }
-        return text == other.text && style == other.style
+        return content == other.content
     }
 
     override fun isSameContent(other: Entry): Boolean {

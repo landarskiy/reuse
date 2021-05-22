@@ -17,14 +17,15 @@
 package io.github.landarskiy.reuse.sample.screen.main.adapter.image
 
 import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.sample.model.Content
 
-data class ImageEntry(val assetsPath: String, val width: Int, val height: Int) : Entry {
+data class ImageEntry(val content: Content.Image) : Entry {
 
     override fun isSameEntry(other: Entry): Boolean {
         if (other !is ImageEntry) {
             return false
         }
-        return assetsPath == other.assetsPath
+        return content.assetsPath == other.content.assetsPath
     }
 
     override fun isSameContent(other: Entry): Boolean {

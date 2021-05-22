@@ -28,8 +28,8 @@ class HeaderItemViewHolder(view: View) : ItemViewHolder<HeaderEntry>(view) {
 
     override fun bind(entry: HeaderEntry) {
         with(binding) {
-            title.text = entry.text
-            image.load(Uri.parse("file:///android_asset/${entry.assetsPath}")) {
+            title.text = entry.content.text
+            image.load(Uri.parse("file:///android_asset/${entry.content.assetsPath}")) {
                 crossfade(true)
                 placeholder(null)
             }

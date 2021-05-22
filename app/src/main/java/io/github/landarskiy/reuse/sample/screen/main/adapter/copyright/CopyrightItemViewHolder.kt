@@ -32,8 +32,8 @@ class CopyrightItemViewHolder(view: View) : ItemViewHolder<CopyrightEntry>(view)
 
     override fun bind(entry: CopyrightEntry) {
         with(binding) {
-            text.text = entry.text
-            link.text = HtmlCompat.fromHtml(entry.link, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            text.text = entry.content.text
+            link.text = HtmlCompat.fromHtml(entry.content.url, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
     }
 }

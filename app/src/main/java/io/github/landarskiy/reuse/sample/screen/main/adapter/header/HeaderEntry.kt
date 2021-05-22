@@ -17,14 +17,15 @@
 package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
 import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.sample.model.Content
 
-class HeaderEntry(val text: String, val assetsPath: String) : Entry {
+class HeaderEntry(val content: Content.Header) : Entry {
 
     override fun isSameEntry(other: Entry): Boolean {
         if (other !is HeaderEntry) {
             return false
         }
-        return text == other.text && assetsPath == other.assetsPath
+        return content == other.content
     }
 
     override fun isSameContent(other: Entry): Boolean {

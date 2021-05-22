@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text
+package io.github.landarskiy.reuse.sample.model
 
-import android.text.method.LinkMovementMethod
-import android.view.View
-import android.widget.TextView
-import androidx.core.text.HtmlCompat
-import io.github.landarskiy.reuse.ItemViewHolder
+sealed class Content {
 
-class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
+    data class Header(val text: String, val assetsPath: String) : Content()
 
-    private val textView: TextView = view as TextView
+    data class Text(val text: String, val style: Style) : Content() {
 
-    init {
-        textView.movementMethod = LinkMovementMethod.getInstance()
+        enum class Style {
+            H3, H5, H6, BODY, LIST_HEADER, LIST_CONTENT
+        }
     }
 
-    override fun bind(entry: TextEntry) {
-        textView.text = HtmlCompat.fromHtml(entry.content.text, HtmlCompat.FROM_HTML_MODE_COMPACT)
-    }
+    data class Image(val assetsPath: String, val width: Int, val height: Int) : Content()
+
+    data class Copyright(val text: String, val url: String) : Content()
+
+    data class GroupHeader(val expanded: Boolean) : Content()
 }

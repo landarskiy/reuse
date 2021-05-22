@@ -24,4 +24,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ic_launcher_background">#FDFDFF</color>
+
+    <color name="green_500">#4caf50</color> <!-- primaryColor -->
+    <color name="green_500_light">#80e27e</color> <!-- primaryLightColor -->
+    <color name="green_500_dark">#087f23</color> <!-- primaryDarkColor -->
+    <color name="blue_gray_600">#546e7a</color> <!-- secondaryColor -->
+    <color name="blue_gray_600_light">#819ca9</color> <!-- secondaryLightColor -->
+    <color name="blue_gray_600_dark">#29434e</color> <!-- secondaryDarkColor -->
+    <color name="black_85">#d9000000</color> <!-- text color on primary (min 67% opacity) -->
+    <color name="black_70">#b3000000</color> <!-- text color on secondary light (min 68% opacity) -->
+    <color name="white_92">#ebffffff</color> <!-- text color on primary dark (min 91% opacity) -->
+    <color name="white_90">#e6ffffff</color> <!-- text color on secondary (min 87% opacity) -->
 </resources>
