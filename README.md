@@ -9,21 +9,17 @@ ReUse is a helper library for RecyclerView that makes displaying different type 
 First of all you should define your entries. Entry is a communication object between ViewHolder and your data source.
 
 ```kotlin
-data class TextEntry(val text: String, val style: Style) : Entry {
+data class TextEntry(val content: Content.Text) : Entry {
 
     override fun isSameEntry(other: Entry): Boolean {
         if (other !is TextEntry) {
             return false
         }
-        return text == other.text && style == other.style
+        return content == other.content
     }
 
     override fun isSameContent(other: Entry): Boolean {
         return true
-    }
-
-    enum class Style {
-        H3, H5, H6, BODY, LIST_HEADER, LIST_CONTENT
     }
 }
 ```
@@ -35,6 +31,8 @@ Entry interface have following methods:
 
 You should implement aboves methods only if you will use `DiffApater` which support DiffUtil out ob the box.
 
+*It's recommended separate your data and entry classes. Entry usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related with your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
+
 ### ItemViewHolder
 
 `ItemViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your entry which used in generated code. You should create it with the same logic as usual, the onlly one difference - extend `ItemViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
@@ -45,7 +43,7 @@ class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
     private val textView: TextView = view as TextView
 
     override fun bind(entry: TextEntry) {
-        textView.text = entry.text
+        textView.text = entry.content.text
     }
 }
 ```
@@ -131,7 +129,10 @@ class MainActivity : AppCompatActivity() {
         
     fun updateData() {
         val dataBuilder = typeFactory.newDataBuilder()
-        dataBuilder.withTextItemViewTypeItem(TextEntry("Some text", TextEntry.Style.H3)
+        dataBuilder.withTextItemViewTypeItem(TextEntry(Content.Text("Some text", Content.Text.Style.H3))
+        dataBuilder.withTextGroupItemViewTypeItem(TextGroupEntry(Content.GroupHeader(true)) {
+            viewModel.onGroupClicked()
+        })
         //add data use generated methods
         listAdapter.setItems(dataBuilder.build())
     }
