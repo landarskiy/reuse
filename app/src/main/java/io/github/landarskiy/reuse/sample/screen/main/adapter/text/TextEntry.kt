@@ -31,8 +31,4 @@ data class TextEntry(val content: Content.Text) : Entry {
     override fun isSameContent(other: Entry): Boolean {
         return true
     }
-
-    enum class Style {
-        H3, H5, H6, BODY, LIST_HEADER, LIST_CONTENT
-    }
 }

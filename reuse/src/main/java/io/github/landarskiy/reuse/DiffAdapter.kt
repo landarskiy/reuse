@@ -33,7 +33,7 @@ open class DiffAdapter(vararg types: RecyclerItemViewType<out Entry>) : Adapter(
     }
 
     private fun createDiffCallback(newItems: List<AdapterEntry>): DiffUtil.Callback {
-        return RecyclerContentDiffCallback(content, newItems)
+        return RecyclerContentDiffCallback(content.toList(), newItems)
     }
 
     private fun updateItemsInternal(diffCallback: DiffUtil.Callback, newItems: List<AdapterEntry>) {

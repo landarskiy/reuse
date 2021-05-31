@@ -42,7 +42,7 @@ allprojects {
 
     ext.is_snaptshot = false
     group = 'io.github.landarskiy'
-    version = '0.0.3'
+    version = '0.0.4'
     if (is_snaptshot) {
         version += "-SNAPSHOT"
     }
