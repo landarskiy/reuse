@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 ## Download
 
 ```groovy
-def reuse_version = "0.0.3"
+def reuse_version = "0.0.4"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 
