@@ -22,9 +22,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.RecyclerItemViewType
+import io.github.landarskiy.reuse.ViewHolderFactory
 
-abstract class TextItemViewType : RecyclerItemViewType<TextEntry> {
+abstract class TextItemViewType : ViewHolderFactory<TextEntry> {
 
     override fun createViewHolder(
         context: Context,

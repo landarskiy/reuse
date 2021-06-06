@@ -16,19 +16,19 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
 
-import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.DiffEntry
 import io.github.landarskiy.reuse.sample.model.Content
 
-data class CopyrightEntry(val content: Content.Copyright) : Entry {
+data class CopyrightEntry(val content: Content.Copyright) : DiffEntry {
 
-    override fun isSameEntry(other: Entry): Boolean {
+    override fun isSameEntry(other: DiffEntry): Boolean {
         if (other !is CopyrightEntry) {
             return false
         }
         return content == other.content
     }
 
-    override fun isSameContent(other: Entry): Boolean {
+    override fun isSameContent(other: DiffEntry): Boolean {
         return true
     }
 }

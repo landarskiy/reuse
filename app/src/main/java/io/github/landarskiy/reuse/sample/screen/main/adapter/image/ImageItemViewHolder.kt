@@ -26,8 +26,8 @@ class ImageItemViewHolder(view: View) : ItemViewHolder<ImageEntry>(view) {
 
     private val imageView: ImageView = view as ImageView
 
-    override fun bind(entry: ImageEntry) {
-        imageView.load(Uri.parse("file:///android_asset/${entry.content.assetsPath}")) {
+    override fun bind(data: ImageEntry) {
+        imageView.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
             crossfade(true)
             placeholder(null)
         }

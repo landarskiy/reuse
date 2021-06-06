@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.landarskiy.reuse.Adapter
 import io.github.landarskiy.reuse.DiffAdapter
+import io.github.landarskiy.reuse.DiffEntry
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
 import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun mapData(content: List<Content>): List<Adapter.AdapterEntry> {
+    private fun mapData(content: List<Content>): List<Adapter.AdapterEntry<DiffEntry>> {
         val dataBuilder = typeFactory.newDataBuilder()
         content.forEach { item ->
             when (item) {

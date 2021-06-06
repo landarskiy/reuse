@@ -17,21 +17,26 @@
 package io.github.landarskiy.reuse
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 
 /**
- * Specific type of [RecyclerItemViewType] where [typeId] is layout resource id.
+ * Makes relation between data and [ItemViewHolder]
  */
-abstract class LayoutRecyclerItemViewType<T : Entry>(@LayoutRes val layoutResId: Int) :
-    RecyclerItemViewType<T> {
+interface ViewHolderFactory<T> {
 
-    override val typeId: Int
-        get() = layoutResId
+    /**
+     * Unique type id
+     */
+    val typeId: Int
 
-    override fun createView(context: Context, parent: ViewGroup?): View {
-        return LayoutInflater.from(context).inflate(layoutResId, parent, false)
-    }
+    /**
+     * Create View instance for ViewHolder for specific [typeId]
+     */
+    fun createView(context: Context, parent: ViewGroup?): View
+
+    /**
+     * Create view holder for specific [typeId]
+     */
+    fun createViewHolder(context: Context, parent: ViewGroup?): ItemViewHolder<T>
 }

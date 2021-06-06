@@ -24,19 +24,23 @@ import androidx.recyclerview.widget.ListUpdateCallback
 /**
  * Adapter which support [DiffUtil]
  */
-open class DiffAdapter(vararg types: RecyclerItemViewType<out Entry>) : Adapter(*types) {
+open class DiffAdapter(vararg types: ViewHolderFactory<out DiffEntry>) :
+    Adapter<DiffEntry>(*types as Array<out ViewHolderFactory<DiffEntry>>) {
 
     @MainThread
-    fun setItems(newItems: List<AdapterEntry>) {
+    fun setItems(newItems: List<AdapterEntry<DiffEntry>>) {
         val callback = createDiffCallback(newItems)
         updateItemsInternal(callback, newItems)
     }
 
-    private fun createDiffCallback(newItems: List<AdapterEntry>): DiffUtil.Callback {
+    private fun createDiffCallback(newItems: List<AdapterEntry<DiffEntry>>): DiffUtil.Callback {
         return RecyclerContentDiffCallback(content.toList(), newItems)
     }
 
-    private fun updateItemsInternal(diffCallback: DiffUtil.Callback, newItems: List<AdapterEntry>) {
+    private fun updateItemsInternal(
+        diffCallback: DiffUtil.Callback,
+        newItems: List<AdapterEntry<DiffEntry>>
+    ) {
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         content.replace(newItems)
         diffResult.dispatchUpdatesTo(createListUpdateCallback())
@@ -47,8 +51,8 @@ open class DiffAdapter(vararg types: RecyclerItemViewType<out Entry>) : Adapter(
     }
 
     open class RecyclerContentDiffCallback(
-        private val oldItems: List<AdapterEntry>,
-        private val newItems: List<AdapterEntry>
+        private val oldItems: List<AdapterEntry<DiffEntry>>,
+        private val newItems: List<AdapterEntry<DiffEntry>>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {

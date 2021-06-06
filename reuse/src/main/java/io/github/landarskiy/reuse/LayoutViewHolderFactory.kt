@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.image
+package io.github.landarskiy.reuse
 
-import io.github.landarskiy.reuse.DiffEntry
-import io.github.landarskiy.reuse.sample.model.Content
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
-data class ImageEntry(val content: Content.Image) : DiffEntry {
+/**
+ * Specific type of [ViewHolderFactory] where [typeId] is layout resource id.
+ */
+abstract class LayoutViewHolderFactory<T>(@LayoutRes val layoutResId: Int) : ViewHolderFactory<T> {
 
-    override fun isSameEntry(other: DiffEntry): Boolean {
-        if (other !is ImageEntry) {
-            return false
-        }
-        return content.assetsPath == other.content.assetsPath
-    }
+    override val typeId: Int
+        get() = layoutResId
 
-    override fun isSameContent(other: DiffEntry): Boolean {
-        return true
+    override fun createView(context: Context, parent: ViewGroup?): View {
+        return LayoutInflater.from(context).inflate(layoutResId, parent, false)
     }
 }

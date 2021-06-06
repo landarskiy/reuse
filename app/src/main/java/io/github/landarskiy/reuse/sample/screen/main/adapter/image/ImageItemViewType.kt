@@ -21,12 +21,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.RecyclerItemViewType
+import io.github.landarskiy.reuse.ViewHolderFactory
 import io.github.landarskiy.reuse.annotation.ViewType
 import io.github.landarskiy.reuse.sample.R
 
 @ViewType
-class ImageItemViewType : RecyclerItemViewType<ImageEntry> {
+class ImageItemViewType : ViewHolderFactory<ImageEntry> {
 
     override val typeId: Int
         get() = TYPE_ID

@@ -26,10 +26,10 @@ class HeaderItemViewHolder(view: View) : ItemViewHolder<HeaderEntry>(view) {
 
     private val binding: ItemHeaderBinding = ItemHeaderBinding.bind(view)
 
-    override fun bind(entry: HeaderEntry) {
+    override fun bind(data: HeaderEntry) {
         with(binding) {
-            title.text = entry.content.text
-            image.load(Uri.parse("file:///android_asset/${entry.content.assetsPath}")) {
+            title.text = data.content.text
+            image.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
                 crossfade(true)
                 placeholder(null)
             }

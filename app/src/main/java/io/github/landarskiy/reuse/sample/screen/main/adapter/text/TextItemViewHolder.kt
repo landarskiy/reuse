@@ -30,7 +30,7 @@ class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
         textView.movementMethod = LinkMovementMethod.getInstance()
     }
 
-    override fun bind(entry: TextEntry) {
-        textView.text = HtmlCompat.fromHtml(entry.content.text, HtmlCompat.FROM_HTML_MODE_COMPACT)
+    override fun bind(data: TextEntry) {
+        textView.text = HtmlCompat.fromHtml(data.content.text, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 }

@@ -19,12 +19,12 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
 import android.content.Context
 import android.view.ViewGroup
 import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.LayoutRecyclerItemViewType
+import io.github.landarskiy.reuse.LayoutViewHolderFactory
 import io.github.landarskiy.reuse.annotation.ViewType
 import io.github.landarskiy.reuse.sample.R
 
 @ViewType
-class CopyrightItemViewType : LayoutRecyclerItemViewType<CopyrightEntry>(TYPE_ID) {
+class CopyrightItemViewType : LayoutViewHolderFactory<CopyrightEntry>(TYPE_ID) {
 
     override fun createViewHolder(
         context: Context,

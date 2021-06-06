@@ -1,6 +1,7 @@
 package io.github.landarskiy.reuse.compiler
 
 import io.github.landarskiy.reuse.annotation.ViewType
+import java.util.*
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
@@ -19,7 +20,15 @@ object ScopesBuilder {
                 val defaultScopeElements = scopes[SCOPE_DEFAULT] ?: mutableListOf()
                 defaultScopeElements.add(it)
                 scopes[SCOPE_DEFAULT] = defaultScopeElements
-                it.getAnnotation(ViewType::class.java).scopes.forEach { scope ->
+                it.getAnnotation(ViewType::class.java).scopes.map { scopeName ->
+                    scopeName.replaceFirstChar { first ->
+                        if (first.isLowerCase()) {
+                            first.titlecase(Locale.getDefault())
+                        } else {
+                            first.toString()
+                        }
+                    }
+                }.forEach { scope ->
                     val scopeElements = scopes[scope] ?: mutableListOf()
                     scopeElements.add(it)
                     scopes[scope] = scopeElements

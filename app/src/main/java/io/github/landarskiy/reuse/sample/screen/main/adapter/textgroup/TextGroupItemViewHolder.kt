@@ -31,9 +31,9 @@ class TextGroupItemViewHolder(view: View) : ItemViewHolder<TextGroupEntry>(view)
 
     private var arrowAnimator: Animator? = null
 
-    override fun bind(entry: TextGroupEntry) {
+    override fun bind(data: TextGroupEntry) {
         with(binding) {
-            if (entry.content.expanded) {
+            if (data.content.expanded) {
                 action.setText(R.string.text_group_action_collapse)
                 icon.setImageResource(R.drawable.ic_collapse)
                 startAnimation(-1)
@@ -43,7 +43,7 @@ class TextGroupItemViewHolder(view: View) : ItemViewHolder<TextGroupEntry>(view)
                 startAnimation(1)
             }
             root.setOnClickListener {
-                entry.clickListener.invoke(entry)
+                data.clickListener.invoke(data)
             }
         }
     }

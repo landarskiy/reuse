@@ -19,12 +19,12 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup
 import android.content.Context
 import android.view.ViewGroup
 import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.LayoutRecyclerItemViewType
+import io.github.landarskiy.reuse.LayoutViewHolderFactory
 import io.github.landarskiy.reuse.annotation.ViewType
 import io.github.landarskiy.reuse.sample.R
 
 @ViewType
-class TextGroupItemViewType : LayoutRecyclerItemViewType<TextGroupEntry>(TYPE_ID) {
+class TextGroupItemViewType : LayoutViewHolderFactory<TextGroupEntry>(TYPE_ID) {
 
     override fun createViewHolder(
         context: Context,

@@ -16,27 +16,5 @@
 
 package io.github.landarskiy.reuse
 
-import android.content.Context
-import android.view.View
-import android.view.ViewGroup
-
-/**
- * Makes relation between [Entry] and [RecyclerItemViewType]
- */
-interface RecyclerItemViewType<T : Entry> {
-
-    /**
-     * Unique type id
-     */
-    val typeId: Int
-
-    /**
-     * Create View instance for ViewHolder for specific [typeId]
-     */
-    fun createView(context: Context, parent: ViewGroup?): View
-
-    /**
-     * Create view holder for specific [typeId]
-     */
-    fun createViewHolder(context: Context, parent: ViewGroup?): ItemViewHolder<T>
-}
+open class DefaultAdapter(vararg types: ViewHolderFactory<out Any>) :
+    Adapter<Any>(*types as Array<out ViewHolderFactory<Any>>)

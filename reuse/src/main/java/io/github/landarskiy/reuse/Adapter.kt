@@ -23,25 +23,25 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Base adapter
  */
-open class Adapter(vararg types: RecyclerItemViewType<out Entry>) :
-    RecyclerView.Adapter<ItemViewHolder<out Entry>>() {
+open class Adapter<T>(vararg types: ViewHolderFactory<T>) :
+    RecyclerView.Adapter<ItemViewHolder<T>>() {
 
-    private val viewTypeArray = SparseArray<RecyclerItemViewType<out Entry>>()
-    val content: MutableList<AdapterEntry> = mutableListOf()
+    private val viewTypeArray = SparseArray<ViewHolderFactory<T>>()
+    val content: MutableList<AdapterEntry<T>> = mutableListOf()
 
     init {
         types.forEach { registerViewType(it) }
     }
 
-    fun registerViewType(viewType: RecyclerItemViewType<out Entry>) {
+    fun registerViewType(viewType: ViewHolderFactory<T>) {
         viewTypeArray.put(viewType.typeId, viewType)
     }
 
-    fun getViewType(typeId: Int): RecyclerItemViewType<out Entry> {
+    fun getViewType(typeId: Int): ViewHolderFactory<T> {
         return requireNotNull(viewTypeArray.get(typeId), { "Type $typeId not registered" })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<out Entry> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<T> {
         return getViewType(viewType).createViewHolder(parent.context, parent)
     }
 
@@ -53,9 +53,9 @@ open class Adapter(vararg types: RecyclerItemViewType<out Entry>) :
         return content.size
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder<out Entry>, position: Int) {
+    override fun onBindViewHolder(holder: ItemViewHolder<T>, position: Int) {
         holder.bindData(content[position].data)
     }
 
-    data class AdapterEntry(val viewType: Int, val data: Entry)
+    data class AdapterEntry<T>(val viewType: Int, val data: T)
 }

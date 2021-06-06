@@ -21,28 +21,28 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Base ViewHolder implementation for support [Entry] items.
+ * Base ViewHolder implementation for any type of data.
  *
  * @param view related view
  */
-abstract class ItemViewHolder<T : Entry>(view: View) : RecyclerView.ViewHolder(view) {
+abstract class ItemViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
     val context: Context = view.context
 
     /**
      * Should be called from [RecyclerView.Adapter.onBindViewHolder]
      *
-     * @param entry bindable entry
+     * @param data bindable data
      */
     @Suppress("UNCHECKED_CAST")
-    fun bindData(entry: Entry) {
-        bind(entry as T)
+    fun bindData(data: T) {
+        bind(data)
     }
 
     /**
      * Should be call from [bindData], do not use this method directly.
      *
-     * @param entry bindable entry
+     * @param data bindable data
      */
-    abstract fun bind(entry: T)
+    abstract fun bind(data: T)
 }
