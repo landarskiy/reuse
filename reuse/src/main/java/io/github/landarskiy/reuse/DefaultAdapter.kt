@@ -16,5 +16,6 @@
 
 package io.github.landarskiy.reuse
 
-open class DefaultAdapter(vararg types: ViewHolderFactory<out Any>) :
-    Adapter<Any>(*types as Array<out ViewHolderFactory<Any>>)
+@Suppress("UNCHECKED_CAST")
+open class DefaultAdapter(types: List<ViewHolderFactory<out Any>>) :
+    Adapter<Any>(types as List<ViewHolderFactory<Any>>)

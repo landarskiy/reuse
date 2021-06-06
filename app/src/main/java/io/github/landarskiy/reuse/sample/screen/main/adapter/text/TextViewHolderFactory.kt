@@ -14,43 +14,35 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.image
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import io.github.landarskiy.reuse.ItemViewHolder
+import android.widget.TextView
+import androidx.core.widget.TextViewCompat
+import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.ViewHolderFactory
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.sample.R
 
-@ViewType
-class ImageItemViewType : ViewHolderFactory<ImageEntry> {
-
-    override val typeId: Int
-        get() = TYPE_ID
+abstract class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 
     override fun createViewHolder(
         context: Context,
         parent: ViewGroup?
-    ): ItemViewHolder<ImageEntry> {
-        return ImageItemViewHolder(createView(context, parent))
+    ): BaseViewHolder<TextEntry> {
+        return TextViewHolder(createView(context, parent))
     }
 
     override fun createView(context: Context, parent: ViewGroup?): View {
-        return ImageView(context).apply {
+        return TextView(context).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            scaleType = ImageView.ScaleType.CENTER_INSIDE
-            adjustViewBounds = true
+        }.apply {
+            TextViewCompat.setTextAppearance(this, textAppearanceResId())
         }
     }
 
-    companion object {
-
-        const val TYPE_ID = R.id.adapter_image
-    }
+    abstract fun textAppearanceResId(): Int
 }

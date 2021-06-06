@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.header
+package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
 
 import android.content.Context
 import android.view.ViewGroup
-import io.github.landarskiy.reuse.ItemViewHolder
+import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.LayoutViewHolderFactory
-import io.github.landarskiy.reuse.annotation.ViewType
+import io.github.landarskiy.reuse.annotation.ViewHolderType
 import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewType
-class HeaderItemViewType : LayoutViewHolderFactory<HeaderEntry>(TYPE_ID) {
+@ViewHolderType(scopes = [SCOPE_MAIN])
+class CopyrightViewHolderFactory : LayoutViewHolderFactory<CopyrightEntry>(TYPE_ID) {
 
     override fun createViewHolder(
         context: Context,
         parent: ViewGroup?
-    ): ItemViewHolder<HeaderEntry> {
-        return HeaderItemViewHolder(createView(context, parent))
+    ): BaseViewHolder<CopyrightEntry> {
+        return CopyrightViewHolder(createView(context, parent))
     }
 
     companion object {
-        const val TYPE_ID = R.layout.item_header
+        const val TYPE_ID = R.layout.item_copyright
     }
 }

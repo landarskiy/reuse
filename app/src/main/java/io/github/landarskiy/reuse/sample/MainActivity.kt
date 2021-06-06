@@ -33,17 +33,16 @@ import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.types.DefaultRecyclerContentFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.types.MainRecyclerContentFactory
 import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val typeFactory: DefaultRecyclerContentFactory =
-        AppViewTypeModule.defaultRecyclerContentFactory
-    private val listAdapter: DiffAdapter =
-        DiffAdapter(*typeFactory.types.toTypedArray())
+    private val typeFactory: MainRecyclerContentFactory =
+        AppViewTypeModule.mainRecyclerContentFactory
+    private val listAdapter: DiffAdapter = DiffAdapter(typeFactory.types)
 
     private lateinit var binding: ActivityMainBinding
 
@@ -69,42 +68,42 @@ class MainActivity : AppCompatActivity() {
         content.forEach { item ->
             when (item) {
                 is Content.Header -> {
-                    dataBuilder.withHeaderItemViewTypeItem(HeaderEntry(item))
+                    dataBuilder.withHeaderViewHolderFactoryItem(HeaderEntry(item))
                 }
                 is Content.Text -> {
                     val entry = TextEntry(item)
                     when (item.style) {
                         Content.Text.Style.H3 -> {
-                            dataBuilder.withTextH3ItemViewTypeItem(entry)
+                            dataBuilder.withTextH3ViewHolderFactoryItem(entry)
                         }
                         Content.Text.Style.H5 -> {
-                            dataBuilder.withTextH5ItemViewTypeItem(entry)
+                            dataBuilder.withTextH5ViewHolderFactoryItem(entry)
                         }
                         Content.Text.Style.H6 -> {
-                            dataBuilder.withTextH6ItemViewTypeItem(entry)
+                            dataBuilder.withTextH6ViewHolderFactoryItem(entry)
                         }
                         Content.Text.Style.BODY -> {
-                            dataBuilder.withTextBodyItemViewTypeItem(entry)
+                            dataBuilder.withTextBodyViewHolderFactoryItem(entry)
                         }
                         Content.Text.Style.LIST_HEADER -> {
-                            dataBuilder.withTextListHeaderItemViewTypeItem(entry)
+                            dataBuilder.withTextListHeaderViewHolderFactoryItem(entry)
                         }
                         Content.Text.Style.LIST_CONTENT -> {
-                            dataBuilder.withTextListContentItemViewTypeItem(entry)
+                            dataBuilder.withTextListContentViewHolderFactoryItem(entry)
                         }
                     }
 
                 }
                 is Content.GroupHeader -> {
-                    dataBuilder.withTextGroupItemViewTypeItem(TextGroupEntry(item) {
+                    dataBuilder.withTextGroupViewHolderFactoryItem(TextGroupEntry(item) {
                         viewModel.onGroupClicked()
                     })
                 }
                 is Content.Image -> {
-                    dataBuilder.withImageItemViewTypeItem(ImageEntry(item))
+                    dataBuilder.withImageViewHolderFactoryItem(ImageEntry(item))
                 }
                 is Content.Copyright -> {
-                    dataBuilder.withCopyrightItemViewTypeItem(CopyrightEntry(item))
+                    dataBuilder.withCopyrightViewHolderFactoryItem(CopyrightEntry(item))
                 }
             }
         }

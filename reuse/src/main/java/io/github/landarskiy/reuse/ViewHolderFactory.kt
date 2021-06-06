@@ -21,7 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 
 /**
- * Makes relation between data and [ItemViewHolder]
+ * Makes relation between data and [BaseViewHolder]
  */
 interface ViewHolderFactory<T> {
 
@@ -38,5 +38,5 @@ interface ViewHolderFactory<T> {
     /**
      * Create view holder for specific [typeId]
      */
-    fun createViewHolder(context: Context, parent: ViewGroup?): ItemViewHolder<T>
+    fun createViewHolder(context: Context, parent: ViewGroup?): BaseViewHolder<T>
 }

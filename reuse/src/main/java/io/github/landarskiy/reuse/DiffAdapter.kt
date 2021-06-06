@@ -24,8 +24,9 @@ import androidx.recyclerview.widget.ListUpdateCallback
 /**
  * Adapter which support [DiffUtil]
  */
-open class DiffAdapter(vararg types: ViewHolderFactory<out DiffEntry>) :
-    Adapter<DiffEntry>(*types as Array<out ViewHolderFactory<DiffEntry>>) {
+@Suppress("UNCHECKED_CAST")
+open class DiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
+    Adapter<DiffEntry>(types as List<ViewHolderFactory<DiffEntry>>) {
 
     @MainThread
     fun setItems(newItems: List<AdapterEntry<DiffEntry>>) {

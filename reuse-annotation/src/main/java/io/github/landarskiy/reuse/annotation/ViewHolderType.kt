@@ -2,4 +2,5 @@ package io.github.landarskiy.reuse.annotation
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
-annotation class ViewTypeModule
+//TODO add name
+annotation class ViewHolderType(val scopes: Array<String> = [])

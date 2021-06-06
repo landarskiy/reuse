@@ -16,21 +16,22 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
 
-import io.github.landarskiy.reuse.annotation.ViewType
+import io.github.landarskiy.reuse.annotation.ViewHolderType
 import io.github.landarskiy.reuse.sample.R
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextViewHolderFactory
 
-@ViewType
-class TextH6ItemViewType : TextItemViewType() {
+@ViewHolderType(scopes = [SCOPE_MAIN])
+class TextH5ViewHolderFactory : TextViewHolderFactory() {
 
     override val typeId: Int
         get() = TYPE_ID
 
     override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Headline6
+        return R.style.TextAppearance_MaterialComponents_Headline5
     }
 
     companion object {
-        const val TYPE_ID = R.id.adapter_text_h6
+        const val TYPE_ID = R.id.adapter_text_h5
     }
 }

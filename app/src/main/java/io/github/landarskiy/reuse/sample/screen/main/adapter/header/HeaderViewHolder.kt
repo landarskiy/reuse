@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.image
+package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
 import android.net.Uri
 import android.view.View
-import android.widget.ImageView
 import coil.load
-import io.github.landarskiy.reuse.ItemViewHolder
+import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.sample.databinding.ItemHeaderBinding
 
-class ImageItemViewHolder(view: View) : ItemViewHolder<ImageEntry>(view) {
+class HeaderViewHolder(view: View) : BaseViewHolder<HeaderEntry>(view) {
 
-    private val imageView: ImageView = view as ImageView
+    private val binding: ItemHeaderBinding = ItemHeaderBinding.bind(view)
 
-    override fun bind(data: ImageEntry) {
-        imageView.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
-            crossfade(true)
-            placeholder(null)
+    override fun bind(data: HeaderEntry) {
+        with(binding) {
+            title.text = data.content.text
+            image.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
+                crossfade(true)
+                placeholder(null)
+            }
         }
     }
 }

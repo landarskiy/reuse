@@ -20,9 +20,9 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
-import io.github.landarskiy.reuse.ItemViewHolder
+import io.github.landarskiy.reuse.BaseViewHolder
 
-class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
+class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
 
     private val textView: TextView = view as TextView
 

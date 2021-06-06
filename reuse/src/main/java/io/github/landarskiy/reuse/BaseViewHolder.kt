@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @param view related view
  */
-abstract class ItemViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
+abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
     val context: Context = view.context
 

@@ -5,8 +5,8 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.classinspector.elements.ElementsClassInspector
 import com.squareup.kotlinpoet.metadata.KotlinPoetMetadataPreview
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.annotation.ViewTypeModule
+import io.github.landarskiy.reuse.annotation.ViewHolderType
+import io.github.landarskiy.reuse.annotation.ViewHolderTypeModule
 import java.io.File
 import java.util.*
 import javax.annotation.processing.*
@@ -34,7 +34,7 @@ class ViewTypeProcessor : AbstractProcessor() {
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
-        return mutableSetOf(ViewType::class.java.name, ViewTypeModule::class.java.name)
+        return mutableSetOf(ViewHolderType::class.java.name, ViewHolderTypeModule::class.java.name)
     }
 
     override fun init(processingEnv: ProcessingEnvironment) {
@@ -94,18 +94,18 @@ class ViewTypeProcessor : AbstractProcessor() {
      * Step 2 - check module interface exists
      */
     private fun getViewTypeModule(roundEnv: RoundEnvironment): Element? {
-        val viewTypeModules = roundEnv.getElementsAnnotatedWith(ViewTypeModule::class.java)
+        val viewTypeModules = roundEnv.getElementsAnnotatedWith(ViewHolderTypeModule::class.java)
         if (viewTypeModules.isEmpty()) {
-            printError("${ViewTypeModule::class.simpleName} annotated class have to be exists")
+            printError("${ViewHolderTypeModule::class.simpleName} annotated class have to be exists")
             return null
         }
         if (viewTypeModules.size > 1) {
-            printError("Only one class with ${ViewTypeModule::class.simpleName} annotation have to be exists")
+            printError("Only one class with ${ViewHolderTypeModule::class.simpleName} annotation have to be exists")
             return null
         }
         val viewTypeModule = viewTypeModules.first()
         if (viewTypeModule.kind != ElementKind.INTERFACE) {
-            printError("Only interfaces can be annotated via ${ViewTypeModule::class.simpleName} annotation")
+            printError("Only interfaces can be annotated via ${ViewHolderTypeModule::class.simpleName} annotation")
             return null
         }
         return viewTypeModule

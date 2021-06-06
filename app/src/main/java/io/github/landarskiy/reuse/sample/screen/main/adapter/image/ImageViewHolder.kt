@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
+package io.github.landarskiy.reuse.sample.screen.main.adapter.image
 
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.sample.R
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
+import android.net.Uri
+import android.view.View
+import android.widget.ImageView
+import coil.load
+import io.github.landarskiy.reuse.BaseViewHolder
 
-@ViewType
-class TextBodyItemViewType : TextItemViewType() {
+class ImageViewHolder(view: View) : BaseViewHolder<ImageEntry>(view) {
 
-    override val typeId: Int
-        get() = TYPE_ID
+    private val imageView: ImageView = view as ImageView
 
-    override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Body1
-    }
-
-    companion object {
-        const val TYPE_ID = R.id.adapter_text_body
+    override fun bind(data: ImageEntry) {
+        imageView.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
+            crossfade(true)
+            placeholder(null)
+        }
     }
 }
