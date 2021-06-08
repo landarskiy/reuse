@@ -21,9 +21,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.github.landarskiy.reuse.Adapter
-import io.github.landarskiy.reuse.DiffAdapter
-import io.github.landarskiy.reuse.DiffEntry
+import io.github.landarskiy.reuse.*
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
 import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
@@ -42,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private val typeFactory: MainRecyclerContentFactory =
         AppViewTypeModule.mainRecyclerContentFactory
-    private val listAdapter: DiffAdapter = DiffAdapter(typeFactory.types)
+    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(typeFactory.types)
 
     private lateinit var binding: ActivityMainBinding
 
@@ -58,12 +56,12 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launchWhenCreated {
             viewModel.dataFlow.collect {
-                listAdapter.setItems(mapData(it))
+                listAdapter.submitList(mapData(it))
             }
         }
     }
 
-    private fun mapData(content: List<Content>): List<Adapter.AdapterEntry<DiffEntry>> {
+    private fun mapData(content: List<Content>): List<AdapterEntry<DiffEntry>> {
         val dataBuilder = typeFactory.newDataBuilder()
         content.forEach { item ->
             when (item) {

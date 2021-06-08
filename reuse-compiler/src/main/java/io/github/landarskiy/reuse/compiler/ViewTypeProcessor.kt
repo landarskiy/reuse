@@ -121,7 +121,7 @@ class ViewTypeProcessor : AbstractProcessor() {
         val classBuilder = TypeSpec.classBuilder(fileName)
         val factoryClassName = ClassName(pack, fileName)
 
-        val entryType = ClassName(PACKAGE_LIBRARY, "Adapter").nestedClass("AdapterEntry")
+        val entryType = ClassName(PACKAGE_LIBRARY, "AdapterEntry")
 
         val dataBuilderClassBuilder =
             TypeSpec.classBuilder(CLASS_DATA_BUILDER).addModifiers(KModifier.INNER)
@@ -170,7 +170,7 @@ class ViewTypeProcessor : AbstractProcessor() {
             //get type for classes
             val dataType = findViewTypeParametrizedType(viewType) ?: return@forEach
             val entryDataItemStatement =
-                "${entryType.topLevelClassName().simpleName}.${entryType.simpleName}(${viewTypePropertyName}.$PROPERTY_TYPE_ID, $ARG_DATA_ITEM)"
+                "${entryType.simpleName}(${viewTypePropertyName}.$PROPERTY_TYPE_ID, $ARG_DATA_ITEM)"
             classBuilder
                 .addProperty(
                     PropertySpec.builder(

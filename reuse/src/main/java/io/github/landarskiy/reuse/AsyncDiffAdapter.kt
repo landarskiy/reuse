@@ -22,10 +22,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
-    ListAdapter<AsyncDiffAdapter.AdapterEntry, BaseViewHolder<out DiffEntry>>(ItemDiffCallback()) {
+    ListAdapter<AdapterEntry<DiffEntry>, BaseViewHolder<DiffEntry>>(ItemDiffCallback()) {
 
     private val viewTypeArray = SparseArray<ViewHolderFactory<out DiffEntry>>()
-    val content: MutableList<AdapterEntry> = mutableListOf()
 
     init {
         types.forEach { registerViewType(it) }
@@ -39,38 +38,45 @@ open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
         return requireNotNull(viewTypeArray.get(typeId), { "Type $typeId not registered" })
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<out DiffEntry> {
-        return getViewType(viewType).createViewHolder(parent.context, parent)
+    ): BaseViewHolder<DiffEntry> {
+        return getViewType(viewType).createViewHolder(
+            parent.context,
+            parent
+        ) as BaseViewHolder<DiffEntry>
     }
 
     override fun getItemViewType(position: Int): Int {
-        return content[position].viewType
+        return getItem(position).viewType
     }
 
-    override fun getItemCount(): Int {
-        return content.size
+    override fun onBindViewHolder(holder: BaseViewHolder<DiffEntry>, position: Int) {
+        holder.bindData(getItem(position).data)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<out DiffEntry>, position: Int) {
-        holder.bindData(content[position].data)
-    }
+    open class ItemDiffCallback : DiffUtil.ItemCallback<AdapterEntry<DiffEntry>>() {
 
-    data class AdapterEntry(val viewType: Int, val data: DiffEntry)
-
-    open class ItemDiffCallback : DiffUtil.ItemCallback<AdapterEntry>() {
-
-        override fun areItemsTheSame(oldItem: AdapterEntry, newItem: AdapterEntry): Boolean {
+        override fun areItemsTheSame(
+            oldItem: AdapterEntry<DiffEntry>,
+            newItem: AdapterEntry<DiffEntry>
+        ): Boolean {
             return oldItem.viewType == newItem.viewType && oldItem.data.isSameEntry(newItem.data)
         }
 
-        override fun areContentsTheSame(oldItem: AdapterEntry, newItem: AdapterEntry): Boolean {
+        override fun areContentsTheSame(
+            oldItem: AdapterEntry<DiffEntry>,
+            newItem: AdapterEntry<DiffEntry>
+        ): Boolean {
             return oldItem.viewType == newItem.viewType && oldItem.data.isSameContent(newItem.data)
         }
 
-        override fun getChangePayload(oldItem: AdapterEntry, newItem: AdapterEntry): Any? {
+        override fun getChangePayload(
+            oldItem: AdapterEntry<DiffEntry>,
+            newItem: AdapterEntry<DiffEntry>
+        ): Any? {
             return oldItem.data.getDiffPayload(newItem.data)
         }
     }
