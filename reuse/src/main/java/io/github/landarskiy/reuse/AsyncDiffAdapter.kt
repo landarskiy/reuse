@@ -21,6 +21,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
+/**
+ * Async adapter which support [DiffUtil]
+ */
 open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
     ListAdapter<AdapterEntry<DiffEntry>, BaseViewHolder<DiffEntry>>(ItemDiffCallback()) {
 
