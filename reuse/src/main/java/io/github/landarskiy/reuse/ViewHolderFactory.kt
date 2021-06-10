@@ -19,24 +19,33 @@ package io.github.landarskiy.reuse
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Makes relation between data and [BaseViewHolder]
  */
-interface ViewHolderFactory<T> {
+abstract class ViewHolderFactory<T> {
 
     /**
      * Unique type id
      */
-    val typeId: Int
+    abstract val typeId: Int
 
     /**
      * Create View instance for ViewHolder for specific [typeId]
      */
-    fun createView(context: Context, parent: ViewGroup?): View
+    abstract fun createView(context: Context, parent: ViewGroup?): View
 
     /**
      * Create view holder for specific [typeId]
      */
-    fun createViewHolder(context: Context, parent: ViewGroup?): BaseViewHolder<T>
+    abstract fun createViewHolder(view: View): BaseViewHolder<T>
+
+    /**
+     * Create view holder for specific [typeId]
+     * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onCreateViewHolder]
+     */
+    fun createViewHolder(context: Context, parent: ViewGroup?): BaseViewHolder<T> {
+        return createViewHolder(createView(context, parent))
+    }
 }

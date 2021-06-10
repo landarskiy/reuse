@@ -54,6 +54,6 @@ open class Adapter<T>(types: List<ViewHolderFactory<T>>) :
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
-        holder.bindData(content[position].data)
+        holder.bind(content[position].data)
     }
 }

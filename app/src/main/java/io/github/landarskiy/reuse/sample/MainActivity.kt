@@ -66,43 +66,27 @@ class MainActivity : AppCompatActivity() {
         content.forEach { item ->
             when (item) {
                 is Content.Header -> {
-                    dataBuilder.withHeaderViewHolderFactoryItem(HeaderEntry(item))
+                    dataBuilder.withHeader(HeaderEntry(item))
                 }
                 is Content.Text -> {
                     val entry = TextEntry(item)
                     when (item.style) {
-                        Content.Text.Style.H3 -> {
-                            dataBuilder.withTextH3ViewHolderFactoryItem(entry)
-                        }
-                        Content.Text.Style.H5 -> {
-                            dataBuilder.withTextH5ViewHolderFactoryItem(entry)
-                        }
-                        Content.Text.Style.H6 -> {
-                            dataBuilder.withTextH6ViewHolderFactoryItem(entry)
-                        }
-                        Content.Text.Style.BODY -> {
-                            dataBuilder.withTextBodyViewHolderFactoryItem(entry)
-                        }
-                        Content.Text.Style.LIST_HEADER -> {
-                            dataBuilder.withTextListHeaderViewHolderFactoryItem(entry)
-                        }
-                        Content.Text.Style.LIST_CONTENT -> {
-                            dataBuilder.withTextListContentViewHolderFactoryItem(entry)
-                        }
+                        Content.Text.Style.H3 -> dataBuilder.withH3(entry)
+                        Content.Text.Style.H5 -> dataBuilder.withH5(entry)
+                        Content.Text.Style.H6 -> dataBuilder.withH6(entry)
+                        Content.Text.Style.BODY -> dataBuilder.withBody(entry)
+                        Content.Text.Style.LIST_HEADER -> dataBuilder.withListHeader(entry)
+                        Content.Text.Style.LIST_CONTENT -> dataBuilder.withListContent(entry)
                     }
 
                 }
                 is Content.GroupHeader -> {
-                    dataBuilder.withTextGroupViewHolderFactoryItem(TextGroupEntry(item) {
+                    dataBuilder.withGroup(TextGroupEntry(item) {
                         viewModel.onGroupClicked()
                     })
                 }
-                is Content.Image -> {
-                    dataBuilder.withImageViewHolderFactoryItem(ImageEntry(item))
-                }
-                is Content.Copyright -> {
-                    dataBuilder.withCopyrightViewHolderFactoryItem(CopyrightEntry(item))
-                }
+                is Content.Image -> dataBuilder.withImage(ImageEntry(item))
+                is Content.Copyright -> dataBuilder.withCopyright(CopyrightEntry(item))
             }
         }
         return dataBuilder.build()

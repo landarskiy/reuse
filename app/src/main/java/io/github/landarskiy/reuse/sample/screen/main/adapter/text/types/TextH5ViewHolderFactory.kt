@@ -21,7 +21,7 @@ import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextViewHolderFactory
 
-@ViewHolderType(scopes = [SCOPE_MAIN])
+@ViewHolderType(name = "H5", scopes = [SCOPE_MAIN])
 class TextH5ViewHolderFactory : TextViewHolderFactory() {
 
     override val typeId: Int

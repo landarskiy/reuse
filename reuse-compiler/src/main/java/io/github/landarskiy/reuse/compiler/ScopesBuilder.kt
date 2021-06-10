@@ -11,16 +11,23 @@ object ScopesBuilder {
     private const val SCOPE_DEFAULT = "Default"
 
     fun buildScopes(roundEnv: RoundEnvironment): Result {
-        val scopes: MutableMap<String, MutableList<Element>> = mutableMapOf()
+        val scopes: MutableMap<String, MutableList<TypeInfo>> = mutableMapOf()
         roundEnv.getElementsAnnotatedWith(ViewHolderType::class.java)
-            .forEach {
-                if (it.kind != ElementKind.CLASS) {
+            .forEach { element ->
+                if (element.kind != ElementKind.CLASS) {
                     return Result.Error("Only classes can be annotated via ${ViewHolderType::class.simpleName} annotation")
                 }
+                val annotation = element.getAnnotation(ViewHolderType::class.java)
                 val defaultScopeElements = scopes[SCOPE_DEFAULT] ?: mutableListOf()
-                defaultScopeElements.add(it)
+                val name = if (annotation.name.isBlank()) {
+                    element.simpleName.toString()
+                } else {
+                    annotation.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                }
+                val typeInfo = TypeInfo(name, element)
+                defaultScopeElements.add(typeInfo)
                 scopes[SCOPE_DEFAULT] = defaultScopeElements
-                it.getAnnotation(ViewHolderType::class.java).scopes.map { scopeName ->
+                annotation.scopes.map { scopeName ->
                     scopeName.replaceFirstChar { first ->
                         if (first.isLowerCase()) {
                             first.titlecase(Locale.getDefault())
@@ -30,7 +37,7 @@ object ScopesBuilder {
                     }
                 }.forEach { scope ->
                     val scopeElements = scopes[scope] ?: mutableListOf()
-                    scopeElements.add(it)
+                    scopeElements.add(typeInfo)
                     scopes[scope] = scopeElements
                 }
             }
@@ -38,8 +45,10 @@ object ScopesBuilder {
     }
 
     sealed class Result {
-        data class Success(val scopes: Map<String, List<Element>>) : Result()
+        data class Success(val scopes: Map<String, List<TypeInfo>>) : Result()
 
         data class Error(val message: String) : Result()
     }
+
+    data class TypeInfo(val name: String, val element: Element)
 }

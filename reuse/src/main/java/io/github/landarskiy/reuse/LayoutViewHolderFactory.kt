@@ -25,7 +25,8 @@ import androidx.annotation.LayoutRes
 /**
  * Specific type of [ViewHolderFactory] where [typeId] is layout resource id.
  */
-abstract class LayoutViewHolderFactory<T>(@LayoutRes val layoutResId: Int) : ViewHolderFactory<T> {
+abstract class LayoutViewHolderFactory<T>(@LayoutRes val layoutResId: Int) :
+    ViewHolderFactory<T>() {
 
     override val typeId: Int
         get() = layoutResId

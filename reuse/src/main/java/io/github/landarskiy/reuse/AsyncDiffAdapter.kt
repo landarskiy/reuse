@@ -57,7 +57,7 @@ open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<DiffEntry>, position: Int) {
-        holder.bindData(getItem(position).data)
+        holder.bind(getItem(position).data)
     }
 
     open class ItemDiffCallback : DiffUtil.ItemCallback<AdapterEntry<DiffEntry>>() {

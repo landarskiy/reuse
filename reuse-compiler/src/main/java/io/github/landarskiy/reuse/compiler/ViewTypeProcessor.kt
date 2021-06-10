@@ -70,11 +70,11 @@ class ViewTypeProcessor : AbstractProcessor() {
         val fileBuilder = FileSpec.builder(pack, fileName)
         val classBuilder = TypeSpec.objectBuilder(fileName)
 
-        scopes.forEach { (scopeName, viewTypes) ->
+        scopes.forEach { (scopeName, typeInfoList) ->
             val scopeFactory: ClassName = createScopeFactory(
                 "$pack.types",
                 scopeName,
-                viewTypes
+                typeInfoList
             )
             classBuilder.addProperty(
                 PropertySpec.builder(
@@ -114,7 +114,7 @@ class ViewTypeProcessor : AbstractProcessor() {
     private fun createScopeFactory(
         pack: String,
         scopeName: String,
-        viewTypes: List<Element>
+        typeInfoList: List<ScopesBuilder.TypeInfo>
     ): ClassName {
         val fileName = "${scopeName}RecyclerContentFactory"
         val fileBuilder = FileSpec.builder(pack, fileName)
@@ -128,7 +128,7 @@ class ViewTypeProcessor : AbstractProcessor() {
         val resultClassName = ClassName(pack, fileName).nestedClass(CLASS_DATA_BUILDER)
 
         //Check is all view types implement DiffEntry or not.
-        val allParametrizedByDiffEntry = isAllParametrizedByDiffEntry(viewTypes)
+        val allParametrizedByDiffEntry = isAllParametrizedByDiffEntry(typeInfoList)
         val contentClass = if (allParametrizedByDiffEntry) {
             INTERFACE_DATA_ITEM
         } else {
@@ -153,22 +153,23 @@ class ViewTypeProcessor : AbstractProcessor() {
             )
         )
 
-        viewTypes.forEach { viewType ->
-            if (viewType !is TypeElement) {
+        typeInfoList.forEach { typeInfo ->
+            if (typeInfo.element !is TypeElement) {
                 return@forEach
             }
-            val viewTypeClassName = viewType.simpleName.toString()
-            val viewTypePackage = processingEnv.elementUtils.getPackageOf(viewType).toString()
-            val viewTypeClass = ClassName(viewTypePackage, viewTypeClassName)
+            val viewTypeClassName = typeInfo.name
+            val viewTypePackage =
+                processingEnv.elementUtils.getPackageOf(typeInfo.element).toString()
+            val viewTypeClass = ClassName(viewTypePackage, typeInfo.element.simpleName.toString())
             val viewTypePropertyName = viewTypeClassName.replaceFirstChar { it.lowercaseChar() }
 
-            val superClass = viewType.superclass
+            val superClass = typeInfo.element.superclass
             if (superClass !is DeclaredType) {
                 return@forEach
             }
             initializerBlock.addStatement("$PROPERTY_ITEM_VIEW_TYPES.add(${viewTypePropertyName})")
             //get type for classes
-            val dataType = findViewTypeParametrizedType(viewType) ?: return@forEach
+            val dataType = findViewTypeParametrizedType(typeInfo.element) ?: return@forEach
             val entryDataItemStatement =
                 "${entryType.simpleName}(${viewTypePropertyName}.$PROPERTY_TYPE_ID, $ARG_DATA_ITEM)"
             classBuilder
@@ -180,7 +181,7 @@ class ViewTypeProcessor : AbstractProcessor() {
                     ).initializer("%T()", viewTypeClass).build()
                 )
             dataBuilderClassBuilder.addFunction(
-                FunSpec.builder("with${viewTypeClassName}Item")
+                FunSpec.builder("with${viewTypeClassName}")
                     .addParameter(ParameterSpec.builder(ARG_DATA_ITEM, dataType).build())
                     .addStatement(
                         "$PROPERTY_CONTENT.add($entryDataItemStatement)"
@@ -188,7 +189,7 @@ class ViewTypeProcessor : AbstractProcessor() {
                     .returns(resultClassName)
                     .build()
             ).addFunction(
-                FunSpec.builder("with${viewTypeClassName}Items")
+                FunSpec.builder("with${viewTypeClassName}")
                     .addParameter(
                         ParameterSpec.builder(ARG_DATA_ITEMS, LIST.parameterizedBy(dataType))
                             .build()
@@ -256,12 +257,12 @@ class ViewTypeProcessor : AbstractProcessor() {
         return dataType ?: findViewTypeParametrizedType(superClass.asElement() as TypeElement)
     }
 
-    private fun isAllParametrizedByDiffEntry(viewTypes: List<Element>): Boolean {
-        return viewTypes.all {
-            if (it !is TypeElement) {
+    private fun isAllParametrizedByDiffEntry(typeInfoList: List<ScopesBuilder.TypeInfo>): Boolean {
+        return typeInfoList.all {
+            if (it.element !is TypeElement) {
                 return@all false
             }
-            val parametrizedType = findViewTypeParametrizedType(it) ?: return@all false
+            val parametrizedType = findViewTypeParametrizedType(it.element) ?: return@all false
             isImplementDiffEntry(parametrizedType)
         }
     }

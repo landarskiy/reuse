@@ -26,17 +26,14 @@ import io.github.landarskiy.reuse.annotation.ViewHolderType
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewHolderType(scopes = [SCOPE_MAIN])
-class ImageViewHolderFactory : ViewHolderFactory<ImageEntry> {
+@ViewHolderType(name = "Image", scopes = [SCOPE_MAIN])
+class ImageViewHolderFactory : ViewHolderFactory<ImageEntry>() {
 
     override val typeId: Int
         get() = TYPE_ID
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): BaseViewHolder<ImageEntry> {
-        return ImageViewHolder(createView(context, parent))
+    override fun createViewHolder(view: View): BaseViewHolder<ImageEntry> {
+        return ImageViewHolder(view)
     }
 
     override fun createView(context: Context, parent: ViewGroup?): View {

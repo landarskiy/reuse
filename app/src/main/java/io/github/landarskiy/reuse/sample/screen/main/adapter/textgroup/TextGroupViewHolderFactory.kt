@@ -16,22 +16,18 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup
 
-import android.content.Context
-import android.view.ViewGroup
+import android.view.View
 import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.LayoutViewHolderFactory
 import io.github.landarskiy.reuse.annotation.ViewHolderType
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewHolderType(scopes = [SCOPE_MAIN])
+@ViewHolderType(name = "Group", scopes = [SCOPE_MAIN])
 class TextGroupViewHolderFactory : LayoutViewHolderFactory<TextGroupEntry>(TYPE_ID) {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): BaseViewHolder<TextGroupEntry> {
-        return TextGroupViewHolder(createView(context, parent))
+    override fun createViewHolder(view: View): BaseViewHolder<TextGroupEntry> {
+        return TextGroupViewHolder(view)
     }
 
     companion object {

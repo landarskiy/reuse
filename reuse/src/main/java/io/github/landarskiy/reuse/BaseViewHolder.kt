@@ -30,17 +30,8 @@ abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
     val context: Context = view.context
 
     /**
-     * Should be called from [RecyclerView.Adapter.onBindViewHolder]
-     *
-     * @param data bindable data
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun bindData(data: T) {
-        bind(data)
-    }
-
-    /**
-     * Should be call from [bindData], do not use this method directly.
+     * Bind data to view.
+     * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onBindViewHolder]
      *
      * @param data bindable data
      */

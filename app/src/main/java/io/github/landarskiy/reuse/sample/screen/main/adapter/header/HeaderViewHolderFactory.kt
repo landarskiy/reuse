@@ -16,22 +16,18 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
-import android.content.Context
-import android.view.ViewGroup
+import android.view.View
 import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.LayoutViewHolderFactory
 import io.github.landarskiy.reuse.annotation.ViewHolderType
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewHolderType(scopes = [SCOPE_MAIN])
+@ViewHolderType(name = "Header", scopes = [SCOPE_MAIN])
 class HeaderViewHolderFactory : LayoutViewHolderFactory<HeaderEntry>(TYPE_ID) {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): BaseViewHolder<HeaderEntry> {
-        return HeaderViewHolder(createView(context, parent))
+    override fun createViewHolder(view: View): BaseViewHolder<HeaderEntry> {
+        return HeaderViewHolder(view)
     }
 
     companion object {

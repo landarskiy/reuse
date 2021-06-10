@@ -24,13 +24,10 @@ import androidx.core.widget.TextViewCompat
 import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.ViewHolderFactory
 
-abstract class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
+abstract class TextViewHolderFactory : ViewHolderFactory<TextEntry>() {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): BaseViewHolder<TextEntry> {
-        return TextViewHolder(createView(context, parent))
+    override fun createViewHolder(view: View): BaseViewHolder<TextEntry> {
+        return TextViewHolder(view)
     }
 
     override fun createView(context: Context, parent: ViewGroup?): View {
