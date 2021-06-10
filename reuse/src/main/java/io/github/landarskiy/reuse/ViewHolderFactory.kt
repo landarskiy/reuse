@@ -33,17 +33,24 @@ abstract class ViewHolderFactory<T> {
 
     /**
      * Create View instance for ViewHolder for specific [typeId]
+     *
+     * @see [createViewHolder]
      */
     abstract fun createView(context: Context, parent: ViewGroup?): View
 
     /**
-     * Create view holder for specific [typeId]
+     * Create view holder for specific [typeId]. Do not call this method directly.
+     *
+     * @see [BaseViewHolder]
      */
     abstract fun createViewHolder(view: View): BaseViewHolder<T>
 
     /**
      * Create view holder for specific [typeId]
      * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onCreateViewHolder]
+     *
+     * @see [BaseViewHolder]
+     * @see [createView]
      */
     fun createViewHolder(context: Context, parent: ViewGroup?): BaseViewHolder<T> {
         return createViewHolder(createView(context, parent))

@@ -16,7 +16,7 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter
 
-import io.github.landarskiy.reuse.annotation.ViewHolderTypeModule
+import io.github.landarskiy.reuse.annotation.ReuseModule
 
-@ViewHolderTypeModule
-interface ViewTypeModule
+@ReuseModule
+interface ReuseModule

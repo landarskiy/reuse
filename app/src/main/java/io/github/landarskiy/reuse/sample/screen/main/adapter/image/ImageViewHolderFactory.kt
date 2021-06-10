@@ -22,11 +22,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.ViewHolderFactory
-import io.github.landarskiy.reuse.annotation.ViewHolderType
+import io.github.landarskiy.reuse.annotation.Factory
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewHolderType(name = "Image", scopes = [SCOPE_MAIN])
+@Factory(name = "Image", scopes = [SCOPE_MAIN])
 class ImageViewHolderFactory : ViewHolderFactory<ImageEntry>() {
 
     override val typeId: Int

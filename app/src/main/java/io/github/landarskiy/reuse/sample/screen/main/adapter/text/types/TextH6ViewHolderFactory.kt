@@ -16,12 +16,12 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
 
-import io.github.landarskiy.reuse.annotation.ViewHolderType
+import io.github.landarskiy.reuse.annotation.Factory
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextViewHolderFactory
 
-@ViewHolderType(name = "H6", scopes = [SCOPE_MAIN])
+@Factory(name = "H6", scopes = [SCOPE_MAIN])
 class TextH6ViewHolderFactory : TextViewHolderFactory() {
 
     override val typeId: Int

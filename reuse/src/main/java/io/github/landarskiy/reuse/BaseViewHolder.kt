@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView
  * Base ViewHolder implementation for any type of data.
  *
  * @param view related view
+ *
+ * @see [ViewHolderFactory]
  */
 abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 

@@ -1,6 +1,6 @@
 package io.github.landarskiy.reuse.compiler
 
-import io.github.landarskiy.reuse.annotation.ViewHolderType
+import io.github.landarskiy.reuse.annotation.Factory
 import java.util.*
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
@@ -12,12 +12,12 @@ object ScopesBuilder {
 
     fun buildScopes(roundEnv: RoundEnvironment): Result {
         val scopes: MutableMap<String, MutableList<TypeInfo>> = mutableMapOf()
-        roundEnv.getElementsAnnotatedWith(ViewHolderType::class.java)
+        roundEnv.getElementsAnnotatedWith(Factory::class.java)
             .forEach { element ->
                 if (element.kind != ElementKind.CLASS) {
-                    return Result.Error("Only classes can be annotated via ${ViewHolderType::class.simpleName} annotation")
+                    return Result.Error("Only classes can be annotated via ${Factory::class.simpleName} annotation")
                 }
-                val annotation = element.getAnnotation(ViewHolderType::class.java)
+                val annotation = element.getAnnotation(Factory::class.java)
                 val defaultScopeElements = scopes[SCOPE_DEFAULT] ?: mutableListOf()
                 val name = if (annotation.name.isBlank()) {
                     element.simpleName.toString()

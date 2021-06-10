@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.landarskiy.reuse.*
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
-import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
+import io.github.landarskiy.reuse.sample.screen.main.adapter.AppReuseModule
 import io.github.landarskiy.reuse.sample.screen.main.adapter.MainRecyclerItemDecoration
 import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private val typeFactory: MainRecyclerContentFactory =
-        AppViewTypeModule.mainRecyclerContentFactory
+        AppReuseModule.mainRecyclerContentFactory
     private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(typeFactory.types)
 
     private lateinit var binding: ActivityMainBinding
