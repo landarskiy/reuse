@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text
+package io.github.landarskiy.reuse
 
-import android.text.method.LinkMovementMethod
+import android.content.Context
 import android.view.View
-import android.widget.TextView
-import androidx.core.text.HtmlCompat
-import io.github.landarskiy.reuse.ItemViewHolder
+import androidx.recyclerview.widget.RecyclerView
 
-class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
+/**
+ * Base ViewHolder implementation for any type of data.
+ *
+ * @param view related view
+ *
+ * @see [ViewHolderFactory]
+ */
+abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
-    private val textView: TextView = view as TextView
+    val context: Context = view.context
 
-    init {
-        textView.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-    override fun bind(entry: TextEntry) {
-        textView.text = HtmlCompat.fromHtml(entry.content.text, HtmlCompat.FROM_HTML_MODE_COMPACT)
-    }
+    /**
+     * Bind data to view.
+     * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onBindViewHolder]
+     *
+     * @param data bindable data
+     */
+    abstract fun bind(data: T)
 }

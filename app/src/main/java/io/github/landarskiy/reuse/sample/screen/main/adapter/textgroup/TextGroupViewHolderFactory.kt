@@ -16,19 +16,21 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup
 
-import io.github.landarskiy.reuse.DiffEntry
-import io.github.landarskiy.reuse.sample.model.Content
+import android.view.View
+import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.LayoutViewHolderFactory
+import io.github.landarskiy.reuse.annotation.Factory
+import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-data class TextGroupEntry(
-    val content: Content.GroupHeader,
-    val clickListener: (entry: TextGroupEntry) -> Unit
-) : DiffEntry {
+@Factory(name = "Group", scopes = [SCOPE_MAIN])
+class TextGroupViewHolderFactory : LayoutViewHolderFactory<TextGroupEntry>(TYPE_ID) {
 
-    override fun isSameEntry(other: DiffEntry): Boolean {
-        return other is TextGroupEntry
+    override fun createViewHolder(view: View): BaseViewHolder<TextGroupEntry> {
+        return TextGroupViewHolder(view)
     }
 
-    override fun isSameContent(other: DiffEntry): Boolean {
-        return (other as TextGroupEntry).content.expanded == content.expanded
+    companion object {
+        const val TYPE_ID = R.layout.item_text_group
     }
 }

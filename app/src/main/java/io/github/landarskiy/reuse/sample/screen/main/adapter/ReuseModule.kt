@@ -14,29 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse
+package io.github.landarskiy.reuse.sample.screen.main.adapter
 
-import android.content.Context
-import android.view.View
-import android.view.ViewGroup
+import io.github.landarskiy.reuse.annotation.ReuseModule
 
-/**
- * Makes relation between [Entry] and [RecyclerItemViewType]
- */
-interface RecyclerItemViewType<T : Entry> {
-
-    /**
-     * Unique type id
-     */
-    val typeId: Int
-
-    /**
-     * Create View instance for ViewHolder for specific [typeId]
-     */
-    fun createView(context: Context, parent: ViewGroup?): View
-
-    /**
-     * Create view holder for specific [typeId]
-     */
-    fun createViewHolder(context: Context, parent: ViewGroup?): ItemViewHolder<T>
-}
+@ReuseModule
+interface ReuseModule

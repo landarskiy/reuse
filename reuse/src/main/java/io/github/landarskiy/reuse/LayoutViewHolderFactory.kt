@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.header
+package io.github.landarskiy.reuse
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.LayoutRecyclerItemViewType
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.sample.R
+import androidx.annotation.LayoutRes
 
-@ViewType
-class HeaderItemViewType : LayoutRecyclerItemViewType<HeaderEntry>(TYPE_ID) {
+/**
+ * Specific type of [ViewHolderFactory] where [typeId] is layout resource id.
+ */
+abstract class LayoutViewHolderFactory<T>(@LayoutRes val layoutResId: Int) :
+    ViewHolderFactory<T>() {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): ItemViewHolder<HeaderEntry> {
-        return HeaderItemViewHolder(createView(context, parent))
-    }
+    override val typeId: Int
+        get() = layoutResId
 
-    companion object {
-        const val TYPE_ID = R.layout.item_header
+    override fun createView(context: Context, parent: ViewGroup?): View {
+        return LayoutInflater.from(context).inflate(layoutResId, parent, false)
     }
 }

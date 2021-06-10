@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
 
-import android.content.Context
-import android.view.ViewGroup
-import io.github.landarskiy.reuse.ItemViewHolder
-import io.github.landarskiy.reuse.LayoutRecyclerItemViewType
-import io.github.landarskiy.reuse.annotation.ViewType
+import io.github.landarskiy.reuse.annotation.Factory
 import io.github.landarskiy.reuse.sample.R
+import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextViewHolderFactory
 
-@ViewType
-class TextGroupItemViewType : LayoutRecyclerItemViewType<TextGroupEntry>(TYPE_ID) {
+@Factory(name = "Body", scopes = [SCOPE_MAIN])
+class TextBodyViewHolderFactory : TextViewHolderFactory() {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): ItemViewHolder<TextGroupEntry> {
-        return TextGroupItemViewHolder(createView(context, parent))
+    override val typeId: Int
+        get() = TYPE_ID
+
+    override fun textAppearanceResId(): Int {
+        return R.style.TextAppearance_MaterialComponents_Body1
     }
 
     companion object {
-        const val TYPE_ID = R.layout.item_text_group
+        const val TYPE_ID = R.id.adapter_text_body
     }
 }

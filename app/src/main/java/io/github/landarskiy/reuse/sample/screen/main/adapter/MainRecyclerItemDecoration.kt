@@ -19,13 +19,13 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextBodyItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListContentItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListHeaderItemViewType
-import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightViewHolderFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderViewHolderFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageViewHolderFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextBodyViewHolderFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListContentViewHolderFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.text.types.TextListHeaderViewHolderFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupViewHolderFactory
 import io.github.landarskiy.reuse.sample.utils.dp
 import kotlin.math.roundToInt
 
@@ -40,25 +40,25 @@ class MainRecyclerItemDecoration : RecyclerView.ItemDecoration() {
         val r = view.context.resources
         val itemType = parent.getChildViewHolder(view).itemViewType
         when (itemType) {
-            TextBodyItemViewType.TYPE_ID -> {
+            TextBodyViewHolderFactory.TYPE_ID -> {
                 outRect.bottom += r.dp(12).roundToInt()
             }
-            ImageItemViewType.TYPE_ID -> {
+            ImageViewHolderFactory.TYPE_ID -> {
                 outRect.top += r.dp(8).roundToInt()
                 outRect.bottom += r.dp(8).roundToInt()
             }
-            TextListHeaderItemViewType.TYPE_ID -> {
+            TextListHeaderViewHolderFactory.TYPE_ID -> {
                 outRect.left += r.dp(24).roundToInt()
             }
-            TextListContentItemViewType.TYPE_ID -> {
+            TextListContentViewHolderFactory.TYPE_ID -> {
                 outRect.left += r.dp(24).roundToInt()
                 outRect.bottom += r.dp(12).roundToInt()
             }
         }
-        if (itemType != HeaderItemViewType.TYPE_ID &&
-            itemType != ImageItemViewType.TYPE_ID &&
-            itemType != CopyrightItemViewType.TYPE_ID &&
-            itemType != TextGroupItemViewType.TYPE_ID
+        if (itemType != HeaderViewHolderFactory.TYPE_ID &&
+            itemType != ImageViewHolderFactory.TYPE_ID &&
+            itemType != CopyrightViewHolderFactory.TYPE_ID &&
+            itemType != TextGroupViewHolderFactory.TYPE_ID
         ) {
             outRect.left += r.dp(16).roundToInt()
             outRect.right += r.dp(16).roundToInt()

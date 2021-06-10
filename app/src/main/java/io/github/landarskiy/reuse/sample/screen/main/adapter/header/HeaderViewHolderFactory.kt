@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
+package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
-import io.github.landarskiy.reuse.annotation.ViewType
+import android.view.View
+import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.LayoutViewHolderFactory
+import io.github.landarskiy.reuse.annotation.Factory
 import io.github.landarskiy.reuse.sample.R
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewType
-class TextH5ItemViewType : TextItemViewType() {
+@Factory(name = "Header", scopes = [SCOPE_MAIN])
+class HeaderViewHolderFactory : LayoutViewHolderFactory<HeaderEntry>(TYPE_ID) {
 
-    override val typeId: Int
-        get() = TYPE_ID
-
-    override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Headline5
+    override fun createViewHolder(view: View): BaseViewHolder<HeaderEntry> {
+        return HeaderViewHolder(view)
     }
 
     companion object {
-        const val TYPE_ID = R.id.adapter_text_h5
+        const val TYPE_ID = R.layout.item_header
     }
 }

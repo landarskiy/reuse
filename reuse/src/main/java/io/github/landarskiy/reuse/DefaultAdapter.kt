@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.image
+package io.github.landarskiy.reuse
 
-import android.net.Uri
-import android.view.View
-import android.widget.ImageView
-import coil.load
-import io.github.landarskiy.reuse.ItemViewHolder
-
-class ImageItemViewHolder(view: View) : ItemViewHolder<ImageEntry>(view) {
-
-    private val imageView: ImageView = view as ImageView
-
-    override fun bind(entry: ImageEntry) {
-        imageView.load(Uri.parse("file:///android_asset/${entry.content.assetsPath}")) {
-            crossfade(true)
-            placeholder(null)
-        }
-    }
-}
+@Suppress("UNCHECKED_CAST")
+open class DefaultAdapter(types: List<ViewHolderFactory<out Any>>) :
+    Adapter<Any>(types as List<ViewHolderFactory<Any>>)

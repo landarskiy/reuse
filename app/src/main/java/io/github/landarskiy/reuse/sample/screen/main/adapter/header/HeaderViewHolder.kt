@@ -19,17 +19,17 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 import android.net.Uri
 import android.view.View
 import coil.load
-import io.github.landarskiy.reuse.ItemViewHolder
+import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.sample.databinding.ItemHeaderBinding
 
-class HeaderItemViewHolder(view: View) : ItemViewHolder<HeaderEntry>(view) {
+class HeaderViewHolder(view: View) : BaseViewHolder<HeaderEntry>(view) {
 
     private val binding: ItemHeaderBinding = ItemHeaderBinding.bind(view)
 
-    override fun bind(entry: HeaderEntry) {
+    override fun bind(data: HeaderEntry) {
         with(binding) {
-            title.text = entry.content.text
-            image.load(Uri.parse("file:///android_asset/${entry.content.assetsPath}")) {
+            title.text = data.content.text
+            image.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
                 crossfade(true)
                 placeholder(null)
             }

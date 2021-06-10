@@ -21,28 +21,26 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.github.landarskiy.reuse.Adapter
-import io.github.landarskiy.reuse.DiffAdapter
+import io.github.landarskiy.reuse.*
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
-import io.github.landarskiy.reuse.sample.screen.main.adapter.AppViewTypeModule
+import io.github.landarskiy.reuse.sample.screen.main.adapter.AppReuseModule
 import io.github.landarskiy.reuse.sample.screen.main.adapter.MainRecyclerItemDecoration
 import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.types.DefaultRecyclerContentFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.types.MainRecyclerContentFactory
 import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val typeFactory: DefaultRecyclerContentFactory =
-        AppViewTypeModule.defaultRecyclerContentFactory
-    private val listAdapter: DiffAdapter =
-        DiffAdapter(*typeFactory.types.toTypedArray())
+    private val typeFactory: MainRecyclerContentFactory =
+        AppReuseModule.mainRecyclerContentFactory
+    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(typeFactory.types)
 
     private lateinit var binding: ActivityMainBinding
 
@@ -58,53 +56,37 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launchWhenCreated {
             viewModel.dataFlow.collect {
-                listAdapter.setItems(mapData(it))
+                listAdapter.submitList(mapData(it))
             }
         }
     }
 
-    private fun mapData(content: List<Content>): List<Adapter.AdapterEntry> {
+    private fun mapData(content: List<Content>): List<AdapterEntry<DiffEntry>> {
         val dataBuilder = typeFactory.newDataBuilder()
         content.forEach { item ->
             when (item) {
                 is Content.Header -> {
-                    dataBuilder.withHeaderItemViewTypeItem(HeaderEntry(item))
+                    dataBuilder.withHeader(HeaderEntry(item))
                 }
                 is Content.Text -> {
                     val entry = TextEntry(item)
                     when (item.style) {
-                        Content.Text.Style.H3 -> {
-                            dataBuilder.withTextH3ItemViewTypeItem(entry)
-                        }
-                        Content.Text.Style.H5 -> {
-                            dataBuilder.withTextH5ItemViewTypeItem(entry)
-                        }
-                        Content.Text.Style.H6 -> {
-                            dataBuilder.withTextH6ItemViewTypeItem(entry)
-                        }
-                        Content.Text.Style.BODY -> {
-                            dataBuilder.withTextBodyItemViewTypeItem(entry)
-                        }
-                        Content.Text.Style.LIST_HEADER -> {
-                            dataBuilder.withTextListHeaderItemViewTypeItem(entry)
-                        }
-                        Content.Text.Style.LIST_CONTENT -> {
-                            dataBuilder.withTextListContentItemViewTypeItem(entry)
-                        }
+                        Content.Text.Style.H3 -> dataBuilder.withH3(entry)
+                        Content.Text.Style.H5 -> dataBuilder.withH5(entry)
+                        Content.Text.Style.H6 -> dataBuilder.withH6(entry)
+                        Content.Text.Style.BODY -> dataBuilder.withBody(entry)
+                        Content.Text.Style.LIST_HEADER -> dataBuilder.withListHeader(entry)
+                        Content.Text.Style.LIST_CONTENT -> dataBuilder.withListContent(entry)
                     }
 
                 }
                 is Content.GroupHeader -> {
-                    dataBuilder.withTextGroupItemViewTypeItem(TextGroupEntry(item) {
+                    dataBuilder.withGroup(TextGroupEntry(item) {
                         viewModel.onGroupClicked()
                     })
                 }
-                is Content.Image -> {
-                    dataBuilder.withImageItemViewTypeItem(ImageEntry(item))
-                }
-                is Content.Copyright -> {
-                    dataBuilder.withCopyrightItemViewTypeItem(CopyrightEntry(item))
-                }
+                is Content.Image -> dataBuilder.withImage(ImageEntry(item))
+                is Content.Copyright -> dataBuilder.withCopyright(CopyrightEntry(item))
             }
         }
         return dataBuilder.build()

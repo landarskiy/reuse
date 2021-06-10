@@ -16,19 +16,19 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.text
 
-import io.github.landarskiy.reuse.Entry
+import io.github.landarskiy.reuse.DiffEntry
 import io.github.landarskiy.reuse.sample.model.Content
 
-data class TextEntry(val content: Content.Text) : Entry {
+data class TextEntry(val content: Content.Text) : DiffEntry {
 
-    override fun isSameEntry(other: Entry): Boolean {
+    override fun isSameEntry(other: DiffEntry): Boolean {
         if (other !is TextEntry) {
             return false
         }
         return content == other.content
     }
 
-    override fun isSameContent(other: Entry): Boolean {
+    override fun isSameContent(other: DiffEntry): Boolean {
         return true
     }
 }

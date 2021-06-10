@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
+package io.github.landarskiy.reuse.sample.screen.main.adapter.text
 
-import io.github.landarskiy.reuse.annotation.ViewType
-import io.github.landarskiy.reuse.sample.R
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
+import android.text.method.LinkMovementMethod
+import android.view.View
+import android.widget.TextView
+import androidx.core.text.HtmlCompat
+import io.github.landarskiy.reuse.BaseViewHolder
 
-@ViewType
-class TextBodyItemViewType : TextItemViewType() {
+class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
 
-    override val typeId: Int
-        get() = TYPE_ID
+    private val textView: TextView = view as TextView
 
-    override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Body1
+    init {
+        textView.movementMethod = LinkMovementMethod.getInstance()
     }
 
-    companion object {
-        const val TYPE_ID = R.id.adapter_text_body
+    override fun bind(data: TextEntry) {
+        textView.text = HtmlCompat.fromHtml(data.content.text, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 }

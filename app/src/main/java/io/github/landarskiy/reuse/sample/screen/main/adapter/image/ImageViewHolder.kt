@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse
+package io.github.landarskiy.reuse.sample.screen.main.adapter.image
 
-import android.content.Context
-import android.view.LayoutInflater
+import android.net.Uri
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import android.widget.ImageView
+import coil.load
+import io.github.landarskiy.reuse.BaseViewHolder
 
-/**
- * Specific type of [RecyclerItemViewType] where [typeId] is layout resource id.
- */
-abstract class LayoutRecyclerItemViewType<T : Entry>(@LayoutRes val layoutResId: Int) :
-    RecyclerItemViewType<T> {
+class ImageViewHolder(view: View) : BaseViewHolder<ImageEntry>(view) {
 
-    override val typeId: Int
-        get() = layoutResId
+    private val imageView: ImageView = view as ImageView
 
-    override fun createView(context: Context, parent: ViewGroup?): View {
-        return LayoutInflater.from(context).inflate(layoutResId, parent, false)
+    override fun bind(data: ImageEntry) {
+        imageView.load(Uri.parse("file:///android_asset/${data.content.assetsPath}")) {
+            crossfade(true)
+            placeholder(null)
+        }
     }
 }

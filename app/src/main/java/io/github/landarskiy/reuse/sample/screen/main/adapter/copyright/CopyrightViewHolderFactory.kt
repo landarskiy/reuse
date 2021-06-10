@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter.text.types
+package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
 
-import io.github.landarskiy.reuse.annotation.ViewType
+import android.view.View
+import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.LayoutViewHolderFactory
+import io.github.landarskiy.reuse.annotation.Factory
 import io.github.landarskiy.reuse.sample.R
-import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextItemViewType
+import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@ViewType
-class TextListHeaderItemViewType : TextItemViewType() {
+@Factory(name = "Copyright", scopes = [SCOPE_MAIN])
+class CopyrightViewHolderFactory : LayoutViewHolderFactory<CopyrightEntry>(TYPE_ID) {
 
-    override val typeId: Int
-        get() = TYPE_ID
-
-    override fun textAppearanceResId(): Int {
-        return R.style.TextAppearance_MaterialComponents_Headline6
+    override fun createViewHolder(view: View): BaseViewHolder<CopyrightEntry> {
+        return CopyrightViewHolder(view)
     }
 
     companion object {
-        const val TYPE_ID = R.id.adapter_text_list_header
+        const val TYPE_ID = R.layout.item_copyright
     }
 }

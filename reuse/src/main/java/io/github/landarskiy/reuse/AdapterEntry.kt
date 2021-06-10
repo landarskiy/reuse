@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.sample.screen.main.adapter
+package io.github.landarskiy.reuse
 
-import io.github.landarskiy.reuse.annotation.ViewTypeModule
-
-@ViewTypeModule
-interface ViewTypeModule
+class AdapterEntry<T>(val viewType: Int, val data: T)

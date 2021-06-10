@@ -19,7 +19,7 @@ package io.github.landarskiy.reuse
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-interface Entry {
+interface DiffEntry {
     /**
      * Used in [DiffUtil.Callback.areItemsTheSame] to decide whether two object represent the same Entry.
      * Same entry means that entries represent same object (e.g. 2 records for same employer)
@@ -36,7 +36,7 @@ interface Entry {
      * @param other compared entry.
      * @return `true` if the two entries represent the same object or `false` if they are different.
      */
-    fun isSameEntry(other: Entry): Boolean {
+    fun isSameEntry(other: DiffEntry): Boolean {
         return false
     }
 
@@ -55,7 +55,7 @@ interface Entry {
      * @param other compared entry which represent the same object.
      * @return `true` if the contents of the entries are the same or `false` if they are different.
      */
-    fun isSameContent(other: Entry): Boolean {
+    fun isSameContent(other: DiffEntry): Boolean {
         return false
     }
 
@@ -65,7 +65,7 @@ interface Entry {
      * @param other compared entry which represent the same object.
      * @return a payload object that represents the change between the two entries.
      */
-    fun getDiffPayload(other: Entry): Any? {
+    fun getDiffPayload(other: DiffEntry): Any? {
         return null
     }
 }
