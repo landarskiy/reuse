@@ -33,12 +33,12 @@ You should implement aboves methods only if you will use `DiffApater` which supp
 
 *It's recommended separate your data and entry classes. Entry usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related with your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
 
-### ItemViewHolder
+### BaseViewHolder
 
-`ItemViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your entry which used in generated code. You should create it with the same logic as usual, the onlly one difference - extend `ItemViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
+`BaseViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your data class which used in generated code. You should create it with the same logic as usual, the onlly one difference - extend `BaseViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
 
 ```kotlin
-class TextItemViewHolder(view: View) : ItemViewHolder<TextEntry>(view) {
+class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
 
     private val textView: TextView = view as TextView
 
