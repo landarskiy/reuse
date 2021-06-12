@@ -4,38 +4,9 @@
 
 ReUse is a helper library for RecyclerView that makes displaying different type of data through RecyclerView easily. Common idea - avoid directly using adapters and one place for creating and binding ViewHolders. You should follow next steps for makes your life less painful and easily.
 
-### Entry
-
-First of all you should define your entries. Entry is a communication object between ViewHolder and your data source.
-
-```kotlin
-data class TextEntry(val content: Content.Text) : Entry {
-
-    override fun isSameEntry(other: Entry): Boolean {
-        if (other !is TextEntry) {
-            return false
-        }
-        return content == other.content
-    }
-
-    override fun isSameContent(other: Entry): Boolean {
-        return true
-    }
-}
-```
-
-Entry interface have following methods:
-- `isSameEntry(other: Entry): Boolean` - to decide whether two object represent the same Entry.
-- `isSameContent(other: Entry): Boolean` - to check whether two entries have the same content.
-- `getDiffPayload(other: Entry): Any?` - to get a payload about the change.
-
-You should implement aboves methods only if you will use `DiffApater` which support DiffUtil out ob the box.
-
-*It's recommended separate your data and entry classes. Entry usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related with your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
-
 ### BaseViewHolder
 
-`BaseViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your data class which used in generated code. You should create it with the same logic as usual, the onlly one difference - extend `BaseViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
+`BaseViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your data class which used in generated code and for binding some information into your `ViewHolder`. You should create it with the same logic as usual, the onlly one difference - extend `BaseViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
 
 ```kotlin
 class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
@@ -48,19 +19,16 @@ class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
 }
 ```
 
-### RecyclerItemViewType
+### ViewHolderFactory
 
-`RecyclerItemViewType` is a delegate which response to create specific `ItemViewHolder` for your entry object with specified view type. This approach allows to you create many UI representations for same specific entry type. You can use default implementation which use layout resource as typeId and inflate View automaticly:
+`ViewHolderFactory` is a factory which response to create specific `BaseViewHolder` for your data object with specified view type. This approach allows to you create many UI representations for same specific data type. You can use default implementation which use layout resource as `typeId` and inflate View automaticly:
 
 ```kotlin
-@ViewType
-class TextItemViewType : LayoutRecyclerItemViewType<TextEntry>(TYPE_ID) {
+@Factory
+class TextViewHolderFactory : LayoutViewHolderFactory<TextEntry>(TYPE_ID) {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): ItemViewHolder<CopyrightEntry> {
-        return TextItemViewHolder(createView(context, parent))
+    override fun createViewHolder(view: View): BaseViewHolder<TextEntry> {
+        return TextViewHolder(view)
     }
 
     companion object {
@@ -72,14 +40,11 @@ class TextItemViewType : LayoutRecyclerItemViewType<TextEntry>(TYPE_ID) {
 Or you can use implementation without support layout resources:
 
 ```kotlin
-@ViewType
-class TextItemViewType : RecyclerItemViewType<TextEntry> {
+@Factory
+class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 
-    override fun createViewHolder(
-        context: Context,
-        parent: ViewGroup?
-    ): ItemViewHolder<TextEntry> {
-        return TextItemViewHolder(createView(context, parent))
+    override fun createViewHolder(view: View): BaseViewHolder<TextEntry> {
+        return TextViewHolder(view)
     }
 
     override fun createView(context: Context, parent: ViewGroup?): View {
@@ -93,26 +58,53 @@ class TextItemViewType : RecyclerItemViewType<TextEntry> {
 }
 ```
 
-Each `RecyclerItemViewType` should be annotated via `@ViewType` annotation. This annotation inform compiler that it should create data builder for this view type with specified entry.
+Each `ViewHolderFactory` should be annotated via `@Factory` annotation. This annotation inform compiler that it should create data builder for this view type with specified data class.
 
-You can specify scope for group some `RecyclerItemViewType` in specific data builder use `scopes` annotation parameter:
+You can specify scope for group some `ViewHolderFactory` in specific data builder use `scopes` annotation parameter:
 
 ```kotlin
-@ViewType(scopes = ["text_scope", "preview_scope"])
-class TextItemViewType : RecyclerItemViewType<TextEntry> {
+@Factory(scopes = ["text_scope", "preview_scope"])
+class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
     //some implementation
 }
 ```
 
-### ViewTypeModule
+### ReuseModule
 
-For inform compiler about place where will be places entry point for your generated data builder you should create empty interface with `ViewTypeModule` annotation:
+For inform compiler about place where will be places entry point for your generated data builder you should create empty interface with `ReuseModule` annotation:
 
 ```kotlin
-@ViewTypeModule
-interface ViewTypeModule
+@ReuseModule
+interface ReuseModule
 ```
-After build project compiler will generate `App[InterfaceName]` object class which will contains field for each specified scope data builder. By default all your `ViewType` put into `defaultRecyclerContentFactory`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory` field.
+After build project compiler will generate `App[InterfaceName]` object class which will contains field for each specified scope data builder. By default all your `Factory` put into `defaultRecyclerContentFactory`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory` field.
+
+### DiffEntry
+
+In cases when you want use default implementations of adapters which support DiffUtils you can implement your data classes which you specify as a generic argument in `BaseViewHolder` and `ViewHolderFactory` as `DiffEntry` interface. 
+
+```kotlin
+data class TextEntry(val content: Content.Text) : DiffEntry {
+
+    override fun isSameEntry(other: DiffEntry): Boolean {
+        if (other !is TextEntry) {
+            return false
+        }
+        return content == other.content
+    }
+
+    override fun isSameContent(other: DiffEntry): Boolean {
+        return true
+    }
+}
+```
+
+`DiffEntry` interface have following methods:
+- `isSameEntry(other: DiffEntry): Boolean` - to decide whether two object represent the same `DiffEntry`.
+- `isSameContent(other: DiffEntry): Boolean` - to check whether two entries have the same content.
+- `getDiffPayload(other: DiffEntry): Any?` - to get a payload about the change.
+
+*It's recommended separate your data and entry classes. `DiffEntry` usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related with your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
 
 ### DefaultRecyclerContentFactory
 
@@ -142,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 ## Download
 
 ```groovy
-def reuse_version = "0.0.4"
+def reuse_version = "0.0.5"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 
