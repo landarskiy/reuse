@@ -69,6 +69,17 @@ class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 }
 ```
 
+By default for each `Factory` will be generated 2 methods for build data list named `with[FactoryName]` with sinle or list items as argument. E.g. for `TextViewHolderFactory` will be generated `withTextViewHolderFactory(data: TextEntry): DataBuilder` and `withTextViewHolderFactory(data: Lis<TextEntry>): DataBuilder`. You can specify another name by `name` annotation parameter:
+
+```kotlin
+@Factory(name = "Text", scopes = ["text_scope", "preview_scope"])
+class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
+    //some implementation
+}
+```
+
+In this case will be generated `withText(data: TextEntry): DataBuilder` and `withText(data: Lis<TextEntry>): DataBuilder` methods.
+
 ### ReuseModule
 
 For inform compiler about place where will be places entry point for your generated data builder you should create empty interface with `ReuseModule` annotation:
@@ -104,29 +115,27 @@ data class TextEntry(val content: Content.Text) : DiffEntry {
 - `isSameContent(other: DiffEntry): Boolean` - to check whether two entries have the same content.
 - `getDiffPayload(other: DiffEntry): Any?` - to get a payload about the change.
 
-*It's recommended separate your data and entry classes. `DiffEntry` usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related with your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
+*It's recommended separate your data and entry classes. `DiffEntry` usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related 
+your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
 
 ### DefaultRecyclerContentFactory
 
-After you create all needed `Entry`, `ItemViewHolder` and `RecyclerItemViewType` classes you can update adapter's data use a few lines of code:
+After you create all needed `BaseViewHolder` and `ViewHolderFactory` classes you can update adapter's data use a few lines of code:
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
     
-    private val typeFactory: DefaultRecyclerContentFactory =
-        AppViewTypeModule.defaultRecyclerContentFactory
-    
-    private val listAdapter: DiffAdapter =
-        DiffAdapter(*typeFactory.types.toTypedArray())
+    private val typeFactory: DefaultRecyclerContentFactory = AppReuseModule.defaultRecyclerContentFactory
+    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(typeFactory.types)
         
     fun updateData() {
         val dataBuilder = typeFactory.newDataBuilder()
-        dataBuilder.withTextItemViewTypeItem(TextEntry(Content.Text("Some text", Content.Text.Style.H3))
-        dataBuilder.withTextGroupItemViewTypeItem(TextGroupEntry(Content.GroupHeader(true)) {
+        dataBuilder.withTextViewHolderFactory(TextEntry(Content.Text("Some text", Content.Text.Style.H3))
+        dataBuilder.withTexGrouptViewHolderFactory(TextGroupEntry(Content.GroupHeader(true)) {
             viewModel.onGroupClicked()
         })
         //add data use generated methods
-        listAdapter.setItems(dataBuilder.build())
+        listAdapter.submitList(dataBuilder.build())
     }
 }
 ```
