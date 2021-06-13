@@ -69,7 +69,7 @@ class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 }
 ```
 
-By default for each `Factory` will be generated 2 methods for build data list named `with[FactoryName]` with sinle or list items as argument. E.g. for `TextViewHolderFactory` will be generated `withTextViewHolderFactory(data: TextEntry): DataBuilder` and `withTextViewHolderFactory(data: Lis<TextEntry>): DataBuilder`. You can specify another name by `name` annotation parameter:
+By default for each `Factory` will be generated 2 methods for build data list named `with[FactoryName]` with single or list items as argument. E.g. for `TextViewHolderFactory` will be generated `withTextViewHolderFactory(data: TextEntry): DataBuilder` and `withTextViewHolderFactory(data: Lis<TextEntry>): DataBuilder`. You can specify another name by `name` annotation parameter:
 
 ```kotlin
 @Factory(name = "Text", scopes = ["text_scope", "preview_scope"])
@@ -88,7 +88,9 @@ For inform compiler about place where will be places entry point for your genera
 @ReuseModule
 interface ReuseModule
 ```
-After build project compiler will generate `App[InterfaceName]` object class which will contains field for each specified scope data builder. By default all your `Factory` put into `defaultRecyclerContentFactory`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory` field.
+After build project compiler will generate `App[InterfaceName]` object class which will contains field for each specified scope data builder. By default all your `Factory` put into `defaultRecyclerContentFactory`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory` field. 
+
+Each content factory have `DataBuilder` class for type safe generate data for using in adapters.
 
 ### DiffEntry
 
@@ -139,6 +141,15 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
+
+### Adapters
+
+Library contains a few default adapters
+
+- `Adapter<T>` base adapter which can be specified any type of class.
+- `DefaultAdapter` is `Adapter` specified by `Any` class.
+- `DiffAdapter` adapter which support `DiffUtil` and paramertized by `DiffEntry` impleemntations.
+- `AsyncDiffAdapter` is `ListAdapter` which parametrized by `DiffEntry` impleemntations.
 
 ## Download
 
