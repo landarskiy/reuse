@@ -135,11 +135,13 @@ class ViewTypeProcessor : AbstractProcessor() {
             ClassName("kotlin", "Any")
         }
 
+        val contentReturnType = entryType.parameterizedBy(contentClass)
+
         dataBuilderClassBuilder
             .addProperty(
                 PropertySpec.builder(
                     PROPERTY_CONTENT,
-                    MUTABLE_LIST.parameterizedBy(entryType.parameterizedBy(contentClass)),
+                    MUTABLE_LIST.parameterizedBy(contentReturnType),
                     KModifier.PRIVATE
                 ).initializer("mutableListOf()").build()
             )
@@ -172,6 +174,7 @@ class ViewTypeProcessor : AbstractProcessor() {
             val dataType = findViewTypeParametrizedType(typeInfo.element) ?: return@forEach
             val entryDataItemStatement =
                 "${entryType.simpleName}(${viewTypePropertyName}.$PROPERTY_TYPE_ID, $ARG_DATA_ITEM)"
+            val mapFunction = "map${viewTypeClassName}"
             classBuilder
                 .addProperty(
                     PropertySpec.builder(
@@ -184,7 +187,7 @@ class ViewTypeProcessor : AbstractProcessor() {
                 FunSpec.builder("with${viewTypeClassName}")
                     .addParameter(ParameterSpec.builder(ARG_DATA_ITEM, dataType).build())
                     .addStatement(
-                        "$PROPERTY_CONTENT.add($entryDataItemStatement)"
+                        "$PROPERTY_CONTENT.add($mapFunction($ARG_DATA_ITEM))"
                     ).addStatement("return this")
                     .returns(resultClassName)
                     .build()
@@ -194,9 +197,15 @@ class ViewTypeProcessor : AbstractProcessor() {
                         ParameterSpec.builder(ARG_DATA_ITEMS, LIST.parameterizedBy(dataType))
                             .build()
                     ).addStatement(
-                        "$PROPERTY_CONTENT.addAll($ARG_DATA_ITEMS.map { $ARG_DATA_ITEM -> $entryDataItemStatement})"
+                        "$PROPERTY_CONTENT.addAll($ARG_DATA_ITEMS.map { $ARG_DATA_ITEM -> $mapFunction($ARG_DATA_ITEM)})"
                     ).addStatement("return this")
                     .returns(resultClassName)
+                    .build()
+            ).addFunction(
+                FunSpec.builder(mapFunction)
+                    .addParameter(ParameterSpec.builder(ARG_DATA_ITEM, dataType).build())
+                    .addStatement("return $entryDataItemStatement")
+                    .returns(contentReturnType)
                     .build()
             )
         }
@@ -204,7 +213,7 @@ class ViewTypeProcessor : AbstractProcessor() {
         dataBuilderClassBuilder.addFunction(
             FunSpec.builder("build")
                 .addStatement("return $PROPERTY_CONTENT.toList()")
-                .returns(LIST.parameterizedBy(entryType.parameterizedBy(contentClass)))
+                .returns(LIST.parameterizedBy(contentReturnType))
                 .build()
         )
         classBuilder
