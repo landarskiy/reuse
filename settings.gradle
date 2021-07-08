@@ -19,3 +19,4 @@ include ':app'
 rootProject.name = "ReUse"
 include ':reuse-annotation'
 include ':reuse-compiler'
+include ':reuse-adapter'

@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse
+package io.github.landarskiy.reuse.adapter
 
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import io.github.landarskiy.reuse.AdapterEntry
+import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.DiffEntry
+import io.github.landarskiy.reuse.ViewHolderFactory
 
 /**
  * Async adapter which support [DiffUtil]

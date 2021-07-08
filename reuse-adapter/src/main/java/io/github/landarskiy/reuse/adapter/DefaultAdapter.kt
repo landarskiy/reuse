@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse
+package io.github.landarskiy.reuse.adapter
+
+import io.github.landarskiy.reuse.ViewHolderFactory
 
 @Suppress("UNCHECKED_CAST")
 open class DefaultAdapter(types: List<ViewHolderFactory<out Any>>) :

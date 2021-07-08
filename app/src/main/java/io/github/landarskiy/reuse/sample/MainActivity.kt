@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.landarskiy.reuse.*
+import io.github.landarskiy.reuse.adapter.AsyncDiffAdapter
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
 import io.github.landarskiy.reuse.sample.screen.main.adapter.AppReuseModule
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 is Content.Header -> {
                     dataBuilder.withHeader(HeaderEntry(item))
                 }
+
                 is Content.Text -> {
                     val entry = TextEntry(item)
                     when (item.style) {
@@ -80,11 +82,13 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 }
+
                 is Content.GroupHeader -> {
                     dataBuilder.withGroup(TextGroupEntry(item) {
                         viewModel.onGroupClicked()
                     })
                 }
+
                 is Content.Image -> dataBuilder.withImage(ImageEntry(item))
                 is Content.Copyright -> dataBuilder.withCopyright(CopyrightEntry(item))
             }
