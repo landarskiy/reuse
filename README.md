@@ -144,7 +144,14 @@ class MainActivity : AppCompatActivity() {
 
 ### Adapters
 
-Library contains a few default adapters
+For use default adapters need add follow dependency to project:
+
+
+```groovy
+implementation "com.github.landarskiy.reuse:reuse-adapter:$reuse_version"
+```
+
+After that you will have access to few default adapters:
 
 - `Adapter<T>` base adapter which can be specified any type of class.
 - `DefaultAdapter` is `Adapter` specified by `Any` class.
@@ -154,9 +161,11 @@ Library contains a few default adapters
 ## Download
 
 ```groovy
-def reuse_version = "0.0.5"
+def reuse_version = "0.0.6"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
+//for include default adapters
+implementation "com.github.landarskiy.reuse:reuse-adapter:$reuse_version"
 
 kapt "com.github.landarskiy.reuse:reuse-compiler:$reuse_version"
 ```
