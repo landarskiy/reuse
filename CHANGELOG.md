@@ -1,5 +1,11 @@
 Change Log
 ==========
+## Version 0.0.7
+
+_2021-06-25_
+
+* **Rename**: [_scopeName_]**RecyclerContentFactory** to [_scopeName_]**ContentScope**
+
 ## Version 0.0.6
 
 _2021-07-08_
