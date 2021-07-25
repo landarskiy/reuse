@@ -120,18 +120,18 @@ data class TextEntry(val content: Content.Text) : DiffEntry {
 *It's recommended separate your data and entry classes. `DiffEntry` usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related 
 your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
 
-### DefaultRecyclerContentFactory
+### DefaultContentScope
 
 After you create all needed `BaseViewHolder` and `ViewHolderFactory` classes you can update adapter's data use a few lines of code:
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
     
-    private val typeFactory: DefaultRecyclerContentFactory = AppReuseModule.defaultRecyclerContentFactory
-    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(typeFactory.types)
+    private val defaultScope: DefaultContentScope = AppReuseModule.defaultContentScope
+    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(defaultScope.types)
         
     fun updateData() {
-        val dataBuilder = typeFactory.newDataBuilder()
+        val dataBuilder = defaultScope.newDataBuilder()
         dataBuilder.withTextViewHolderFactory(TextEntry(Content.Text("Some text", Content.Text.Style.H3))
         dataBuilder.withTexGrouptViewHolderFactory(TextGroupEntry(Content.GroupHeader(true)) {
             viewModel.onGroupClicked()
@@ -161,7 +161,7 @@ After that you will have access to few default adapters:
 ## Download
 
 ```groovy
-def reuse_version = "0.0.6"
+def reuse_version = "0.0.7"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 //for include default adapters
