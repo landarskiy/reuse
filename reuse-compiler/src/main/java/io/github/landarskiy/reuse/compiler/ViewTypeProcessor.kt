@@ -132,7 +132,7 @@ class ViewTypeProcessor : AbstractProcessor() {
         scopeName: String,
         typeInfoList: List<ScopesBuilder.TypeInfo>
     ): ClassName {
-        val fileName = "${scopeName}RecyclerContentFactory"
+        val fileName = "${scopeName}ContentScope"
         val fileBuilder = FileSpec.builder(pack, fileName)
         val classBuilder = TypeSpec.classBuilder(fileName)
         val factoryClassName = ClassName(pack, fileName)

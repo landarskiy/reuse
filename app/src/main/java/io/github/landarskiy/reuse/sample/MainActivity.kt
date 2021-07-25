@@ -32,16 +32,15 @@ import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.types.MainRecyclerContentFactory
+import io.github.landarskiy.reuse.sample.screen.main.adapter.types.MainContentScope
 import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val typeFactory: MainRecyclerContentFactory =
-        AppReuseModule.mainRecyclerContentFactory
-    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(typeFactory.types)
+    private val mainScope: MainContentScope = AppReuseModule.mainContentScope
+    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(mainScope.types)
 
     private lateinit var binding: ActivityMainBinding
 
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mapData(content: List<Content>): List<AdapterEntry<DiffEntry>> {
-        val dataBuilder = typeFactory.newDataBuilder()
+        val dataBuilder = mainScope.newDataBuilder()
         content.forEach { item ->
             when (item) {
                 is Content.Header -> {
