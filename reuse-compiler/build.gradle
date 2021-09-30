@@ -30,8 +30,10 @@ dependencies {
     implementation 'com.squareup:kotlinpoet:1.8.0'
     implementation 'com.squareup:kotlinpoet-metadata:1.8.0'
     implementation 'com.squareup:kotlinpoet-classinspector-elements:1.8.0'
+    implementation 'net.ltgt.gradle.incap:incap:0.3'
     api 'com.google.auto.service:auto-service-annotations:1.0'
     kapt 'com.google.auto.service:auto-service:1.0'
+    kapt 'net.ltgt.gradle.incap:incap-processor:0.3'
 }
 
 apply from: '../publish/publish.gradle'
