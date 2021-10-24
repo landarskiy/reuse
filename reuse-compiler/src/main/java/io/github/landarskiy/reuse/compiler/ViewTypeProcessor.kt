@@ -21,8 +21,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.classinspector.elements.ElementsClassInspector
 import com.squareup.kotlinpoet.metadata.KotlinPoetMetadataPreview
-import io.github.landarskiy.reuse.annotation.Factory
-import io.github.landarskiy.reuse.annotation.ReuseModule
+import io.github.landarskiy.reuse.annotation.*
 import java.io.File
 import java.util.*
 import javax.annotation.processing.*
