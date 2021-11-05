@@ -21,12 +21,10 @@ plugins {
 
 android {
 
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion sdk_compile
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdkVersion sdk_min
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -50,7 +48,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation libs.androidx.recycler
     api project(":reuse-annotation")
 }
 

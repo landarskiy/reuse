@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+rootProject.name = "ReUse"
 include ':reuse'
 include ':app'
-rootProject.name = "ReUse"
 include ':reuse-annotation'
 include ':reuse-compiler'
 include ':reuse-adapter'
+
+enableFeaturePreview("VERSION_CATALOGS")
