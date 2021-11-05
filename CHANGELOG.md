@@ -1,5 +1,11 @@
 Change Log
 ==========
+## Version 0.0.8
+
+_2021-11-05_
+
+* **New**: incremental processing
+
 ## Version 0.0.7
 
 _2021-06-25_
