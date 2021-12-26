@@ -1,5 +1,11 @@
 Change Log
 ==========
+## Version 0.0.10
+
+_2021-12-26_
+
+* **API Change**: updated `TypedDiffEntry` contract
+
 ## Version 0.0.9
 
 _2021-12-26_
