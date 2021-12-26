@@ -30,12 +30,25 @@ abstract class TypedDiffEntry<T : DiffEntry> : DiffEntry {
         return isSameEntryTyped(other as T)
     }
 
-    abstract fun isSameEntryTyped(other: T): Boolean
+    open fun isSameEntryTyped(other: T): Boolean {
+        return false
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun isSameContent(other: DiffEntry): Boolean {
         return isSameContentTyped(other as T)
     }
 
-    abstract fun isSameContentTyped(other: T): Boolean
+    open fun isSameContentTyped(other: T): Boolean {
+        return false
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun getDiffPayload(other: DiffEntry): Any? {
+        return getDiffPayloadTyped(other as T)
+    }
+
+    open fun getDiffPayloadTyped(other: T): Any? {
+        return null
+    }
 }
