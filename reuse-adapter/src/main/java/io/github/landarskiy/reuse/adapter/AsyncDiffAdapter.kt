@@ -23,10 +23,12 @@ import androidx.recyclerview.widget.ListAdapter
 import io.github.landarskiy.reuse.AdapterEntry
 import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.DiffEntry
+import io.github.landarskiy.reuse.TypedDiffEntry
 import io.github.landarskiy.reuse.ViewHolderFactory
 
 /**
  * Async adapter which support [DiffUtil]
+ * If you use this adapter you can also safety use [TypedDiffEntry] instead regular [DiffEntry]
  */
 open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
     ListAdapter<AdapterEntry<DiffEntry>, BaseViewHolder<DiffEntry>>(ItemDiffCallback()) {

@@ -59,7 +59,6 @@ dependencies {
 
     implementation project(":reuse")
     implementation project(":reuse-adapter")
-    implementation libs.kotlin.std
     implementation libs.kotlinx.coroutines.android
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
@@ -72,6 +71,6 @@ dependencies {
     implementation libs.square.moshi.adapters
     implementation libs.coil
 
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
     kapt project(":reuse-compiler")
 }

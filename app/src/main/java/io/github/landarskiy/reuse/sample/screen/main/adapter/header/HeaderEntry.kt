@@ -16,19 +16,16 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 
-import io.github.landarskiy.reuse.DiffEntry
+import io.github.landarskiy.reuse.TypedDiffEntry
 import io.github.landarskiy.reuse.sample.model.Content
 
-class HeaderEntry(val content: Content.Header) : DiffEntry {
+class HeaderEntry(val content: Content.Header) : TypedDiffEntry<HeaderEntry>() {
 
-    override fun isSameEntry(other: DiffEntry): Boolean {
-        if (other !is HeaderEntry) {
-            return false
-        }
-        return content == other.content
+    override fun isSameContentTyped(other: HeaderEntry): Boolean {
+        return true
     }
 
-    override fun isSameContent(other: DiffEntry): Boolean {
-        return true
+    override fun isSameEntryTyped(other: HeaderEntry): Boolean {
+        return content == other.content
     }
 }
