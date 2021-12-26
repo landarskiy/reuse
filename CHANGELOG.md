@@ -1,5 +1,11 @@
 Change Log
 ==========
+## Version 0.0.9
+
+_2021-12-26_
+
+* **New**: added `TypedDiffEntry`
+
 ## Version 0.0.8
 
 _2021-11-05_
