@@ -161,7 +161,7 @@ After that you will have access to few default adapters:
 ## Download
 
 ```groovy
-def reuse_version = "0.0.7"
+def reuse_version = "0.0.10"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 //for include default adapters
