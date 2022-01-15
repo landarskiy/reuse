@@ -21,7 +21,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.github.landarskiy.reuse.*
+import io.github.landarskiy.reuse.AdapterEntry
+import io.github.landarskiy.reuse.DiffEntry
 import io.github.landarskiy.reuse.adapter.AsyncDiffAdapter
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
@@ -33,13 +34,12 @@ import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.types.MainContentScope
-import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val mainScope: MainContentScope = AppReuseModule.mainContentScope
+    private val mainScope: MainContentScope = AppReuseModule.mainContentScope()
     private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(mainScope.types)
 
     private lateinit var binding: ActivityMainBinding

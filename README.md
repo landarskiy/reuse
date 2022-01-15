@@ -88,7 +88,7 @@ For inform compiler about place where will be places entry point for your genera
 @ReuseModule
 interface ReuseModule
 ```
-After build project compiler will generate `App[InterfaceName]` object class which will contains field for each specified scope data builder. By default all your `Factory` put into `defaultRecyclerContentFactory`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory` field. 
+After build project compiler will generate `App[InterfaceName]` object class which will contains factory method for each specified scope data builder. By default all your `Factory` put into `defaultRecyclerContentFactory()`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory()` method. 
 
 Each content factory have `DataBuilder` class for type safe generate data for using in adapters.
 
@@ -120,6 +120,25 @@ data class TextEntry(val content: Content.Text) : DiffEntry {
 *It's recommended separate your data and entry classes. `DiffEntry` usefull for transfer data from your source to ViewHolder and it's also useful using it for provide some listeners and another things which not related 
 your data classes but shoul be pass into ViewHolder for make some work (e.g. handle click on some UI controls).*
 
+### TypedDiffEntry
+
+In cases when you sure that specific `DiffEntry` will receive the same object type in `isSameEntry`, `isSameContent` methods (e.g. you use `DataBuilder` classes for data updates) you can use `TypedDiffEntry` instead.
+
+`TypedDiffEntry` extends `DiffEntry` and provide typed versions of it. New methods have the same names with `Typed` suffix in the ending.
+
+```kotlin
+data class TextEntry(val content: Content.Text) : TypedDiffEntry<TextEntry>() {
+
+    override fun isSameEntryTyped(other: TextEntry): Boolean {
+        return content == other.content
+    }
+
+    override fun isSameContentTyped(other: TextEntry): Boolean {
+        return true
+    }
+}
+```
+
 ### DefaultContentScope
 
 After you create all needed `BaseViewHolder` and `ViewHolderFactory` classes you can update adapter's data use a few lines of code:
@@ -127,7 +146,7 @@ After you create all needed `BaseViewHolder` and `ViewHolderFactory` classes you
 ```kotlin
 class MainActivity : AppCompatActivity() {
     
-    private val defaultScope: DefaultContentScope = AppReuseModule.defaultContentScope
+    private val defaultScope: DefaultContentScope = AppReuseModule.defaultContentScope()
     private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(defaultScope.types)
         
     fun updateData() {
@@ -161,7 +180,7 @@ After that you will have access to few default adapters:
 ## Download
 
 ```groovy
-def reuse_version = "0.0.10"
+def reuse_version = "0.0.12"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 //for include default adapters
