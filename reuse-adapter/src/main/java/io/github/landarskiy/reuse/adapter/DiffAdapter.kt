@@ -20,13 +20,11 @@ import androidx.annotation.MainThread
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
-import io.github.landarskiy.reuse.AdapterEntry
-import io.github.landarskiy.reuse.DiffEntry
-import io.github.landarskiy.reuse.ViewHolderFactory
-import io.github.landarskiy.reuse.replace
+import io.github.landarskiy.reuse.*
 
 /**
  * Adapter which support [DiffUtil]
+ * If you use this adapter you can also safety use [TypedDiffEntry] instead regular [DiffEntry]
  */
 @Suppress("UNCHECKED_CAST")
 open class DiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :

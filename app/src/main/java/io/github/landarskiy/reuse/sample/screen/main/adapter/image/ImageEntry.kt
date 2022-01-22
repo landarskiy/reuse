@@ -16,19 +16,16 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.image
 
-import io.github.landarskiy.reuse.DiffEntry
+import io.github.landarskiy.reuse.TypedDiffEntry
 import io.github.landarskiy.reuse.sample.model.Content
 
-data class ImageEntry(val content: Content.Image) : DiffEntry {
+data class ImageEntry(val content: Content.Image) : TypedDiffEntry<ImageEntry>() {
 
-    override fun isSameEntry(other: DiffEntry): Boolean {
-        if (other !is ImageEntry) {
-            return false
-        }
+    override fun isSameEntryTyped(other: ImageEntry): Boolean {
         return content.assetsPath == other.content.assetsPath
     }
 
-    override fun isSameContent(other: DiffEntry): Boolean {
+    override fun isSameContentTyped(other: ImageEntry): Boolean {
         return true
     }
 }

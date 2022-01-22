@@ -16,19 +16,19 @@
 
 package io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup
 
-import io.github.landarskiy.reuse.DiffEntry
+import io.github.landarskiy.reuse.TypedDiffEntry
 import io.github.landarskiy.reuse.sample.model.Content
 
 data class TextGroupEntry(
     val content: Content.GroupHeader,
     val clickListener: (entry: TextGroupEntry) -> Unit
-) : DiffEntry {
+) : TypedDiffEntry<TextGroupEntry>() {
 
-    override fun isSameEntry(other: DiffEntry): Boolean {
-        return other is TextGroupEntry
+    override fun isSameEntryTyped(other: TextGroupEntry): Boolean {
+        return true
     }
 
-    override fun isSameContent(other: DiffEntry): Boolean {
-        return (other as TextGroupEntry).content.expanded == content.expanded
+    override fun isSameContentTyped(other: TextGroupEntry): Boolean {
+        return content.expanded == other.content.expanded
     }
 }

@@ -35,6 +35,10 @@ buildscript {
     }
 }
 
+plugins {
+    alias(libs.plugins.lib.updates)
+}
+
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
@@ -48,8 +52,10 @@ allprojects {
 
     ext.is_snaptshot = false
     group = 'io.github.landarskiy'
-    version = '0.0.7'
+    version = '0.0.12'
     if (is_snaptshot) {
         version += "-SNAPSHOT"
     }
 }
+
+apply from: 'setup_deps_updates.gradle'

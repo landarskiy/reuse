@@ -1,5 +1,36 @@
 Change Log
 ==========
+## Version 0.0.12
+
+_2022-01-15_
+
+* **API Change**: scopes in generated `ReuseModule` now is factory method
+* **API Change**: factories in scopes now is public
+
+## Version 0.0.11
+
+_2021-12-27_
+
+* Build stabilization
+
+## Version 0.0.10
+
+_2021-12-26_
+
+* **API Change**: updated `TypedDiffEntry` contract
+
+## Version 0.0.9
+
+_2021-12-26_
+
+* **New**: added `TypedDiffEntry`
+
+## Version 0.0.8
+
+_2021-11-05_
+
+* **New**: incremental processing
+
 ## Version 0.0.7
 
 _2021-06-25_

@@ -1,27 +1,29 @@
 [versions]
 build-tools = "31.0.0"
-build-tools-gradle = "7.0.3"
-kotlin = "1.5.31"
-kotlinx-coroutines = "1.5.2"
-androidx-core-ktx = "1.6.0"
-androidx-appcompat = "1.3.1"
-androidx-fragment-ktx = "1.3.6"
+build-tools-gradle = "7.0.4"
+kotlin = "1.6.10"
+kotlinx-coroutines = "1.6.0"
+androidx-core-ktx = "1.7.0"
+androidx-appcompat = "1.4.1"
+androidx-fragment-ktx = "1.4.0"
 androidx-recycler = "1.2.1"
 androidx-cardview = "1.0.0"
-androidx-constraint = "2.1.1"
-goole-material = "1.4.0"
-goole-auto-service = "1.0"
+androidx-constraint = "2.1.3"
+goole-material = "1.5.0"
+goole-auto-service = "1.0.1"
 gradle-incap = "0.3"
-square-moshi = "1.12.0"
-square-poet-kotlin = "1.8.0"
-coil = "1.3.2"
+square-moshi = "1.13.0"
+square-poet-kotlin = "1.10.2"
+square-poet-kotlin-classinspector = "1.9.0"
+coil = "1.4.0"
+lib-updates = "0.41.0"
 
 [plugins]
 build-tools-gradle = { id = "com.android.tools.build:gradle", version.ref = "build-tools-gradle" }
 kotlin-gradle = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+lib-updates = { id = "com.github.ben-manes.versions", version.ref = "lib-updates" }
 
 [libraries]
-kotlin-std = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
@@ -37,7 +39,7 @@ square-moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", ver
 square-moshi-adapters = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "square-moshi" }
 square-poet-kotlin = { group = "com.squareup", name = "kotlinpoet", version.ref = "square-poet-kotlin" }
 square-poet-kotlin-metadata = { group = "com.squareup", name = "kotlinpoet-metadata", version.ref = "square-poet-kotlin" }
-square-poet-kotlin-classinspector = { group = "com.squareup", name = "kotlinpoet-classinspector-elements", version.ref = "square-poet-kotlin" }
+square-poet-kotlin-classinspector = { group = "com.squareup", name = "kotlinpoet-classinspector-elements", version.ref = "square-poet-kotlin-classinspector" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 processor-gradle-incap = { group = "net.ltgt.gradle.incap", name = "incap-processor", version.ref = "gradle-incap" }
 processor-goole-auto-service = { group = "com.google.auto.service", name = "auto-service", version.ref = "goole-auto-service" }

@@ -91,11 +91,10 @@ class ViewTypeProcessor : AbstractProcessor() {
                 scopeName,
                 typeInfoList
             )
-            classBuilder.addProperty(
-                PropertySpec.builder(
-                    scopeFactory.simpleName.replaceFirstChar { it.lowercaseChar() },
-                    scopeFactory
-                ).initializer("%T()", scopeFactory)
+            classBuilder.addFunction(
+                FunSpec.builder(scopeFactory.simpleName.replaceFirstChar { it.lowercaseChar() })
+                    .addStatement("return %T()", scopeFactory)
+                    .returns(scopeFactory)
                     .build()
             )
         }
@@ -161,14 +160,7 @@ class ViewTypeProcessor : AbstractProcessor() {
                 ).initializer("mutableListOf()").build()
             )
 
-        val initializerBlock = CodeBlock.builder().addStatement(
-            "val $PROPERTY_ITEM_VIEW_TYPES: %T = mutableListOf()",
-            MUTABLE_LIST.parameterizedBy(
-                CLASS_NAME_RECYCLER_ITEM_VIEW_TYPE.parameterizedBy(
-                    WildcardTypeName.producerOf(contentClass)
-                )
-            )
-        )
+        val viewTypePropertyNames = mutableListOf<String>()
 
         typeInfoList.forEach { typeInfo ->
             if (typeInfo.element !is TypeElement) {
@@ -184,7 +176,7 @@ class ViewTypeProcessor : AbstractProcessor() {
             if (superClass !is DeclaredType) {
                 return@forEach
             }
-            initializerBlock.addStatement("$PROPERTY_ITEM_VIEW_TYPES.add(${viewTypePropertyName})")
+            viewTypePropertyNames.add(viewTypePropertyName)
             //get type for classes
             val dataType = findViewTypeParametrizedType(typeInfo.element) ?: return@forEach
             val entryDataItemStatement =
@@ -194,8 +186,7 @@ class ViewTypeProcessor : AbstractProcessor() {
                 .addProperty(
                     PropertySpec.builder(
                         viewTypePropertyName,
-                        viewTypeClass,
-                        KModifier.PRIVATE
+                        viewTypeClass
                     ).initializer("%T()", viewTypeClass).build()
                 )
             dataBuilderClassBuilder.addFunction(
@@ -239,8 +230,7 @@ class ViewTypeProcessor : AbstractProcessor() {
                         CLASS_NAME_RECYCLER_ITEM_VIEW_TYPE.parameterizedBy(
                             WildcardTypeName.producerOf(contentClass)
                         )
-                    ),
-                    KModifier.PUBLIC
+                    )
                 ).build()
             ).addFunction(
                 FunSpec.builder("newDataBuilder")
@@ -250,7 +240,16 @@ class ViewTypeProcessor : AbstractProcessor() {
             )
             .addType(dataBuilderClassBuilder.build())
 
-        initializerBlock.addStatement("this.$PROPERTY_ITEM_VIEW_TYPES = $PROPERTY_ITEM_VIEW_TYPES.toList()")
+        val initializerBlock =
+            CodeBlock.builder().addStatement("this.$PROPERTY_ITEM_VIEW_TYPES = listOf(")
+        viewTypePropertyNames.forEachIndexed { index, propertyName ->
+            if (index == viewTypePropertyNames.size - 1) {
+                initializerBlock.addStatement(propertyName)
+            } else {
+                initializerBlock.addStatement("$propertyName,")
+            }
+        }
+        initializerBlock.addStatement(")")
         classBuilder.addInitializerBlock(initializerBlock.build())
         saveToFile(fileBuilder.addType(classBuilder.build()).build())
         return factoryClassName
