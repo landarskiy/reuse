@@ -16,8 +16,8 @@
 
 plugins {
     id 'com.android.application'
+    id 'com.google.devtools.ksp'
     id 'kotlin-android'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -71,6 +71,6 @@ dependencies {
     implementation libs.square.moshi.adapters
     implementation libs.coil
 
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
-    kapt project(":reuse-compiler")
+    ksp 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
+    ksp project(":reuse-compiler-ksp")
 }

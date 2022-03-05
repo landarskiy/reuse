@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Yauhen Landarski.
+ * Copyright (C) 2022 Yauhen Landarski.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-rootProject.name = "ReUse"
-include ':reuse'
-include ':app'
-include ':reuse-annotation'
-include ':reuse-compiler'
-include ':reuse-compiler-ksp'
-include ':reuse-adapter'
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
 
-enableFeaturePreview("VERSION_CATALOGS")
+java {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation project(':reuse-annotation')
+    implementation libs.square.poet.kotlin
+    implementation libs.square.poet.kotlin.metadata
+    implementation libs.square.poet.kotlin.classinspector
+    implementation libs.ksp.api
+}
+
+apply from: '../publish/publish.gradle'

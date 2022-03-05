@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Yauhen Landarski.
+ * Copyright (C) 2022 Yauhen Landarski.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-rootProject.name = "ReUse"
-include ':reuse'
-include ':app'
-include ':reuse-annotation'
-include ':reuse-compiler'
-include ':reuse-compiler-ksp'
-include ':reuse-adapter'
+package io.github.landarskiy.reuse.compiler.ksp
 
-enableFeaturePreview("VERSION_CATALOGS")
+import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
+import com.google.devtools.ksp.processing.SymbolProcessorProvider
+
+class ViewTypeProcessorProvider : SymbolProcessorProvider {
+
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+        return ViewTypeProcessor(environment.codeGenerator, environment.logger)
+    }
+}

@@ -1,6 +1,6 @@
 [versions]
 build-tools = "31.0.0"
-build-tools-gradle = "7.0.4"
+build-tools-gradle = "7.1.1"
 kotlin = "1.6.10"
 kotlinx-coroutines = "1.6.0"
 androidx-core-ktx = "1.7.0"
@@ -17,6 +17,7 @@ square-poet-kotlin = "1.10.2"
 square-poet-kotlin-classinspector = "1.9.0"
 coil = "1.4.0"
 lib-updates = "0.41.0"
+ksp-api = "1.6.10-1.0.2"
 
 [plugins]
 build-tools-gradle = { id = "com.android.tools.build:gradle", version.ref = "build-tools-gradle" }
@@ -43,3 +44,4 @@ square-poet-kotlin-classinspector = { group = "com.squareup", name = "kotlinpoet
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 processor-gradle-incap = { group = "net.ltgt.gradle.incap", name = "incap-processor", version.ref = "gradle-incap" }
 processor-goole-auto-service = { group = "com.google.auto.service", name = "auto-service", version.ref = "goole-auto-service" }
+ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp-api" }
