@@ -26,7 +26,7 @@ java {
 
 dependencies {
     implementation project(':reuse-annotation')
-    implementation libs.square.poet.kotlin
+    implementation libs.square.poet.kotlin.ksp
     implementation libs.square.poet.kotlin.metadata
     implementation libs.square.poet.kotlin.classinspector
     implementation libs.ksp.api

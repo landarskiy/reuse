@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Yauhen Landarski.
+ * Copyright (C) 2022 Yauhen Landarski.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.annotation
+package io.github.landarskiy.reuse.compiler.ksp
 
-/**
- * Package indicator annotation.
- * Should use only on interfaces
- */
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
-annotation class ReuseModule
+import com.squareup.kotlinpoet.ClassName
+
+internal const val PACKAGE_LIBRARY = "io.github.landarskiy.reuse"
+internal const val INTERFACE_VIEW_HOLDER_FACTORY = "ViewHolderFactory"
+internal const val INTERFACE_DIFF_ENTRY = "DiffEntry"
+
+internal val CLASS_NAME_DIFF_ENTRY = ClassName(PACKAGE_LIBRARY, INTERFACE_DIFF_ENTRY)
+internal val CLASS_NAME_RECYCLER_ITEM_VIEW_TYPE =
+    ClassName(PACKAGE_LIBRARY, INTERFACE_VIEW_HOLDER_FACTORY)

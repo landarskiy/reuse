@@ -19,11 +19,11 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 import android.view.View
 import io.github.landarskiy.reuse.BaseViewHolder
 import io.github.landarskiy.reuse.LayoutViewHolderFactory
-import io.github.landarskiy.reuse.annotation.Factory
+import io.github.landarskiy.reuse.annotation.ReuseFactory
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.screen.main.adapter.SCOPE_MAIN
 
-@Factory(name = "Header", scopes = [SCOPE_MAIN])
+@ReuseFactory(name = "Header", scopes = [SCOPE_MAIN])
 class HeaderViewHolderFactory : LayoutViewHolderFactory<HeaderEntry>(TYPE_ID) {
 
     override fun createViewHolder(view: View): BaseViewHolder<HeaderEntry> {

@@ -180,11 +180,11 @@ After that you will have access to few default adapters:
 ## Download
 
 ```groovy
-def reuse_version = "0.0.12"
+def reuse_version = "0.1.0"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 //for include default adapters
 implementation "com.github.landarskiy.reuse:reuse-adapter:$reuse_version"
 
-kapt "com.github.landarskiy.reuse:reuse-compiler:$reuse_version"
+ksp "com.github.landarskiy.reuse:reuse-compiler-ksp:$reuse_version"
 ```

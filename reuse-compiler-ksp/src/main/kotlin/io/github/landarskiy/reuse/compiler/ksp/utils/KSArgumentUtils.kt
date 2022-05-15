@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.compiler.ksp
+package io.github.landarskiy.reuse.compiler.ksp.utils
 
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.google.devtools.ksp.processing.SymbolProcessorProvider
+import com.google.devtools.ksp.symbol.KSValueArgument
 
-class ViewTypeProcessorProvider : SymbolProcessorProvider {
-
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return ViewTypeProcessor(environment.codeGenerator, environment.logger)
-    }
+@Suppress("UNCHECKED_CAST")
+fun <T> KSValueArgument.typedValue(): T {
+    return value as T
 }

@@ -16,8 +16,21 @@
 
 plugins {
     id 'com.android.application'
-    id 'com.google.devtools.ksp'
     id 'kotlin-android'
+    id 'com.google.devtools.ksp'
+}
+
+ksp {
+    // Setup annotation processor
+    // Key: reuseDefaultScopeMode
+    // Value: always - always generate default scope and put to it all ViewHolder factories
+    // Value: emptyScopes - default value, put into default scope only ViewHolder factories which don't have specific scopes
+    // Value: never - never generate default scope
+    arg("reuseDefaultScopeMode", "emptyScopes")
+    // Key: reuseCheckFactoryInstance
+    // Value: true - default value, check each @ReuseFactory supertype. Can little slow down generation.
+    // Value: false - skip checking each @ReuseFactory supertype. Can little speed up generation.
+    arg("reuseCheckFactoryInstance", "true")
 }
 
 android {
@@ -71,6 +84,5 @@ dependencies {
     implementation libs.square.moshi.adapters
     implementation libs.coil
 
-    ksp 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
     ksp project(":reuse-compiler-ksp")
 }
