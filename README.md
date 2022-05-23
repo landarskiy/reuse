@@ -4,12 +4,15 @@
 
 ReUse is a helper library for RecyclerView that makes displaying different type of data through RecyclerView easily. Common idea - avoid directly using adapters and one place for creating and binding ViewHolders. You should follow next steps for makes your life less painful and easily.
 
-### BaseViewHolder
+### ReuseViewHolder
 
-`BaseViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your data class which used in generated code and for binding some information into your `ViewHolder`. You should create it with the same logic as usual, the onlly one difference - extend `BaseViewHolder` instead regular `RecyclerView.ViewHolder` and implement `bind()` method.
+`ReuseViewHolder` is a regular `ViewHolder` with some specific fields, methods and parameterized with your own class which used in generated code and for binding some information into your `ViewHolder`. You should create it with the same logic as usual with some differences:
+* extend `ReuseViewHolder` instead regular `RecyclerView.ViewHolder` 
+* parametrize by your entry class which you will use for provide data to your `ReuseViewHolder`
+* implement `bind()` (with or without payload) method which receive typed entry specified in generic
 
 ```kotlin
-class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
+class TextViewHolder(view: View) : ReuseViewHolder<TextEntry>(view) {
 
     private val textView: TextView = view as TextView
 
@@ -21,18 +24,14 @@ class TextViewHolder(view: View) : BaseViewHolder<TextEntry>(view) {
 
 ### ViewHolderFactory
 
-`ViewHolderFactory` is a factory which response to create specific `BaseViewHolder` for your data object with specified view type. This approach allows to you create many UI representations for same specific data type. You can use default implementation which use layout resource as `typeId` and inflate View automaticly:
+`ViewHolderFactory` is a factory which response to create specific `ReuseViewHolder` for your data object with specified view type. This approach allows to you create many UI representations for same specific data type. You can use default implementation which use layout resource as `typeId` and inflate View automaticly:
 
 ```kotlin
-@Factory
-class TextViewHolderFactory : LayoutViewHolderFactory<TextEntry>(TYPE_ID) {
+@ReuseFactory
+class TextViewHolderFactory : LayoutViewHolderFactory<TextEntry>(R.layout.item_text) {
 
-    override fun createViewHolder(view: View): BaseViewHolder<TextEntry> {
+    override fun createViewHolder(view: View): ReuseViewHolder<TextEntry> {
         return TextViewHolder(view)
-    }
-
-    companion object {
-        const val TYPE_ID = R.layout.item_text
     }
 }
 ```
@@ -40,10 +39,13 @@ class TextViewHolderFactory : LayoutViewHolderFactory<TextEntry>(TYPE_ID) {
 Or you can use implementation without support layout resources:
 
 ```kotlin
-@Factory
+@ReuseFactory
 class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 
-    override fun createViewHolder(view: View): BaseViewHolder<TextEntry> {
+    //in this case recommended use resource id for typeId field for avoid collisions 
+    override val typeId: Int = R.id.your_type_id
+    
+    override fun createViewHolder(view: View): ReuseViewHolder<TextEntry> {
         return TextViewHolder(view)
     }
 
@@ -58,21 +60,21 @@ class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 }
 ```
 
-Each `ViewHolderFactory` should be annotated via `@Factory` annotation. This annotation inform compiler that it should create data builder for this view type with specified data class.
+Each `ViewHolderFactory` should be annotated via `@ReuseFactory` annotation. This annotation inform compiler that it should create data builder for this view type with specified data class.
 
 You can specify scope for group some `ViewHolderFactory` in specific data builder use `scopes` annotation parameter:
 
 ```kotlin
-@Factory(scopes = ["text_scope", "preview_scope"])
+@ReuseFactory(scopes = ["text_scope", "preview_scope"])
 class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
     //some implementation
 }
 ```
 
-By default for each `Factory` will be generated 2 methods for build data list named `with[FactoryName]` with single or list items as argument. E.g. for `TextViewHolderFactory` will be generated `withTextViewHolderFactory(data: TextEntry): DataBuilder` and `withTextViewHolderFactory(data: Lis<TextEntry>): DataBuilder`. You can specify another name by `name` annotation parameter:
+By default for each `ReuseFactory` will be generated 2 methods for build data list named `with[FactoryName]` with single or list items as argument. E.g. for `TextViewHolderFactory` will be generated `withTextViewHolderFactory(data: TextEntry): DataBuilder` and `withTextViewHolderFactory(data: Lis<TextEntry>): DataBuilder`. You can specify another name by `name` annotation parameter:
 
 ```kotlin
-@Factory(name = "Text", scopes = ["text_scope", "preview_scope"])
+@ReuseFactory(name = "text", scopes = ["text_scope", "preview_scope"])
 class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
     //some implementation
 }
@@ -82,19 +84,19 @@ In this case will be generated `withText(data: TextEntry): DataBuilder` and `wit
 
 ### ReuseModule
 
-For inform compiler about place where will be places entry point for your generated data builder you should create empty interface with `ReuseModule` annotation:
+For inform compiler about package where will be places generated data builders you should create empty interface with `ReuseModule` annotation:
 
 ```kotlin
 @ReuseModule
 interface ReuseModule
 ```
-After build project compiler will generate `App[InterfaceName]` object class which will contains factory method for each specified scope data builder. By default all your `Factory` put into `defaultRecyclerContentFactory()`. If you have custom scopes it will be grouped in `[scopeName]RecyclerContentFactory()` method. 
+After build project compiler will generate scope classes. By default if you not specify any scope in your `ReuseFactory` it will put into `ReuseDefaultContentScope()`. If you have custom scopes they will be grouped in `Reuse[scopeName]ContentScope()` class. 
 
-Each content factory have `DataBuilder` class for type safe generate data for using in adapters.
+Each content scope have `DataBuilder` class for type safe generate data for using in adapters.
 
 ### DiffEntry
 
-In cases when you want use default implementations of adapters which support DiffUtils you can implement your data classes which you specify as a generic argument in `BaseViewHolder` and `ViewHolderFactory` as `DiffEntry` interface. 
+In cases when you want to use default implementations of adapters which support DiffUtils you can implement your data classes which you specify as a generic argument in `ReuseViewHolder` and `ViewHolderFactory` as `DiffEntry` interface. 
 
 ```kotlin
 data class TextEntry(val content: Content.Text) : DiffEntry {
@@ -141,12 +143,12 @@ data class TextEntry(val content: Content.Text) : TypedDiffEntry<TextEntry>() {
 
 ### DefaultContentScope
 
-After you create all needed `BaseViewHolder` and `ViewHolderFactory` classes you can update adapter's data use a few lines of code:
+After you create all needed `ReuseViewHolder` and `ViewHolderFactory` classes you can update adapter's data use a few lines of code:
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
     
-    private val defaultScope: DefaultContentScope = AppReuseModule.defaultContentScope()
+    private val defaultScope: ReuseDefaultContentScope = ReuseDefaultContentScope()
     private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(defaultScope.types)
         
     fun updateData() {
@@ -163,7 +165,7 @@ class MainActivity : AppCompatActivity() {
 
 ### Adapters
 
-For use default adapters need add follow dependency to project:
+For use default adapters you need to add follow dependency to project:
 
 
 ```groovy
@@ -176,6 +178,24 @@ After that you will have access to few default adapters:
 - `DefaultAdapter` is `Adapter` specified by `Any` class.
 - `DiffAdapter` adapter which support `DiffUtil` and paramertized by `DiffEntry` impleemntations.
 - `AsyncDiffAdapter` is `ListAdapter` which parametrized by `DiffEntry` impleemntations.
+
+## KSP options
+
+You can specify some options during generation use ksp block in your build.gradle file
+
+```groovy
+ksp {
+    // Key: reuseDefaultScopeMode
+    // Value: always - always generate default scope and put to it all ViewHolder factories
+    // Value: emptyScopes - default value, put into default scope only ViewHolder factories which don't have specific scopes
+    // Value: never - never generate default scope
+    arg("reuseDefaultScopeMode", "emptyScopes")
+    // Key: reuseCheckFactoryInstance
+    // Value: true - default value, check each @ReuseFactory supertype. Can little slow down generation.
+    // Value: false - skip checking each @ReuseFactory supertype. Can little speed up generation.
+    arg("reuseCheckFactoryInstance", "true")
+}
+```
 
 ## Download
 

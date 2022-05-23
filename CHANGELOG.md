@@ -7,6 +7,7 @@ _2022-05-15_
 * **API Change**: java annotation processing no longer supported. Use `com.github.landarskiy.reuse:reuse-compiler-ksp` instead
 * **API Change**: `ReuseModule` annotation no longer generate class with all scopes for incremental compiling reasons
 * **Rename**: `Factory` to `ReuseFactory`
+* **Rename**: `BaseViewHolder` to `ReuseViewHolder`
 * **Rename**: all generated scopes to `Reuse[ScopeName]ContentScope`
 * **New**: added some ksp arguments for control generation process
 
