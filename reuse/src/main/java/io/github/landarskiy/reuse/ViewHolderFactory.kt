@@ -22,7 +22,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Makes relation between data and [BaseViewHolder]
+ * Makes relation between data and [ReuseViewHolder]
  */
 abstract class ViewHolderFactory<T> {
 
@@ -41,18 +41,18 @@ abstract class ViewHolderFactory<T> {
     /**
      * Create view holder for specific [typeId]. Do not call this method directly.
      *
-     * @see [BaseViewHolder]
+     * @see [ReuseViewHolder]
      */
-    abstract fun createViewHolder(view: View): BaseViewHolder<T>
+    abstract fun createViewHolder(view: View): ReuseViewHolder<T>
 
     /**
      * Create view holder for specific [typeId]
      * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onCreateViewHolder]
      *
-     * @see [BaseViewHolder]
+     * @see [ReuseViewHolder]
      * @see [createView]
      */
-    fun createViewHolder(context: Context, parent: ViewGroup?): BaseViewHolder<T> {
+    fun createViewHolder(context: Context, parent: ViewGroup?): ReuseViewHolder<T> {
         return createViewHolder(createView(context, parent))
     }
 }

@@ -19,10 +19,10 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter.header
 import android.net.Uri
 import android.view.View
 import coil.load
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 import io.github.landarskiy.reuse.sample.databinding.ItemHeaderBinding
 
-class HeaderViewHolder(view: View) : BaseViewHolder<HeaderEntry>(view) {
+class HeaderViewHolder(view: View) : ReuseViewHolder<HeaderEntry>(view) {
 
     private val binding: ItemHeaderBinding = ItemHeaderBinding.bind(view)
 

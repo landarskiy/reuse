@@ -20,7 +20,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 import io.github.landarskiy.reuse.ViewHolderFactory
 import io.github.landarskiy.reuse.annotation.ReuseFactory
 import io.github.landarskiy.reuse.sample.R
@@ -32,7 +32,7 @@ class ImageViewHolderFactory : ViewHolderFactory<ImageEntry>() {
     override val typeId: Int
         get() = TYPE_ID
 
-    override fun createViewHolder(view: View): BaseViewHolder<ImageEntry> {
+    override fun createViewHolder(view: View): ReuseViewHolder<ImageEntry> {
         return ImageViewHolder(view)
     }
 

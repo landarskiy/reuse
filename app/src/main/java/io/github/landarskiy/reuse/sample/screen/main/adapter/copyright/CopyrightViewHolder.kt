@@ -19,10 +19,10 @@ package io.github.landarskiy.reuse.sample.screen.main.adapter.copyright
 import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.core.text.HtmlCompat
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 import io.github.landarskiy.reuse.sample.databinding.ItemCopyrightBinding
 
-class CopyrightViewHolder(view: View) : BaseViewHolder<CopyrightEntry>(view) {
+class CopyrightViewHolder(view: View) : ReuseViewHolder<CopyrightEntry>(view) {
 
     private val binding: ItemCopyrightBinding = ItemCopyrightBinding.bind(view)
 
