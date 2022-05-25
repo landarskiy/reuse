@@ -16,10 +16,6 @@
 
 package io.github.landarskiy.reuse.annotation
 
-/**
- * Package indicator annotation.
- * Should use only on interfaces
- */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
-annotation class ReuseModule
+annotation class ReuseFactory(val name: String = "", val scopes: Array<String> = [SCOPE_DEFAULT])

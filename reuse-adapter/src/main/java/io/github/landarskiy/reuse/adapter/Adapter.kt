@@ -20,14 +20,14 @@ import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.landarskiy.reuse.AdapterEntry
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 import io.github.landarskiy.reuse.ViewHolderFactory
 
 /**
  * Base adapter
  */
 open class Adapter<T>(types: List<ViewHolderFactory<T>>) :
-    RecyclerView.Adapter<BaseViewHolder<T>>() {
+    RecyclerView.Adapter<ReuseViewHolder<T>>() {
 
     private val viewTypeArray = SparseArray<ViewHolderFactory<T>>()
     val content: MutableList<AdapterEntry<T>> = mutableListOf()
@@ -41,10 +41,10 @@ open class Adapter<T>(types: List<ViewHolderFactory<T>>) :
     }
 
     fun getViewType(typeId: Int): ViewHolderFactory<T> {
-        return requireNotNull(viewTypeArray.get(typeId), { "Type $typeId not registered" })
+        return requireNotNull(viewTypeArray.get(typeId)) { "Type $typeId not registered" }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReuseViewHolder<T> {
         return getViewType(viewType).createViewHolder(parent.context, parent)
     }
 
@@ -56,7 +56,13 @@ open class Adapter<T>(types: List<ViewHolderFactory<T>>) :
         return content.size
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
+    override fun onBindViewHolder(holder: ReuseViewHolder<T>, position: Int) {
         holder.bind(content[position].data)
+    }
+
+    override fun onBindViewHolder(
+        holder: ReuseViewHolder<T>, position: Int, payloads: MutableList<Any>
+    ) {
+        holder.bind(content[position].data, payloads)
     }
 }

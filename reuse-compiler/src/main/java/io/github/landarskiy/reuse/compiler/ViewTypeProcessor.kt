@@ -23,7 +23,6 @@ import com.squareup.kotlinpoet.classinspector.elements.ElementsClassInspector
 import com.squareup.kotlinpoet.metadata.KotlinPoetMetadataPreview
 import io.github.landarskiy.reuse.annotation.*
 import java.io.File
-import java.util.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
@@ -49,7 +48,7 @@ class ViewTypeProcessor : AbstractProcessor() {
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
-        return mutableSetOf(Factory::class.java.name, ReuseModule::class.java.name)
+        return mutableSetOf(ReuseFactory::class.java.name, ReuseModule::class.java.name)
     }
 
     override fun init(processingEnv: ProcessingEnvironment) {
@@ -130,7 +129,7 @@ class ViewTypeProcessor : AbstractProcessor() {
         scopeName: String,
         typeInfoList: List<ScopesBuilder.TypeInfo>
     ): ClassName {
-        val fileName = "${scopeName}ContentScope"
+        val fileName = "Reuse${scopeName}ContentScope"
         val fileBuilder = FileSpec.builder(pack, fileName)
         val classBuilder = TypeSpec.classBuilder(fileName)
         val factoryClassName = ClassName(pack, fileName)

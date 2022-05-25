@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Yauhen Landarski.
+ * Copyright (C) 2022 Yauhen Landarski.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse.annotation
+package io.github.landarskiy.reuse.compiler.ksp.utils
 
-/**
- * Package indicator annotation.
- * Should use only on interfaces
- */
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
-annotation class ReuseModule
+import com.google.devtools.ksp.symbol.KSValueArgument
+
+@Suppress("UNCHECKED_CAST")
+fun <T> KSValueArgument.typedValue(): T {
+    return value as T
+}
