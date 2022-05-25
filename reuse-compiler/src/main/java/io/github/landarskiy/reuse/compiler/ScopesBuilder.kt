@@ -24,7 +24,7 @@ import javax.lang.model.element.ElementKind
 
 object ScopesBuilder {
 
-    private const val SCOPE_DEFAULT = "Default"
+    private const val SCOPE_DEFAULT = io.github.landarskiy.reuse.annotation.SCOPE_DEFAULT
 
     fun buildScopes(roundEnv: RoundEnvironment): Result {
         val scopes: MutableMap<String, MutableList<TypeInfo>> = mutableMapOf()

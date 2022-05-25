@@ -15,9 +15,8 @@
  */
 subprojects { project ->
     project.afterEvaluate {
-        boolean hasAndroidPlugin = project.plugins.hasPlugin('com.android.application') ||
-                project.plugins.hasPlugin('com.android.library')
-        if (hasAndroidPlugin) {
+        boolean hasKspPlugin = project.plugins.hasPlugin('com.google.devtools.ksp')
+        if (hasKspPlugin) {
             project.android {
                 sourceSets.forEach { sourceSet ->
                     sourceSet.java.srcDirs += "${project.projectDir}/build/generated/ksp/${sourceSet.name}/kotlin"

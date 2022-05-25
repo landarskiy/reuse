@@ -213,7 +213,7 @@ class ScopesBuilder(
     data class ScopeInfo(val scopeFactoryClassName: ClassName, val file: FileSpec)
 
     companion object {
-        private const val SCOPE_DEFAULT = "Default"
+        private const val SCOPE_DEFAULT = io.github.landarskiy.reuse.annotation.SCOPE_DEFAULT
 
         private const val PROPERTY_TYPE_ID = "typeId"
         private const val PROPERTY_ITEM_VIEW_TYPES = "types"

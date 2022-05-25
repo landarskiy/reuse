@@ -65,7 +65,7 @@ Each `ViewHolderFactory` should be annotated via `@ReuseFactory` annotation. Thi
 You can specify scope for group some `ViewHolderFactory` in specific data builder use `scopes` annotation parameter:
 
 ```kotlin
-@ReuseFactory(scopes = ["text_scope", "preview_scope"])
+@ReuseFactory(scopes = ["text", "preview"])
 class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
     //some implementation
 }
@@ -74,7 +74,7 @@ class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
 By default for each `ReuseFactory` will be generated 2 methods for build data list named `with[FactoryName]` with single or list items as argument. E.g. for `TextViewHolderFactory` will be generated `withTextViewHolderFactory(data: TextEntry): DataBuilder` and `withTextViewHolderFactory(data: Lis<TextEntry>): DataBuilder`. You can specify another name by `name` annotation parameter:
 
 ```kotlin
-@ReuseFactory(name = "text", scopes = ["text_scope", "preview_scope"])
+@ReuseFactory(name = "text", scopes = ["text", "preview"])
 class TextViewHolderFactory : ViewHolderFactory<TextEntry> {
     //some implementation
 }
@@ -207,4 +207,33 @@ implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 implementation "com.github.landarskiy.reuse:reuse-adapter:$reuse_version"
 
 ksp "com.github.landarskiy.reuse:reuse-compiler-ksp:$reuse_version"
+```
+
+Add KSP source set and KSP plugin in your top level `build.gradle` file
+
+```groovy
+plugins {
+    id 'com.google.devtools.ksp' version ksp_version
+}
+
+subprojects { project ->
+    project.afterEvaluate {
+        boolean hasKspPlugin = project.plugins.hasPlugin('com.google.devtools.ksp')
+        if (hasKspPlugin) {
+            project.android {
+                sourceSets.forEach { sourceSet ->
+                    sourceSet.java.srcDirs += "${project.projectDir}/build/generated/ksp/${sourceSet.name}/kotlin"
+                }
+            }
+        }
+    }
+}
+```
+
+Add KSP plugin to your module level `build.gradle` file
+
+```groovy
+plugins {
+    id 'com.google.devtools.ksp'
+}
 ```
