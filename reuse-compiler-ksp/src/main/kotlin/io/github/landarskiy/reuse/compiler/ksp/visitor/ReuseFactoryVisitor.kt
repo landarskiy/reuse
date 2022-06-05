@@ -75,7 +75,7 @@ class ReuseFactoryVisitor(
             annotatedError(classDeclaration)
         }
         val builder = FactoryInfo.Builder(
-            name = defaultFactoryName(data.origin),
+            name = defaultFactoryName(classDeclaration),
             factoryClass = classDeclaration
         )
         data.arguments.forEach {
@@ -102,8 +102,8 @@ class ReuseFactoryVisitor(
         return builder.build()
     }
 
-    private fun defaultFactoryName(origin: Origin): String {
-        return origin.name.titleCaseIgnoreLocale()
+    private fun defaultFactoryName(classDeclaration: KSClassDeclaration): String {
+        return classDeclaration.simpleName.getShortName().titleCaseIgnoreLocale()
     }
 
     private fun isFactoryDeclaration(classDeclaration: KSClassDeclaration): Boolean {

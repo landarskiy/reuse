@@ -55,7 +55,7 @@ allprojects {
 
     ext.is_snaptshot = true
     group = 'com.github.landarskiy.reuse'
-    version = '0.1.0'
+    version = '0.1.1'
     if (is_snaptshot) {
         version += "-SNAPSHOT"
     }

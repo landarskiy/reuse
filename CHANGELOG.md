@@ -1,5 +1,11 @@
 Change Log
 ==========
+## Version 0.1.1
+
+_2022-06-05_
+
+* **Fix**: scope methods generation with default factory name
+
 ## Version 0.1.0
 
 _2022-05-25_
