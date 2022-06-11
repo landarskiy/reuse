@@ -138,7 +138,7 @@ class ScopesBuilder(
         classBuilder
             .addProperty(
                 PropertySpec.builder(
-                    PROPERTY_ITEM_VIEW_TYPES,
+                    PROPERTY_FACTORIES,
                     LIST.parameterizedBy(
                         CLASS_NAME_RECYCLER_ITEM_VIEW_TYPE.parameterizedBy(
                             WildcardTypeName.producerOf(contentClass)
@@ -160,7 +160,7 @@ class ScopesBuilder(
             .addType(dataBuilderClassBuilder.build())
 
         val initializerBlock =
-            CodeBlock.builder().addStatement("this.$PROPERTY_ITEM_VIEW_TYPES = listOf(")
+            CodeBlock.builder().addStatement("this.$PROPERTY_FACTORIES = listOf(")
         viewTypePropertyNames.forEachIndexed { index, propertyName ->
             if (index == viewTypePropertyNames.size - 1) {
                 initializerBlock.addStatement(propertyName)
@@ -216,7 +216,7 @@ class ScopesBuilder(
         private const val SCOPE_DEFAULT = io.github.landarskiy.reuse.annotation.SCOPE_DEFAULT
 
         private const val PROPERTY_TYPE_ID = "typeId"
-        private const val PROPERTY_ITEM_VIEW_TYPES = "types"
+        private const val PROPERTY_FACTORIES = "factories"
         private const val PROPERTY_CONTENT = "content"
         private const val ARG_DATA_ITEM = "dataItem"
         private const val ARG_DATA_ITEMS = "dataItems"

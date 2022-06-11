@@ -26,17 +26,17 @@ import io.github.landarskiy.reuse.*
  * Async adapter which support [DiffUtil]
  * If you use this adapter you can also safety use [TypedDiffEntry] instead regular [DiffEntry]
  */
-open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
+open class AsyncDiffAdapter(factories: List<ViewHolderFactory<out DiffEntry>>) :
     ListAdapter<AdapterEntry<DiffEntry>, ReuseViewHolder<DiffEntry>>(ItemDiffCallback()) {
 
     private val viewTypeArray = SparseArray<ViewHolderFactory<out DiffEntry>>()
 
     init {
-        types.forEach { registerViewType(it) }
+        factories.forEach { registerViewType(it) }
     }
 
-    fun registerViewType(viewType: ViewHolderFactory<out DiffEntry>) {
-        viewTypeArray.put(viewType.typeId, viewType)
+    fun registerViewType(viewTypeFactory: ViewHolderFactory<out DiffEntry>) {
+        viewTypeArray.put(viewTypeFactory.typeId, viewTypeFactory)
     }
 
     fun getViewType(typeId: Int): ViewHolderFactory<out DiffEntry> {

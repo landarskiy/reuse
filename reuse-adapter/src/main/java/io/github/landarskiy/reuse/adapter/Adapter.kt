@@ -26,18 +26,18 @@ import io.github.landarskiy.reuse.ViewHolderFactory
 /**
  * Base adapter
  */
-open class Adapter<T>(types: List<ViewHolderFactory<T>>) :
+open class Adapter<T>(factories: List<ViewHolderFactory<T>>) :
     RecyclerView.Adapter<ReuseViewHolder<T>>() {
 
     private val viewTypeArray = SparseArray<ViewHolderFactory<T>>()
     val content: MutableList<AdapterEntry<T>> = mutableListOf()
 
     init {
-        types.forEach { registerViewType(it) }
+        factories.forEach { registerViewType(it) }
     }
 
-    fun registerViewType(viewType: ViewHolderFactory<T>) {
-        viewTypeArray.put(viewType.typeId, viewType)
+    fun registerViewType(viewTypeFactory: ViewHolderFactory<T>) {
+        viewTypeArray.put(viewTypeFactory.typeId, viewTypeFactory)
     }
 
     fun getViewType(typeId: Int): ViewHolderFactory<T> {
