@@ -200,7 +200,7 @@ ksp {
 ## Download
 
 ```groovy
-def reuse_version = "0.1.1"
+def reuse_version = "0.1.2"
 
 implementation "com.github.landarskiy.reuse:reuse:$reuse_version"
 //for include default adapters
