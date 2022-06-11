@@ -1,5 +1,11 @@
 Change Log
 ==========
+## Version 0.1.2
+
+_2022-07-11_
+
+* **Rename**: `types` to `factories` in generated scopes
+
 ## Version 0.1.1
 
 _2022-06-05_
@@ -58,7 +64,7 @@ _2021-06-25_
 
 _2021-07-08_
 
-*  **API Change**:  adapters moved to **com.github.landarskiy.reuse:reuse-adapter:$reuse_version** dependency
+* **API Change**:  adapters moved to **com.github.landarskiy.reuse:reuse-adapter:$reuse_version** dependency
 
 ## Version 0.0.5
 
