@@ -26,20 +26,19 @@ import io.github.landarskiy.reuse.DiffEntry
 import io.github.landarskiy.reuse.adapter.AsyncDiffAdapter
 import io.github.landarskiy.reuse.sample.databinding.ActivityMainBinding
 import io.github.landarskiy.reuse.sample.model.Content
-import io.github.landarskiy.reuse.sample.screen.main.adapter.AppReuseModule
 import io.github.landarskiy.reuse.sample.screen.main.adapter.MainRecyclerItemDecoration
 import io.github.landarskiy.reuse.sample.screen.main.adapter.copyright.CopyrightEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.header.HeaderEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.image.ImageEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.text.TextEntry
 import io.github.landarskiy.reuse.sample.screen.main.adapter.textgroup.TextGroupEntry
-import io.github.landarskiy.reuse.sample.screen.main.adapter.types.MainContentScope
+import io.github.landarskiy.reuse.sample.screen.main.adapter.types.ReuseMainContentScope
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val mainScope: MainContentScope = AppReuseModule.mainContentScope()
+    private val mainScope: ReuseMainContentScope = ReuseMainContentScope()
     private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(mainScope.types)
 
     private lateinit var binding: ActivityMainBinding

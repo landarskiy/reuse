@@ -19,5 +19,5 @@ package io.github.landarskiy.reuse.adapter
 import io.github.landarskiy.reuse.ViewHolderFactory
 
 @Suppress("UNCHECKED_CAST")
-open class DefaultAdapter(types: List<ViewHolderFactory<out Any>>) :
-    Adapter<Any>(types as List<ViewHolderFactory<Any>>)
+open class DefaultAdapter(factories: List<ViewHolderFactory<out Any>>) :
+    Adapter<Any>(factories as List<ViewHolderFactory<Any>>)

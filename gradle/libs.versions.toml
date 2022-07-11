@@ -1,22 +1,23 @@
 [versions]
 build-tools = "31.0.0"
-build-tools-gradle = "7.0.4"
-kotlin = "1.6.10"
-kotlinx-coroutines = "1.6.0"
-androidx-core-ktx = "1.7.0"
-androidx-appcompat = "1.4.1"
-androidx-fragment-ktx = "1.4.0"
+build-tools-gradle = "7.2.1"
+kotlin = "1.7.0"
+kotlinx-coroutines = "1.6.2"
+androidx-core-ktx = "1.8.0"
+androidx-appcompat = "1.4.2"
+androidx-fragment-ktx = "1.4.1"
 androidx-recycler = "1.2.1"
 androidx-cardview = "1.0.0"
-androidx-constraint = "2.1.3"
-goole-material = "1.5.0"
+androidx-constraint = "2.1.4"
+goole-material = "1.6.1"
 goole-auto-service = "1.0.1"
 gradle-incap = "0.3"
 square-moshi = "1.13.0"
-square-poet-kotlin = "1.10.2"
+square-poet-kotlin = "1.11.0"
 square-poet-kotlin-classinspector = "1.9.0"
-coil = "1.4.0"
-lib-updates = "0.41.0"
+coil = "2.1.0"
+lib-updates = "0.42.0"
+ksp-api = "1.7.0-1.0.6"
 
 [plugins]
 build-tools-gradle = { id = "com.android.tools.build:gradle", version.ref = "build-tools-gradle" }
@@ -38,8 +39,10 @@ square-moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "sq
 square-moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "square-moshi" }
 square-moshi-adapters = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "square-moshi" }
 square-poet-kotlin = { group = "com.squareup", name = "kotlinpoet", version.ref = "square-poet-kotlin" }
+square-poet-kotlin-ksp = { group = "com.squareup", name = "kotlinpoet-ksp", version.ref = "square-poet-kotlin" }
 square-poet-kotlin-metadata = { group = "com.squareup", name = "kotlinpoet-metadata", version.ref = "square-poet-kotlin" }
 square-poet-kotlin-classinspector = { group = "com.squareup", name = "kotlinpoet-classinspector-elements", version.ref = "square-poet-kotlin-classinspector" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 processor-gradle-incap = { group = "net.ltgt.gradle.incap", name = "incap-processor", version.ref = "gradle-incap" }
 processor-goole-auto-service = { group = "com.google.auto.service", name = "auto-service", version.ref = "goole-auto-service" }
+ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp-api" }

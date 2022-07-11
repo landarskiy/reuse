@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.landarskiy.reuse
+package io.github.landarskiy.reuse.adapter
 
 fun <T> MutableList<T>.replace(newData: List<T>) {
     clear()

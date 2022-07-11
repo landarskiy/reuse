@@ -21,12 +21,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 import io.github.landarskiy.reuse.ViewHolderFactory
 
 abstract class TextViewHolderFactory : ViewHolderFactory<TextEntry>() {
 
-    override fun createViewHolder(view: View): BaseViewHolder<TextEntry> {
+    override fun createViewHolder(view: View): ReuseViewHolder<TextEntry> {
         return TextViewHolder(view)
     }
 

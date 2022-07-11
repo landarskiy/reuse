@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @see [ViewHolderFactory]
  */
-abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
+abstract class ReuseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
     val context: Context = view.context
 
@@ -35,7 +35,18 @@ abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
      * Bind data to view.
      * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onBindViewHolder]
      *
-     * @param data bindable data
+     * @param data data to bind
      */
     abstract fun bind(data: T)
+
+    /**
+     * Bind data to view.
+     * In cases when used in custom adapters should be called from [RecyclerView.Adapter.onBindViewHolder]
+     *
+     * @param data data to bind
+     * @param payload diff payload when presented
+     */
+    open fun bind(data: T, payload: MutableList<Any>) {
+        bind(data)
+    }
 }

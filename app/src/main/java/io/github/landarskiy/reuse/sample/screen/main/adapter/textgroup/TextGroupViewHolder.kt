@@ -20,12 +20,12 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 import io.github.landarskiy.reuse.sample.R
 import io.github.landarskiy.reuse.sample.databinding.ItemTextGroupBinding
 import io.github.landarskiy.reuse.sample.utils.dp
 
-class TextGroupViewHolder(view: View) : BaseViewHolder<TextGroupEntry>(view) {
+class TextGroupViewHolder(view: View) : ReuseViewHolder<TextGroupEntry>(view) {
 
     private val binding: ItemTextGroupBinding = ItemTextGroupBinding.bind(view)
 

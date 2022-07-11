@@ -27,6 +27,7 @@ buildscript {
         mavenLocal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 
     dependencies {
@@ -37,6 +38,8 @@ buildscript {
 
 plugins {
     alias(libs.plugins.lib.updates)
+    id 'org.jetbrains.kotlin.jvm' version '1.7.0' apply false
+    id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
 }
 
 wrapper {
@@ -50,12 +53,13 @@ allprojects {
         mavenCentral()
     }
 
-    ext.is_snaptshot = false
-    group = 'io.github.landarskiy'
-    version = '0.0.12'
+    ext.is_snaptshot = true
+    group = 'com.github.landarskiy.reuse'
+    version = '0.1.1'
     if (is_snaptshot) {
         version += "-SNAPSHOT"
     }
 }
 
 apply from: 'setup_deps_updates.gradle'
+apply from: 'setup_ksp.gradle'

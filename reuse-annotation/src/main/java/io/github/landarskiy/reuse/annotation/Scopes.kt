@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Yauhen Landarski.
+ * Copyright (C) 2022 Yauhen Landarski.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,4 @@
 
 package io.github.landarskiy.reuse.annotation
 
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
-annotation class Factory(val name: String = "", val scopes: Array<String> = [])
+const val SCOPE_DEFAULT = "Default"

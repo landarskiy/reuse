@@ -20,49 +20,45 @@ import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import io.github.landarskiy.reuse.AdapterEntry
-import io.github.landarskiy.reuse.BaseViewHolder
-import io.github.landarskiy.reuse.DiffEntry
-import io.github.landarskiy.reuse.TypedDiffEntry
-import io.github.landarskiy.reuse.ViewHolderFactory
+import io.github.landarskiy.reuse.*
 
 /**
  * Async adapter which support [DiffUtil]
  * If you use this adapter you can also safety use [TypedDiffEntry] instead regular [DiffEntry]
  */
-open class AsyncDiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
-    ListAdapter<AdapterEntry<DiffEntry>, BaseViewHolder<DiffEntry>>(ItemDiffCallback()) {
+open class AsyncDiffAdapter(factories: List<ViewHolderFactory<out DiffEntry>>) :
+    ListAdapter<AdapterEntry<DiffEntry>, ReuseViewHolder<DiffEntry>>(ItemDiffCallback()) {
 
     private val viewTypeArray = SparseArray<ViewHolderFactory<out DiffEntry>>()
 
     init {
-        types.forEach { registerViewType(it) }
+        factories.forEach { registerViewType(it) }
     }
 
-    fun registerViewType(viewType: ViewHolderFactory<out DiffEntry>) {
-        viewTypeArray.put(viewType.typeId, viewType)
+    fun registerViewType(viewTypeFactory: ViewHolderFactory<out DiffEntry>) {
+        viewTypeArray.put(viewTypeFactory.typeId, viewTypeFactory)
     }
 
     fun getViewType(typeId: Int): ViewHolderFactory<out DiffEntry> {
-        return requireNotNull(viewTypeArray.get(typeId), { "Type $typeId not registered" })
+        return requireNotNull(viewTypeArray.get(typeId)) { "Type $typeId not registered" }
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<DiffEntry> {
+    ): ReuseViewHolder<DiffEntry> {
         return getViewType(viewType).createViewHolder(
             parent.context,
             parent
-        ) as BaseViewHolder<DiffEntry>
+        ) as ReuseViewHolder<DiffEntry>
     }
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position).viewType
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<DiffEntry>, position: Int) {
+    override fun onBindViewHolder(holder: ReuseViewHolder<DiffEntry>, position: Int) {
         holder.bind(getItem(position).data)
     }
 

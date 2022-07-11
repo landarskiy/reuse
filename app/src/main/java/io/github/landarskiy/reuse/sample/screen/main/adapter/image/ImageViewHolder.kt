@@ -20,9 +20,9 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import coil.load
-import io.github.landarskiy.reuse.BaseViewHolder
+import io.github.landarskiy.reuse.ReuseViewHolder
 
-class ImageViewHolder(view: View) : BaseViewHolder<ImageEntry>(view) {
+class ImageViewHolder(view: View) : ReuseViewHolder<ImageEntry>(view) {
 
     private val imageView: ImageView = view as ImageView
 

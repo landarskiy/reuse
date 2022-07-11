@@ -19,6 +19,7 @@ include ':reuse'
 include ':app'
 include ':reuse-annotation'
 include ':reuse-compiler'
+include ':reuse-compiler-ksp'
 include ':reuse-adapter'
 
 enableFeaturePreview("VERSION_CATALOGS")

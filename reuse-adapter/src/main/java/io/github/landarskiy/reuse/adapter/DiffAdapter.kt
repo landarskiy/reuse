@@ -27,8 +27,8 @@ import io.github.landarskiy.reuse.*
  * If you use this adapter you can also safety use [TypedDiffEntry] instead regular [DiffEntry]
  */
 @Suppress("UNCHECKED_CAST")
-open class DiffAdapter(types: List<ViewHolderFactory<out DiffEntry>>) :
-    Adapter<DiffEntry>(types as List<ViewHolderFactory<DiffEntry>>) {
+open class DiffAdapter(factoties: List<ViewHolderFactory<out DiffEntry>>) :
+    Adapter<DiffEntry>(factoties as List<ViewHolderFactory<DiffEntry>>) {
 
     @MainThread
     fun setItems(newItems: List<AdapterEntry<DiffEntry>>) {
