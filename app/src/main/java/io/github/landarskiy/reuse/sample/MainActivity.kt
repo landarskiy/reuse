@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private val mainScope: ReuseMainContentScope = ReuseMainContentScope()
-    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(mainScope.types)
+    private val listAdapter: AsyncDiffAdapter = AsyncDiffAdapter(mainScope.factories)
 
     private lateinit var binding: ActivityMainBinding
 
